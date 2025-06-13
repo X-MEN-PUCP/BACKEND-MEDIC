@@ -39,8 +39,6 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>22</maven.compiler.source>
-        <maven.compiler.target>22</maven.compiler.target>
         <exec.mainClass>pe.edu.pucp.softinv.softdbmanager.SoftDBManager</exec.mainClass>
     </properties>
     <name>SoftCitDBManager</name>
