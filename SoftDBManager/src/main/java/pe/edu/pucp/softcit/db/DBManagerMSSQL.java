@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package pe.edu.pucp.softdbmanager.db;
+package pe.edu.pucp.softcit.db;
 
 //hola soy salva
 public class DBManagerMSSQL extends DBManager{

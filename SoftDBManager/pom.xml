@@ -43,4 +43,5 @@
         <maven.compiler.target>22</maven.compiler.target>
         <exec.mainClass>pe.edu.pucp.softinv.softdbmanager.SoftDBManager</exec.mainClass>
     </properties>
+    <name>SoftCitDBManager</name>
 </project>

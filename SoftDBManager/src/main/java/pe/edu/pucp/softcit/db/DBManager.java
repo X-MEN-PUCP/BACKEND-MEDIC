@@ -1,5 +1,5 @@
 
-package pe.edu.pucp.softdbmanager.db;
+package pe.edu.pucp.softcit.db;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -8,8 +8,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import pe.edu.pucp.softdbmanager.util.Cifrado;
-import pe.edu.pucp.softdbmanager.util.MotorDeBaseDeDatos;
+import pe.edu.pucp.softcit.db.util.Cifrado;
+import pe.edu.pucp.softcit.db.util.MotorDeBaseDeDatos;
 
 public abstract class DBManager {
 

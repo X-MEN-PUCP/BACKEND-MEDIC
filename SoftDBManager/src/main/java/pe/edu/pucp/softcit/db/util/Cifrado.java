@@ -1,5 +1,5 @@
 
-package pe.edu.pucp.softdbmanager.util;
+package pe.edu.pucp.softcit.db.util;
 
 import java.security.MessageDigest;
 import java.util.Arrays;
