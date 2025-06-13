@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
  */
-package softdbmanager;
+package pe.edu.pucp.softcit.db;
 
 import pe.edu.pucp.softcit.db.DBManager;
 import java.sql.Connection;

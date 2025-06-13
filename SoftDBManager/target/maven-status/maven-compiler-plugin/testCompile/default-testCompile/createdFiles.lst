@@ -1,2 +1,2 @@
-softdbmanager\DBManagerTest.class
-softdbmanager\util\CifradoTest.class
+pe\edu\pucp\softcit\db\DBManagerTest.class
+pe\edu\pucp\softcit\db\util\CifradoTest.class
