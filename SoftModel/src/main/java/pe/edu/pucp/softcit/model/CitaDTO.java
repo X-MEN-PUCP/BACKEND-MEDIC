@@ -21,6 +21,7 @@ public class CitaDTO {
     private LocalTime horaInicio;
     private LocalTime horaFin;
     private LocalDate fechaCita;
+    private EstadoCita estado;
 
     public CitaDTO() {
         this.idCita = null;
@@ -31,6 +32,7 @@ public class CitaDTO {
         this.horaInicio = null;
         this.horaFin = null;
         this.fechaCita = null;
+        this.estado = null;
     }
 
     public Integer getIdCita() {
@@ -95,6 +97,14 @@ public class CitaDTO {
 
     public void setFechaCita(LocalDate fechaCita) {
         this.fechaCita = fechaCita;
+    }
+
+    public EstadoCita getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoCita estado) {
+        this.estado = estado;
     }
     
 }
