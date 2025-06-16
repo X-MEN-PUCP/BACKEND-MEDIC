@@ -68,6 +68,31 @@ public class PacienteBO {
         
         return modificar;
     }
+     
+     public int Reprogarar(CitaDTO citaAntigua,CitaDTO citaNueva,HistoriaClinicaPorCitaDTO historia_por_cita) {
+        //actualizar cita (Estado: disponible)
+        citaAntigua.setEstado(EstadoCita.DISPONIBLE);
+        
+        citaBO.modificar(citaAntigua);
+        
+        citaNueva.setEstado(EstadoCita.RESERVADO);
+        historia_por_cita.setCita(citaNueva);
+        
+        Integer modificar = new HistoriaClinicaPorCitaDAOImpl().modificar(historia_por_cita);
+        
+        
+        return modificar;
+    }
+     
+    
 
+     public ArrayList<HistoriaClinicaPorCitaDTO> listarCitasPorPersona(HistoriaClinicaDTO historia){
+        ArrayList<HistoriaClinicaPorCitaDTO> citas = null;
+        Integer idHistoria = historia.getIdHistoriaClinica();
+       
+        citas = new HistoriaClinicaPorCitaDAOImpl().listarPorIdHistoria(idHistoria);
+        
+        return citas;
+    }
     
 }
