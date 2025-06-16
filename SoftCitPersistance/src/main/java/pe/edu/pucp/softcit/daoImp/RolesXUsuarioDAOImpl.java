@@ -32,12 +32,20 @@ public class RolesXUsuarioDAOImpl extends DAOImplBase implements RolesXUsuarioDA
 
     @Override
     protected void configurarListaDeColumnas() {
-        
-        this.listaColumnas.add(new Columna("id_usuario", true, false));
         this.listaColumnas.add(new Columna("id_rol", true, false));
+        this.listaColumnas.add(new Columna("id_usuario", true, false));        
         this.listaColumnas.add(new Columna("estado", false, false));
         
     }
+    
+    
+    @Override
+    protected void incluirValorDeParametrosParaInsercion() throws SQLException {
+        this.statement.setInt(1, this.usarioPorRol.getRol().getIdRol());
+        this.statement.setInt(2, this.usarioPorRol.getUsuarioDTO().getIdUsuario());
+        this.statement.setInt(3, EstadoGeneral.ACTIVO.getCodigo());
+    }
+    
     
     
     @Override
@@ -73,6 +81,13 @@ public class RolesXUsuarioDAOImpl extends DAOImplBase implements RolesXUsuarioDA
     protected void agregarObjetoALaLista(List lista) throws SQLException {
         this.instanciarObjetoDelResultSet();
         lista.add(this.usarioPorRol);
+        
+    }
+    
+    @Override
+    public Integer insertar(UsuarioPorRolDTO usarioPorRol) {
+        this.usarioPorRol = usarioPorRol;
+        return super.insertar();
     }
 
     @Override
