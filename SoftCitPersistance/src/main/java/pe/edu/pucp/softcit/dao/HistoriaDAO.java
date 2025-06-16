@@ -16,7 +16,7 @@ public interface HistoriaDAO {
     public ArrayList<HistoriaClinicaDTO> listar();
     public Integer insertar(HistoriaClinicaDTO historia);    
     public HistoriaClinicaDTO obtenerPorIdPaciente(Integer id);
-    public HistoriaClinicaDTO obtenerPodId(Integer id);
+    public HistoriaClinicaDTO obtenerPorId(Integer id);
     
     
 }

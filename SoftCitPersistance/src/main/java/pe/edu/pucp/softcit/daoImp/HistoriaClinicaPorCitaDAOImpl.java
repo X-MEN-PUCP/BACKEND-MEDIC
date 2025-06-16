@@ -101,7 +101,7 @@ public class HistoriaClinicaPorCitaDAOImpl extends DAOImplBase implements Histor
             this.resultSet = this.statement.executeQuery();
             while (this.resultSet.next()) {
                 HistoriaClinicaPorCitaDTO historia_por_cita = new HistoriaClinicaPorCitaDTO();
-                historia_por_cita.setHistoriaClinica(new HistoriaClinicaDAOImpl().obtenerPorId(this.resultSet.getInt("id_historia")));
+                historia_por_cita.setHistoriaClinica(new HistoriaDAOImpl().obtenerPorId(this.resultSet.getInt("id_historia")));
                 historia_por_cita.setCita(new CitaDAOImpl().obtenerPorId(this.resultSet.getInt("id_cita")));
                 historia_por_cita.setPeso(this.resultSet.getDouble("peso"));
                 historia_por_cita.setTalla(this.resultSet.getDouble("talla"));

@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import pe.edu.pucp.softcit.dao.CitaDAO;
 import pe.edu.pucp.softcit.dao.InterconsultaDAO;
+import pe.edu.pucp.softcit.dao.EspecialidadDAO;
 import pe.edu.pucp.softcit.daoImp.util.Columna;
 import pe.edu.pucp.softcit.model.CitaDTO;
 import pe.edu.pucp.softcit.model.EspecialidadDTO;

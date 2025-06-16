@@ -22,6 +22,7 @@ import pe.edu.pucp.softcit.model.UsuarioDTO;
 import pe.edu.pucp.softcit.dao.CitaDAO;
 import pe.edu.pucp.softcit.dao.ConsultorioDAO;
 import pe.edu.pucp.softcit.dao.UsuarioDAO;
+import pe.edu.pucp.softcit.dao.TurnoDAO;
 import pe.edu.pucp.softcit.dao.EspecialidadDAO;
 import pe.edu.pucp.softcit.daoImp.UsuarioDAOImpl;
 import pe.edu.pucp.softcit.daoImp.EspecialidadDAOImpl;
@@ -203,5 +204,13 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO{
         } catch (SQLException ex) {
             Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Override
+    public CitaDTO obtenerPorId(Integer id) {
+       this.cita = new CitaDTO();
+       cita.setIdCita(id);
+       super.obtenerPorId();
+       return this.cita;
     }
 }
