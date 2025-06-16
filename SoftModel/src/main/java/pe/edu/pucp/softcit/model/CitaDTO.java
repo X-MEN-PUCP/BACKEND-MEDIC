@@ -34,6 +34,17 @@ public class CitaDTO {
         this.fechaCita = null;
         this.estado = null;
     }
+    
+    public CitaDTO(CitaDTO cita) {
+        this.idCita = cita.idCita;
+        this.medico = cita.medico;
+        this.especialidad = cita.especialidad;
+        this.turno = cita.turno;
+        this.consultorio = cita.consultorio;
+        this.horaInicio = cita.horaInicio;
+        this.horaFin = cita.horaFin;
+        this.fechaCita = cita.fechaCita;
+    }
 
     public Integer getIdCita() {
         return idCita;

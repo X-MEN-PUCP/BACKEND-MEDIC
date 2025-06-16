@@ -18,6 +18,12 @@ public class EspecialidadDTO {
         this.nombreEspecialidad = null;
         this.precioConsulta = null;
     }
+    
+    public EspecialidadDTO(EspecialidadDTO especialidad) {
+        this.idEspecialidad=especialidad.idEspecialidad;
+        this.nombreEspecialidad=especialidad.nombreEspecialidad;
+        this.nombreEspecialidad=especialidad.nombreEspecialidad;
+    }
 
     public Integer getIdEspecialidad() {
         return idEspecialidad;

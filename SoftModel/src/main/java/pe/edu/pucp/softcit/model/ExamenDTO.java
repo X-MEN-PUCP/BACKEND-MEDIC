@@ -19,6 +19,12 @@ public class ExamenDTO {
         this.nombreExamen = null;
     }
 
+    public ExamenDTO(ExamenDTO examen) {
+        this.idExamen = examen.getIdExamen();
+        this.tipoExamen = examen.getTipoExamen();
+        this.nombreExamen = examen.getNombreExamen();
+    }
+    
     public Integer getIdExamen() {
         return idExamen;
     }
