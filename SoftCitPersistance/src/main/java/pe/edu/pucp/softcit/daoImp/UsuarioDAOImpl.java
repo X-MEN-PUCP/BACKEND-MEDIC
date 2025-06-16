@@ -6,6 +6,7 @@ package pe.edu.pucp.softcit.daoImp;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,6 +17,7 @@ import pe.edu.pucp.softcit.model.EstadoLogico;
 import pe.edu.pucp.softcit.model.Genero;
 import pe.edu.pucp.softcit.model.TipoDocumento;
 import pe.edu.pucp.softcit.model.UsuarioDTO;
+import pe.edu.pucp.softcit.model.UsuarioPorRolDTO;
 
 /**
  *
@@ -82,7 +84,6 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
         this.statement.setString(11, this.usuario.getGenero().toString());
         this.statement.setInt(12, EstadoGeneral.ACTIVO.getCodigo());
         this.statement.setInt(13, EstadoLogico.DISPONIBLE.getCodigo());
-        
 
     }
 
@@ -115,7 +116,7 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
         }
 
         this.statement.setString(11, this.usuario.getGenero().toString());
-        
+
         this.statement.setInt(12, this.usuario.getEstadoGeneral().getCodigo());
         this.statement.setInt(13, this.usuario.getEstadoLogico().getCodigo());
 
@@ -149,9 +150,9 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
         this.usuario.setCorreoElectronico(this.resultSet.getString("correo_electronico")); //9
         this.usuario.setNumCelular(this.resultSet.getString("num_celular"));//10
         this.usuario.setCodMedico(this.resultSet.getString("cod_medico")); //11
-        
+
         this.usuario.setGenero(Genero.valueOf(this.resultSet.getString("genero"))); //12
-        
+
         this.usuario.setEstadoGeneral(EstadoGeneral.valueOfCodigo(this.resultSet.getInt("estado_general"))); //13
         this.usuario.setEstadoLogico(EstadoLogico.valueOfCodigo(this.resultSet.getInt("estado_logico"))); //14
 
@@ -193,10 +194,10 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
             this.statement.setString(2, tipoDoc);
             this.statement.setString(3, contrasenha);
 
-            this.ejecutarConsultaEnBD(); 
+            this.ejecutarConsultaEnBD();
 
             if (this.resultSet.next()) {
-                this.instanciarObjetoDelResultSet(); 
+                this.instanciarObjetoDelResultSet();
             } else {
                 this.limpiarObjetoDelResultSet();
             }
@@ -236,6 +237,19 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
     public Integer modificar(UsuarioDTO usuario) {
         this.usuario = usuario;
         return super.modificar();
+    }
+
+    @Override
+    public UsuarioDTO completarRoles(UsuarioDTO usuario) {
+        ArrayList<UsuarioPorRolDTO> lista = new RolesXUsuarioDAOImpl().listarPorUsuario(usuario.getIdUsuario());
+
+        ArrayList<Integer> listaIds = new ArrayList<>();
+        for (UsuarioPorRolDTO upr : lista) {
+            listaIds.add(upr.getRol().getIdRol()); // Asegúrate de tener getIdRol() en UsuarioPorRolDTO
+        }
+
+        usuario.setRoles(listaIds);
+        return usuario;
     }
 
 }

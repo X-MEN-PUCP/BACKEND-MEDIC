@@ -49,6 +49,16 @@ public class UsuarioDTO {
         this.roles=null;
     }
 
+    public ArrayList<Integer> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(ArrayList<Integer> roles) {
+        this.roles = roles;
+    }
+    
+    
+
     public Integer getIdUsuario() {
         return idUsuario;
     }

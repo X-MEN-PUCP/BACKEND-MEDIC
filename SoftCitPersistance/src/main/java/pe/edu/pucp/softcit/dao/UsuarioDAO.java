@@ -18,6 +18,7 @@ public interface UsuarioDAO {
     public Integer modificar(UsuarioDTO usuario);
     public Integer cambiarEstadoGeneral(UsuarioDTO usuario);
     public Integer cambiarEstadoLogico(UsuarioDTO usuario);
+    public UsuarioDTO completarRoles(UsuarioDTO usuario);
     
     
 }
