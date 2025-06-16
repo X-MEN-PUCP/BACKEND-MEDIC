@@ -21,6 +21,10 @@ import pe.edu.pucp.softcit.model.TurnoDTO;
 import pe.edu.pucp.softcit.model.UsuarioDTO;
 import pe.edu.pucp.softcit.dao.CitaDAO;
 import pe.edu.pucp.softcit.dao.ConsultorioDAO;
+import pe.edu.pucp.softcit.dao.UsuarioDAO;
+import pe.edu.pucp.softcit.dao.EspecialidadDAO;
+import pe.edu.pucp.softcit.daoImp.UsuarioDAOImpl;
+import pe.edu.pucp.softcit.daoImp.EspecialidadDAOImpl;
 /**
  *
  * @author Mcerv
