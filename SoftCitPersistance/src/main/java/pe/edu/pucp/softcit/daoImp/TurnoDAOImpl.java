@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import pe.edu.pucp.softcit.dao.TurnoDAO;
 import pe.edu.pucp.softcit.daoImp.util.Columna;
+import pe.edu.pucp.softcit.model.EstadoGeneral;
 import pe.edu.pucp.softcit.model.TurnoDTO;
 
 /**
@@ -30,13 +31,15 @@ public class TurnoDAOImpl extends DAOImplBase implements TurnoDAO{
         this.listaColumnas.add(new Columna("nombre_turno",false,false));
         this.listaColumnas.add(new Columna("hora_inicio",false,false));
         this.listaColumnas.add(new Columna("hora_fin",false,false));
+        this.listaColumnas.add(new Columna("estado_general", false, false));
     }    
 
     @Override
     protected void incluirValorDeParametrosParaModificacion() throws SQLException {
         this.statement.setString(1, this.turno.getNombreTurno());
-        this.statement.setDate(3, new java.sql.Date(this.turno.getHoraInicio().getTime()));
-        this.statement.setDate(4, new java.sql.Date(this.turno.getHoraFin().getTime()));
+        this.statement.setDate(2, new java.sql.Date(this.turno.getHoraInicio().getTime()));
+        this.statement.setDate(3, new java.sql.Date(this.turno.getHoraFin().getTime()));
+        this.statement.setInt(4, this.turno.getEstadoGeneral().getCodigo());
         this.statement.setInt(5, this.turno.getIdTurno());
     }
 
@@ -52,6 +55,7 @@ public class TurnoDAOImpl extends DAOImplBase implements TurnoDAO{
         this.turno.setNombreTurno(this.resultSet.getString("nombre_turno"));
         this.turno.setHoraInicio(this.resultSet.getDate("hora_inicio"));
         this.turno.setHoraInicio(this.resultSet.getDate("hora_fin"));
+        this.turno.setEstadoGeneral(EstadoGeneral.valueOfCodigo(this.resultSet.getInt("estado_general")));
     }
 
     public Integer modificar(TurnoDTO turno) {

@@ -11,6 +11,7 @@ package pe.edu.pucp.softcit.model;
 public class HistoriaClinicaDTO {
     private Integer idHistoriaClinica;
     private UsuarioDTO paciente;
+    private EstadoGeneral estadoGeneral;
 
     public HistoriaClinicaDTO() {
         this.idHistoriaClinica = null;
@@ -31,6 +32,14 @@ public class HistoriaClinicaDTO {
 
     public void setPaciente(UsuarioDTO paciente) {
         this.paciente = paciente;
+    }
+    
+    public EstadoGeneral getEstadoGeneral() {
+        return estadoGeneral;
+    }
+
+    public void setEstadoGeneral(EstadoGeneral estadoGeneral) {
+        this.estadoGeneral = estadoGeneral;
     }
     
 }

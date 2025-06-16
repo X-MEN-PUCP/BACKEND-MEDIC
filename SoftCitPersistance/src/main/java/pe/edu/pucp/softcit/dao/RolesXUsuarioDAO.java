@@ -13,5 +13,6 @@ import pe.edu.pucp.softcit.model.UsuarioPorRolDTO;
  */
 public interface RolesXUsuarioDAO {
     public ArrayList<UsuarioPorRolDTO> listarPorUsuario(Integer id);
+    public Integer insertar(UsuarioPorRolDTO usarioPorRol) ;
     
 }

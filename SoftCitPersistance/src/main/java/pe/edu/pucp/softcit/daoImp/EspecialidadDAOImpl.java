@@ -10,6 +10,7 @@ import java.util.List;
 import pe.edu.pucp.softcit.dao.EspecialidadDAO;
 import pe.edu.pucp.softcit.daoImp.util.Columna;
 import pe.edu.pucp.softcit.model.EspecialidadDTO;
+import pe.edu.pucp.softcit.model.EstadoGeneral;
 
 /**
  *
@@ -30,7 +31,7 @@ public class EspecialidadDAOImpl extends DAOImplBase implements EspecialidadDAO 
         this.listaColumnas.add(new Columna("id_especialidad", true, false));
         this.listaColumnas.add(new Columna("nombre_especialidad", false, false));
         this.listaColumnas.add(new Columna("precio_consulta", false, false));
-
+        this.listaColumnas.add(new Columna("estado", false, false));
     }
 
     @Override
@@ -41,6 +42,7 @@ public class EspecialidadDAOImpl extends DAOImplBase implements EspecialidadDAO 
         } else {
             throw new IllegalArgumentException("precioConsulta no puede ser null porque la BD no lo permite");
         }
+        this.statement.setInt(3, EstadoGeneral.ACTIVO.getCodigo());
 
     }
 
@@ -53,7 +55,8 @@ public class EspecialidadDAOImpl extends DAOImplBase implements EspecialidadDAO 
         } else {
             throw new IllegalArgumentException("precioConsulta no puede ser null porque la BD no lo permite");
         }
-        this.statement.setInt(3, this.especialidad.getIdEspecialidad());
+        this.statement.setInt(3, this.especialidad.getEstadoGeneral().getCodigo());
+        this.statement.setInt(4, this.especialidad.getIdEspecialidad());
 
     }
 
@@ -73,6 +76,7 @@ public class EspecialidadDAOImpl extends DAOImplBase implements EspecialidadDAO 
         this.especialidad.setIdEspecialidad(this.resultSet.getInt("id_especialidad"));
         this.especialidad.setNombreEspecialidad(this.resultSet.getString("nombre_especialidad"));
         this.especialidad.setPrecioConsulta(this.resultSet.getDouble("precio_consulta"));
+        this.especialidad.setEstadoGeneral(EstadoGeneral.valueOfCodigo(this.resultSet.getInt("estado"))); //13
     }
 
     @Override

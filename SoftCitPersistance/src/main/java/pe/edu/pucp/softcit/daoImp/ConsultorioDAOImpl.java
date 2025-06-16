@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import pe.edu.pucp.softcit.dao.ConsultorioDAO;
 import pe.edu.pucp.softcit.daoImp.util.Columna;
 import pe.edu.pucp.softcit.model.ConsultorioDTO;
+import pe.edu.pucp.softcit.model.EstadoGeneral;
 
 /**
  *
@@ -28,19 +29,22 @@ public class ConsultorioDAOImpl extends DAOImplBase implements ConsultorioDAO{
         this.listaColumnas.add(new Columna("id_consultorio", true, true));
         this.listaColumnas.add(new Columna("numero_consultorio", false, false));
         this.listaColumnas.add(new Columna("piso", false, false));
+        this.listaColumnas.add(new Columna("estado", false, false));
     }
     
     @Override
     protected void incluirValorDeParametrosParaInsercion() throws SQLException {
         this.statement.setInt(1, this.consultorio.getNumConsultorio());
         this.statement.setInt(2, this.consultorio.getNumPiso());
+        this.statement.setInt(3, EstadoGeneral.ACTIVO.getCodigo());
     }
     
     @Override
     protected void incluirValorDeParametrosParaModificacion() throws SQLException {
         this.statement.setInt(1, this.consultorio.getNumConsultorio());
         this.statement.setInt(2, this.consultorio.getNumPiso());
-        this.statement.setInt(3, this.consultorio.getIdConsultorio());
+        this.statement.setInt(3, this.consultorio.getEstadoGeneral().getCodigo());
+        this.statement.setInt(4, this.consultorio.getIdConsultorio());
     }
     
     @Override
@@ -54,6 +58,7 @@ public class ConsultorioDAOImpl extends DAOImplBase implements ConsultorioDAO{
         this.consultorio.setIdConsultorio(this.resultSet.getInt("id_consultorio"));
         this.consultorio.setNumConsultorio(this.resultSet.getInt("numero_consultorio"));
         this.consultorio.setNumPiso(this.resultSet.getInt("piso"));
+        this.consultorio.setEstadoGeneral(EstadoGeneral.valueOfCodigo(this.resultSet.getInt("estado"))); //13
     }
 
     @Override

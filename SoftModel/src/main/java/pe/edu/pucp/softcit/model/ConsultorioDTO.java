@@ -12,6 +12,7 @@ public class ConsultorioDTO {
     private Integer idConsultorio;
     private Integer numConsultorio;
     private Integer numPiso;
+    private EstadoGeneral estadoGeneral;
 
     public ConsultorioDTO() {
         this.idConsultorio = null;
@@ -19,6 +20,16 @@ public class ConsultorioDTO {
         this.numPiso = null; 
     }
 
+    public EstadoGeneral getEstadoGeneral() {
+        return estadoGeneral;
+    }
+
+    public void setEstadoGeneral(EstadoGeneral estadoGeneral) {
+        this.estadoGeneral = estadoGeneral;
+    }
+
+    
+    
     public Integer getIdConsultorio() {
         return idConsultorio;
     }

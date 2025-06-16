@@ -6,14 +6,18 @@ package pe.edu.pucp.softcit.daoImp;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import pe.edu.pucp.softcit.dao.UsuarioDAO;
 import pe.edu.pucp.softcit.daoImp.util.Columna;
+import pe.edu.pucp.softcit.model.EstadoGeneral;
+import pe.edu.pucp.softcit.model.EstadoLogico;
 import pe.edu.pucp.softcit.model.Genero;
 import pe.edu.pucp.softcit.model.TipoDocumento;
 import pe.edu.pucp.softcit.model.UsuarioDTO;
+import pe.edu.pucp.softcit.model.UsuarioPorRolDTO;
 
 /**
  *
@@ -44,6 +48,8 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
         this.listaColumnas.add(new Columna("num_celular", false, false));
         this.listaColumnas.add(new Columna("cod_medico", false, false));
         this.listaColumnas.add(new Columna("genero", false, false));
+        this.listaColumnas.add(new Columna("estado_general", false, false));
+        this.listaColumnas.add(new Columna("estado_logico", false, false));
 
     }
 
@@ -76,6 +82,8 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
         }
 
         this.statement.setString(11, this.usuario.getGenero().toString());
+        this.statement.setInt(12, EstadoGeneral.ACTIVO.getCodigo());
+        this.statement.setInt(13, EstadoLogico.DISPONIBLE.getCodigo());
 
     }
 
@@ -109,7 +117,10 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
 
         this.statement.setString(11, this.usuario.getGenero().toString());
 
-        this.statement.setInt(12, this.usuario.getIdUsuario());
+        this.statement.setInt(12, this.usuario.getEstadoGeneral().getCodigo());
+        this.statement.setInt(13, this.usuario.getEstadoLogico().getCodigo());
+
+        this.statement.setInt(14, this.usuario.getIdUsuario());
     }
 
     @Override
@@ -125,21 +136,25 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
     @Override
     protected void instanciarObjetoDelResultSet() throws SQLException {
         this.usuario = new UsuarioDTO();
-        usuario.setIdUsuario(this.resultSet.getInt("id_usuario"));//1
-        usuario.setTipoDocumento(TipoDocumento.valueOf(this.resultSet.getString("tipo_documento")));//2
-        usuario.setNumDocumento(this.resultSet.getString("nro_documento"));//3
-        usuario.setContrasenha(this.resultSet.getString("contrasenha"));//4
-        usuario.setNombres(this.resultSet.getString("nombre"));//5
-        usuario.setApellidoPaterno(this.resultSet.getString("apellido_paterno"));//6
-        usuario.setApellidoMaterno(this.resultSet.getString("apellido_materno"));//7
+        this.usuario.setIdUsuario(this.resultSet.getInt("id_usuario"));//1
+        this.usuario.setTipoDocumento(TipoDocumento.valueOf(this.resultSet.getString("tipo_documento")));//2
+        this.usuario.setNumDocumento(this.resultSet.getString("nro_documento"));//3
+        this.usuario.setContrasenha(this.resultSet.getString("contrasenha"));//4
+        this.usuario.setNombres(this.resultSet.getString("nombre"));//5
+        this.usuario.setApellidoPaterno(this.resultSet.getString("apellido_paterno"));//6
+        this.usuario.setApellidoMaterno(this.resultSet.getString("apellido_materno"));//7
 
         java.sql.Date fechaSQL = this.resultSet.getDate("fecha_nacimiento");//8
-        usuario.setFechaNacimiento(fechaSQL.toLocalDate());
+        this.usuario.setFechaNacimiento(fechaSQL.toLocalDate());
 
-        usuario.setCorreoElectronico(this.resultSet.getString("correo_electronico")); //9
-        usuario.setNumCelular(this.resultSet.getString("num_celular"));//10
-        usuario.setCodMedico(this.resultSet.getString("cod_medico")); //11
-        usuario.setGenero(Genero.valueOf(this.resultSet.getString("genero"))); //12
+        this.usuario.setCorreoElectronico(this.resultSet.getString("correo_electronico")); //9
+        this.usuario.setNumCelular(this.resultSet.getString("num_celular"));//10
+        this.usuario.setCodMedico(this.resultSet.getString("cod_medico")); //11
+
+        this.usuario.setGenero(Genero.valueOf(this.resultSet.getString("genero"))); //12
+
+        this.usuario.setEstadoGeneral(EstadoGeneral.valueOfCodigo(this.resultSet.getInt("estado_general"))); //13
+        this.usuario.setEstadoLogico(EstadoLogico.valueOfCodigo(this.resultSet.getInt("estado_logico"))); //14
 
     }
 
@@ -179,10 +194,10 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
             this.statement.setString(2, tipoDoc);
             this.statement.setString(3, contrasenha);
 
-            this.ejecutarConsultaEnBD(); 
+            this.ejecutarConsultaEnBD();
 
             if (this.resultSet.next()) {
-                this.instanciarObjetoDelResultSet(); 
+                this.instanciarObjetoDelResultSet();
             } else {
                 this.limpiarObjetoDelResultSet();
             }
@@ -210,6 +225,31 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
     public Integer cambiarEstadoLogico(UsuarioDTO usuario) {
         this.usuario = usuario;
         return super.modificar();
+    }
+
+    @Override
+    public Integer insertar(UsuarioDTO usuario) {
+        this.usuario = usuario;
+        return super.insertar();
+    }
+
+    @Override
+    public Integer modificar(UsuarioDTO usuario) {
+        this.usuario = usuario;
+        return super.modificar();
+    }
+
+    @Override
+    public UsuarioDTO completarRoles(UsuarioDTO usuario) {
+        ArrayList<UsuarioPorRolDTO> lista = new RolesXUsuarioDAOImpl().listarPorUsuario(usuario.getIdUsuario());
+
+        ArrayList<Integer> listaIds = new ArrayList<>();
+        for (UsuarioPorRolDTO upr : lista) {
+            listaIds.add(upr.getRol().getIdRol()); // Asegúrate de tener getIdRol() en UsuarioPorRolDTO
+        }
+
+        usuario.setRoles(listaIds);
+        return usuario;
     }
 
 }

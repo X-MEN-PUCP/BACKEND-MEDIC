@@ -12,7 +12,8 @@ public class ExamenDTO {
     private Integer idExamen;
     private TipoExamenDTO tipoExamen;
     private String nombreExamen;
-
+    private EstadoGeneral estadoGeneral;
+    
     public ExamenDTO() {
         this.idExamen = null;
         this.tipoExamen = null;
@@ -23,6 +24,14 @@ public class ExamenDTO {
         this.idExamen = examen.getIdExamen();
         this.tipoExamen = examen.getTipoExamen();
         this.nombreExamen = examen.getNombreExamen();
+    }
+    
+    public EstadoGeneral getEstadoGeneral() {
+        return estadoGeneral;
+    }
+
+    public void setEstadoGeneral(EstadoGeneral estadoGeneral) {
+        this.estadoGeneral = estadoGeneral;
     }
     
     public Integer getIdExamen() {

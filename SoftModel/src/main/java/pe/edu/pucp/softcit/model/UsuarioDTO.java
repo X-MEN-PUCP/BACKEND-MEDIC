@@ -5,6 +5,7 @@
 package pe.edu.pucp.softcit.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  *
@@ -24,6 +25,13 @@ public class UsuarioDTO {
     private String codMedico;
     private Genero genero;
     
+    private ArrayList<Integer> roles;
+
+    
+    
+    private EstadoGeneral estadoGeneral;
+    private EstadoLogico estadoLogico;
+    
 
     public UsuarioDTO() {
         this.idUsuario = null;
@@ -38,7 +46,18 @@ public class UsuarioDTO {
         this.numCelular = null;
         this.codMedico = null;
         this.genero = null;
+        this.roles=null;
     }
+
+    public ArrayList<Integer> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(ArrayList<Integer> roles) {
+        this.roles = roles;
+    }
+    
+    
 
     public Integer getIdUsuario() {
         return idUsuario;
@@ -134,6 +153,22 @@ public class UsuarioDTO {
 
     public void setGenero(Genero genero) {
         this.genero = genero;
+    }
+    
+    public EstadoGeneral getEstadoGeneral() {
+        return estadoGeneral;
+    }
+
+    public void setEstadoGeneral(EstadoGeneral estadoGeneral) {
+        this.estadoGeneral = estadoGeneral;
+    }
+
+    public EstadoLogico getEstadoLogico() {
+        return estadoLogico;
+    }
+
+    public void setEstadoLogico(EstadoLogico estadoLogico) {
+        this.estadoLogico = estadoLogico;
     }
     
     

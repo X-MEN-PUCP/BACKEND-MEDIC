@@ -21,6 +21,7 @@ public class HistoriaClinicaPorCitaDTO {
     private String evolucion;
     private String recomendacion;
     private String receta;
+    private EstadoGeneral estadoGeneral;
 
     public HistoriaClinicaPorCitaDTO() {
         this.historiaClinica = null;
@@ -44,6 +45,16 @@ public class HistoriaClinicaPorCitaDTO {
     public void setHistoriaClinica(HistoriaClinicaDTO historiaClinica) {
         this.historiaClinica = historiaClinica;
     }
+
+    public EstadoGeneral getEstadoGeneral() {
+        return estadoGeneral;
+    }
+
+    public void setEstadoGeneral(EstadoGeneral estadoGeneral) {
+        this.estadoGeneral = estadoGeneral;
+    }
+    
+    
 
     public CitaDTO getCita() {
         return cita;

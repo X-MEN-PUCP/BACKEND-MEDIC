@@ -12,6 +12,7 @@ import pe.edu.pucp.softcit.dao.UsuarioDAO;
 import pe.edu.pucp.softcit.dao.EspecialidadDAO;
 import pe.edu.pucp.softcit.daoImp.util.Columna;
 import pe.edu.pucp.softcit.model.EspecialidadDTO;
+import pe.edu.pucp.softcit.model.EstadoGeneral;
 import pe.edu.pucp.softcit.model.UsuarioDTO;
 import pe.edu.pucp.softcit.model.UsuarioPorEspecialidadDTO;
 
@@ -36,6 +37,7 @@ public class EspecialidadXUsuarioDAOImpl extends DAOImplBase implements Especial
     protected void configurarListaDeColumnas() {
         this.listaColumnas.add(new Columna("id_especialidad", true, false));
         this.listaColumnas.add(new Columna("id_usuario", true, false));
+        this.listaColumnas.add(new Columna("estado", false, false));
 
     }
 
@@ -43,6 +45,7 @@ public class EspecialidadXUsuarioDAOImpl extends DAOImplBase implements Especial
     protected void incluirValorDeParametrosParaInsercion() throws SQLException {
         this.statement.setInt(1, this.usuarioPorEspecialidad.getEspecialidad().getIdEspecialidad());
         this.statement.setInt(2, this.usuarioPorEspecialidad.getUsuario().getIdUsuario());
+        this.statement.setInt(3, EstadoGeneral.ACTIVO.getCodigo());
 
     }
 
@@ -57,6 +60,8 @@ public class EspecialidadXUsuarioDAOImpl extends DAOImplBase implements Especial
         Integer id_especialidad = this.resultSet.getInt("id_especialidad");
         EspecialidadDTO especialidad = obtenerEspecialidad(id_especialidad);
         this.usuarioPorEspecialidad.setEspecialidad(especialidad);
+        
+        this.usuarioPorEspecialidad.setEstadoGeneral(EstadoGeneral.valueOfCodigo(this.resultSet.getInt("estado"))); //13
     }
 
     protected UsuarioDTO obtenerUsuario(Integer id) {
