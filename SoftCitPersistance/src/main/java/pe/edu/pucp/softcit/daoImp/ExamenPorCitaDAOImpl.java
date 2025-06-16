@@ -49,7 +49,7 @@ public class ExamenPorCitaDAOImpl extends DAOImplBase implements ExamenPorCitaDA
 
     @Override
     public ArrayList<ExamenPorCita> listarTodos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return (ArrayList<ExamenPorCita>) super.listarTodos();
     }
 
     @Override

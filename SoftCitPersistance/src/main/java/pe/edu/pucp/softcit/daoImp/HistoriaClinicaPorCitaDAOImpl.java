@@ -95,7 +95,7 @@ public class HistoriaClinicaPorCitaDAOImpl extends DAOImplBase implements Histor
             ArrayList<HistoriaClinicaPorCitaDTO> lista;
             lista = new ArrayList<>();
             this.conexion = DBManager.getInstance().getConnection();
-            String sql = "SELECT * FROM examen_por_cita WHERE id_cita = ?";
+            String sql = "SELECT * FROM historia_clinica_por_cita WHERE id_cita = ?";
             this.statement = this.conexion.prepareCall(sql);
             this.statement.setInt(1, idHistoria);
             this.resultSet = this.statement.executeQuery();

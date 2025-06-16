@@ -50,7 +50,7 @@ public class DiagnosticoPorCitaDAOImpl extends DAOImplBase implements Diagnositc
             ArrayList<DiagnosticoPorCita> lista;
             lista = new ArrayList<>();
             this.conexion = DBManager.getInstance().getConnection();
-            String sql = "SELECT * FROM examen_por_cita WHERE id_cita = ?";
+            String sql = "SELECT * FROM diagnostico_por_cita WHERE id_cita = ?";
             this.statement = this.conexion.prepareCall(sql);
             this.statement.setInt(1, idCita);
             this.resultSet = this.statement.executeQuery();
