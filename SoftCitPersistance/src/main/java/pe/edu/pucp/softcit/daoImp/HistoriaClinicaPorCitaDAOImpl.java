@@ -48,16 +48,66 @@ public class HistoriaClinicaPorCitaDAOImpl extends DAOImplBase implements Histor
     protected void incluirValorDeParametrosParaInsercion() throws SQLException {
         this.statement.setInt(1, this.historiaPorCita.getHistoriaClinica().getIdHistoriaClinica());
         this.statement.setInt(2, this.historiaPorCita.getCita().getIdCita());
-        this.statement.setDouble(3, this.historiaPorCita.getPeso());
-        this.statement.setDouble(4, this.historiaPorCita.getTalla());
-        this.statement.setString(5, this.historiaPorCita.getPresionArterial());
-        this.statement.setDouble(6, this.historiaPorCita.getTemperatura());
-        this.statement.setInt(7, this.historiaPorCita.getFrecuenciaCardiaca());
-        this.statement.setString(8, this.historiaPorCita.getMotivoConsulta());
-        this.statement.setString(9, this.historiaPorCita.getTratamiento());
-        this.statement.setString(10, this.historiaPorCita.getEvolucion());
-        this.statement.setString(11, this.historiaPorCita.getRecomendacion());
-        this.statement.setString(12, this.historiaPorCita.getReceta());
+        if (this.historiaPorCita.getPeso() != null) {
+            this.statement.setDouble(3, this.historiaPorCita.getPeso());
+        } else {
+            this.statement.setNull(3, java.sql.Types.DOUBLE);
+        }
+
+        if (this.historiaPorCita.getTalla() != null) {
+            this.statement.setDouble(4, this.historiaPorCita.getTalla());
+        } else {
+            this.statement.setNull(4, java.sql.Types.DOUBLE);
+        }
+
+        if (this.historiaPorCita.getPresionArterial() != null) {
+            this.statement.setString(5, this.historiaPorCita.getPresionArterial());
+        } else {
+            this.statement.setNull(5, java.sql.Types.VARCHAR);
+        }
+
+        if (this.historiaPorCita.getTemperatura() != null) {
+            this.statement.setDouble(6, this.historiaPorCita.getTemperatura());
+        } else {
+            this.statement.setNull(6, java.sql.Types.DOUBLE);
+        }
+
+        if (this.historiaPorCita.getFrecuenciaCardiaca() != null) {
+            this.statement.setInt(7, this.historiaPorCita.getFrecuenciaCardiaca());
+        } else {
+            this.statement.setNull(7, java.sql.Types.INTEGER);
+        }
+
+        if (this.historiaPorCita.getMotivoConsulta() != null) {
+            this.statement.setString(8, this.historiaPorCita.getMotivoConsulta());
+        } else {
+            this.statement.setNull(8, java.sql.Types.VARCHAR);
+        }
+
+        if (this.historiaPorCita.getTratamiento() != null) {
+            this.statement.setString(9, this.historiaPorCita.getTratamiento());
+        } else {
+            this.statement.setNull(9, java.sql.Types.VARCHAR);
+        }
+
+        if (this.historiaPorCita.getEvolucion() != null) {
+            this.statement.setString(10, this.historiaPorCita.getEvolucion());
+        } else {
+            this.statement.setNull(10, java.sql.Types.VARCHAR);
+        }
+
+        if (this.historiaPorCita.getRecomendacion() != null) {
+            this.statement.setString(11, this.historiaPorCita.getRecomendacion());
+        } else {
+            this.statement.setNull(11, java.sql.Types.VARCHAR);
+        }
+
+        if (this.historiaPorCita.getReceta() != null) {
+            this.statement.setString(12, this.historiaPorCita.getReceta());
+        } else {
+            this.statement.setNull(12, java.sql.Types.VARCHAR);
+        }
+
         this.statement.setInt(13, EstadoGeneral.ACTIVO.getCodigo());
     }
 
@@ -100,8 +150,7 @@ public class HistoriaClinicaPorCitaDAOImpl extends DAOImplBase implements Histor
         this.historiaPorCita = historia_por_cita;
 
     }
-    
-    
+
     @Override
     protected void limpiarObjetoDelResultSet() {
         this.historiaPorCita = null;

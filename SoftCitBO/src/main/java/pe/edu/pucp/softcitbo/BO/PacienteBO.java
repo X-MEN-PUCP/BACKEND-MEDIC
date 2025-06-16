@@ -6,7 +6,14 @@ package pe.edu.pucp.softcitbo.BO;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import pe.edu.pucp.softcit.daoImp.HistoriaClinicaPorCitaDAOImpl;
+import pe.edu.pucp.softcit.daoImp.HistoriaDAOImpl;
 import pe.edu.pucp.softcit.model.CitaDTO;
+import pe.edu.pucp.softcit.model.EstadoCita;
+import pe.edu.pucp.softcit.model.EstadoGeneral;
+import pe.edu.pucp.softcit.model.HistoriaClinicaDTO;
+import pe.edu.pucp.softcit.model.HistoriaClinicaPorCitaDTO;
+import pe.edu.pucp.softcit.model.UsuarioDTO;
 
 /**
  *
@@ -15,6 +22,7 @@ import pe.edu.pucp.softcit.model.CitaDTO;
 public class PacienteBO {
     
     private CitaBO citaBO;
+    
     
     
     public PacienteBO(){
@@ -31,5 +39,35 @@ public class PacienteBO {
         }
         return citas;
     }
+    
+    
+     public int reservarCita(CitaDTO cita, UsuarioDTO paciente) {//es id de cuenta o id persona?
+        //actualizar cita (Estado: reservado)
+        System.out.println("Modificando estado de cita");
+        cita.setEstado(EstadoCita.RESERVADO);
+        //Integer id = super.getIdCuenta();
+        
+        Integer idPaciente = paciente.getIdUsuario();
+        HistoriaClinicaDTO historia = new HistoriaClinicaDTO();
+        historia = new HistoriaDAOImpl().obtenerPorIdPaciente(idPaciente);
+        HistoriaClinicaPorCitaDTO historia_por_cita = new HistoriaClinicaPorCitaDTO();
+        historia_por_cita.setCita(cita);
+        historia_por_cita.setHistoriaClinica(historia);
+        Integer insert = new HistoriaClinicaPorCitaDAOImpl().insertar(historia_por_cita);
+        return insert;
+    }
+     
+     public int cancelarCita(CitaDTO cita,HistoriaClinicaPorCitaDTO historia_por_cita) {
+        //actualizar cita (Estado: disponible)
+        cita.setEstado(EstadoCita.DISPONIBLE);
+        
+        citaBO.modificar(cita);
+        historia_por_cita.setEstadoGeneral(EstadoGeneral.INACTIVO);
+        Integer modificar = new HistoriaClinicaPorCitaDAOImpl().modificar(historia_por_cita);
+        
+        
+        return modificar;
+    }
+
     
 }
