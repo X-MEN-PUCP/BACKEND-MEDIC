@@ -15,6 +15,7 @@ public class TurnoDTO {
     private String nombreTurno;
     private Date horaInicio;
     private Date horaFin;
+    private EstadoGeneral estadoGeneral;
 
     public TurnoDTO() {
         this.idTurno = null;
@@ -54,5 +55,15 @@ public class TurnoDTO {
     public void setHoraFin(Date horaFin) {
         this.horaFin = horaFin;
     }
+
+    public EstadoGeneral getEstadoGeneral() {
+        return estadoGeneral;
+    }
+
+    public void setEstadoGeneral(EstadoGeneral estadoGeneral) {
+        this.estadoGeneral = estadoGeneral;
+    }
+    
+    
     
 }

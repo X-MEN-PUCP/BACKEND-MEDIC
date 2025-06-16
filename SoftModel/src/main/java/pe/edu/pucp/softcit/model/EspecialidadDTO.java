@@ -12,6 +12,8 @@ public class EspecialidadDTO {
     private Integer idEspecialidad;
     private String nombreEspecialidad;
     private Double precioConsulta;
+    private EstadoGeneral estadoGeneral;
+    
 
     public EspecialidadDTO() {
         this.idEspecialidad = null;
@@ -23,6 +25,15 @@ public class EspecialidadDTO {
         this.idEspecialidad=especialidad.idEspecialidad;
         this.nombreEspecialidad=especialidad.nombreEspecialidad;
         this.nombreEspecialidad=especialidad.nombreEspecialidad;
+        this.estadoGeneral=especialidad.estadoGeneral;
+    }
+    
+    public EstadoGeneral getEstadoGeneral() {
+        return estadoGeneral;
+    }
+
+    public void setEstadoGeneral(EstadoGeneral estadoGeneral) {
+        this.estadoGeneral = estadoGeneral;
     }
 
     public Integer getIdEspecialidad() {

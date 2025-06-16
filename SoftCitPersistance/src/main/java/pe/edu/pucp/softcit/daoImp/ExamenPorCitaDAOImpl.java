@@ -6,10 +6,12 @@ package pe.edu.pucp.softcit.daoImp;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import pe.edu.pucp.softcit.dao.ExamenPorCitaDAO;
 import pe.edu.pucp.softcit.daoImp.util.Columna;
 import pe.edu.pucp.softcit.db.DBManager;
 import pe.edu.pucp.softcit.model.CitaDTO;
+import pe.edu.pucp.softcit.model.EstadoGeneral;
 import pe.edu.pucp.softcit.model.ExamenDTO;
 import pe.edu.pucp.softcit.model.ExamenPorCita;
 
@@ -32,6 +34,7 @@ public class ExamenPorCitaDAOImpl extends DAOImplBase implements ExamenPorCitaDA
         this.listaColumnas.add(new Columna("id_examen", true, false));
         this.listaColumnas.add(new Columna("id_cita", true, false));
         this.listaColumnas.add(new Columna("observacion", false, false));
+        this.listaColumnas.add(new Columna("estado", false, false));
     }
 
     @Override
@@ -39,8 +42,30 @@ public class ExamenPorCitaDAOImpl extends DAOImplBase implements ExamenPorCitaDA
         this.statement.setInt(1, new ExamenDTO(this.examenPorCita.getExamen()).getIdExamen());
         this.statement.setInt(2, new CitaDTO(this.examenPorCita.getCita()).getIdCita());
         this.statement.setString(3, this.examenPorCita.getObservaciones());
+        this.statement.setInt(4, EstadoGeneral.ACTIVO.getCodigo());
     }
 
+    @Override
+    protected void instanciarObjetoDelResultSet() throws SQLException {
+        ExamenPorCita examen_por_Cita = new ExamenPorCita();
+        examen_por_Cita.setExamen(new ExamenDAOImpl().obtenerPorId(this.resultSet.getInt("id_examen")));
+        examen_por_Cita.setCita(new CitaDAOImpl().obtenerPorId(this.resultSet.getInt("id_cita")));
+        examen_por_Cita.setObservaciones(this.resultSet.getString("observacion"));
+        examen_por_Cita.setEstadoGeneral(EstadoGeneral.valueOfCodigo(this.resultSet.getInt("estado"))); //13
+        this.examenPorCita = examen_por_Cita;
+    }
+    
+    @Override
+    protected void limpiarObjetoDelResultSet() {
+        this.examenPorCita = null;
+    }
+    
+    @Override
+    protected void agregarObjetoALaLista(List lista) throws SQLException {
+        this.instanciarObjetoDelResultSet();
+        lista.add(this.examenPorCita);
+    }
+    
     @Override
     public Integer insertar(ExamenPorCita examenPorCita) {
         this.examenPorCita = examenPorCita;

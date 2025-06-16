@@ -12,6 +12,7 @@ import pe.edu.pucp.softcit.daoImp.util.Columna;
 import pe.edu.pucp.softcit.model.UsuarioDTO;
 import pe.edu.pucp.softcit.model.UsuarioPorRolDTO;
 import pe.edu.pucp.softcit.dao.UsuarioDAO;
+import pe.edu.pucp.softcit.model.EstadoGeneral;
 import pe.edu.pucp.softcit.model.RolDTO;
 
 /**
@@ -34,6 +35,7 @@ public class RolesXUsuarioDAOImpl extends DAOImplBase implements RolesXUsuarioDA
         
         this.listaColumnas.add(new Columna("id_usuario", true, false));
         this.listaColumnas.add(new Columna("id_rol", true, false));
+        this.listaColumnas.add(new Columna("estado", false, false));
         
     }
     
@@ -51,6 +53,7 @@ public class RolesXUsuarioDAOImpl extends DAOImplBase implements RolesXUsuarioDA
         rol.setIdRol(rol_id);
         this.usarioPorRol.setRol(rol);
         
+        this.usarioPorRol.setEstadoGeneral(EstadoGeneral.valueOfCodigo(this.resultSet.getInt("estado"))); //13
 
     }
     

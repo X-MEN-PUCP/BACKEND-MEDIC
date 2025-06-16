@@ -11,10 +11,19 @@ package pe.edu.pucp.softcit.model;
 public class UsuarioPorEspecialidadDTO {
     private UsuarioDTO usuario;
     private EspecialidadDTO especialidad;
+    private EstadoGeneral estadoGeneral;
 
     public UsuarioPorEspecialidadDTO() {
         this.usuario = null;
         this.especialidad = null;
+    }
+    
+    public EstadoGeneral getEstadoGeneral() {
+        return estadoGeneral;
+    }
+
+    public void setEstadoGeneral(EstadoGeneral estadoGeneral) {
+        this.estadoGeneral = estadoGeneral;
     }
 
     public UsuarioDTO getUsuario() {

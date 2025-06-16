@@ -12,11 +12,22 @@ public class ExamenPorCita {
     private ExamenDTO examen;
     private CitaDTO cita;
     private String observaciones;
+    private EstadoGeneral estadoGeneral;
 
+    
+    
     public ExamenPorCita() {
         this.examen =  null;
         this.cita = null;
         this.observaciones = null;
+    }
+    
+    public EstadoGeneral getEstadoGeneral() {
+        return estadoGeneral;
+    }
+
+    public void setEstadoGeneral(EstadoGeneral estadoGeneral) {
+        this.estadoGeneral = estadoGeneral;
     }
 
     public ExamenDTO getExamen() {

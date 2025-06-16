@@ -14,6 +14,8 @@ public interface UsuarioDAO {
     
     public UsuarioDTO obtenerPorId(Integer id);
     public UsuarioDTO buscarCuenta(String nroDocumento,String tipoDoc,String contrasenha);
+    public Integer insertar(UsuarioDTO usuario);
+    public Integer modificar(UsuarioDTO usuario);
     public Integer cambiarEstadoGeneral(UsuarioDTO usuario);
     public Integer cambiarEstadoLogico(UsuarioDTO usuario);
     

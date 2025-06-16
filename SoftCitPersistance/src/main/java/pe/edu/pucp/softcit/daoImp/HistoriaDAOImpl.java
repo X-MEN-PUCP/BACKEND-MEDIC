@@ -12,6 +12,7 @@ import pe.edu.pucp.softcit.dao.HistoriaDAO;
 import pe.edu.pucp.softcit.dao.UsuarioDAO;
 import pe.edu.pucp.softcit.daoImp.util.Columna;
 import pe.edu.pucp.softcit.model.EspecialidadDTO;
+import pe.edu.pucp.softcit.model.EstadoGeneral;
 import pe.edu.pucp.softcit.model.HistoriaClinicaDTO;
 import pe.edu.pucp.softcit.model.UsuarioDTO;
 import pe.edu.pucp.softcit.model.UsuarioPorEspecialidadDTO;
@@ -33,7 +34,8 @@ public class HistoriaDAOImpl extends DAOImplBase implements HistoriaDAO {
     @Override
     protected void configurarListaDeColumnas() {
         this.listaColumnas.add(new Columna("id_historia", true, false));
-        this.listaColumnas.add(new Columna("id_paciente", true, false));
+        this.listaColumnas.add(new Columna("id_paciente", false, false));
+        this.listaColumnas.add(new Columna("estado", false, false));
 
     }
     
@@ -42,6 +44,7 @@ public class HistoriaDAOImpl extends DAOImplBase implements HistoriaDAO {
     protected void incluirValorDeParametrosParaInsercion() throws SQLException {
         this.statement.setInt(1, this.historia.getIdHistoriaClinica());
         this.statement.setInt(2, this.historia.getPaciente().getIdUsuario());
+        this.statement.setInt(3, EstadoGeneral.ACTIVO.getCodigo());
 
     }
 
@@ -57,7 +60,15 @@ public class HistoriaDAOImpl extends DAOImplBase implements HistoriaDAO {
          
         
         this.historia.setPaciente(usuario);
+        
+        this.historia.setEstadoGeneral(EstadoGeneral.valueOfCodigo(this.resultSet.getInt("estado"))); //13
 
+    }
+    
+    @Override
+    protected void incluirValorDeParametrosParaObtenerPorId() throws SQLException {
+        this.statement.setInt(1, this.historia.getIdHistoriaClinica());
+        
     }
     
 
