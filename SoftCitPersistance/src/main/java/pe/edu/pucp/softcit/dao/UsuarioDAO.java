@@ -1,0 +1,21 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
+ */
+package pe.edu.pucp.softcit.dao;
+
+import pe.edu.pucp.softcit.model.UsuarioDTO;
+
+/**
+ *
+ * @author salva
+ */
+public interface UsuarioDAO {
+    
+    public UsuarioDTO obtenerPorId(Integer id);
+    public UsuarioDTO buscarCuenta(String nroDocumento,String tipoDoc,String contrasenha);
+    public Integer cambiarEstadoGeneral(UsuarioDTO usuario);
+    public Integer cambiarEstadoLogico(UsuarioDTO usuario);
+    
+    
+}

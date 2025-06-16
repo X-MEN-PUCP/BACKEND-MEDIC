@@ -1,0 +1,5 @@
+pe\edu\pucp\softcit\db\util\Cifrado.class
+pe\edu\pucp\softcit\db\DBManagerMSSQL.class
+pe\edu\pucp\softcit\db\DBManagerMySQL.class
+pe\edu\pucp\softcit\db\util\MotorDeBaseDeDatos.class
+pe\edu\pucp\softcit\db\DBManager.class

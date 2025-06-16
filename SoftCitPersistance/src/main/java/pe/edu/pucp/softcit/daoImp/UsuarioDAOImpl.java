@@ -1,0 +1,215 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package pe.edu.pucp.softcit.daoImp;
+
+import java.sql.Date;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import pe.edu.pucp.softcit.dao.UsuarioDAO;
+import pe.edu.pucp.softcit.daoImp.util.Columna;
+import pe.edu.pucp.softcit.model.Genero;
+import pe.edu.pucp.softcit.model.TipoDocumento;
+import pe.edu.pucp.softcit.model.UsuarioDTO;
+
+/**
+ *
+ * @author salva
+ */
+public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
+
+    private UsuarioDTO usuario;
+
+    public UsuarioDAOImpl() {
+        super("usuario");
+        this.retornarLlavePrimaria = true;
+        this.usuario = null;
+    }
+
+    @Override
+    protected void configurarListaDeColumnas() {
+
+        this.listaColumnas.add(new Columna("id_usuario", true, true));
+        this.listaColumnas.add(new Columna("tipo_documento", false, false));
+        this.listaColumnas.add(new Columna("nro_documento", false, false));
+        this.listaColumnas.add(new Columna("contrasenha", false, false));
+        this.listaColumnas.add(new Columna("nombre", false, false));
+        this.listaColumnas.add(new Columna("apellido_paterno", false, false));
+        this.listaColumnas.add(new Columna("apellido_materno", false, false));
+        this.listaColumnas.add(new Columna("fecha_nacimiento", false, false));
+        this.listaColumnas.add(new Columna("correo_electronico", false, false));
+        this.listaColumnas.add(new Columna("num_celular", false, false));
+        this.listaColumnas.add(new Columna("cod_medico", false, false));
+        this.listaColumnas.add(new Columna("genero", false, false));
+
+    }
+
+    @Override
+    protected void incluirValorDeParametrosParaInsercion() throws SQLException {
+        this.statement.setString(1, this.usuario.getTipoDocumento().toString());
+        this.statement.setString(2, this.usuario.getNumDocumento());
+        this.statement.setString(3, this.usuario.getContrasenha());
+        this.statement.setString(4, this.usuario.getNombres());
+        this.statement.setString(5, this.usuario.getApellidoPaterno());
+        this.statement.setString(6, this.usuario.getApellidoMaterno());
+        this.statement.setDate(7, Date.valueOf(this.usuario.getFechaNacimiento()));
+
+        if (usuario.getCorreoElectronico() != null) {
+            statement.setString(8, usuario.getCorreoElectronico());
+        } else {
+            statement.setNull(8, java.sql.Types.VARCHAR);
+        }
+
+        if (usuario.getNumCelular() != null) {
+            statement.setString(9, usuario.getNumCelular());
+        } else {
+            statement.setNull(9, java.sql.Types.VARCHAR);
+        }
+
+        if (usuario.getCodMedico() != null) {
+            statement.setString(10, usuario.getCodMedico());
+        } else {
+            statement.setNull(10, java.sql.Types.VARCHAR);
+        }
+
+        this.statement.setString(11, this.usuario.getGenero().toString());
+
+    }
+
+    @Override
+    protected void incluirValorDeParametrosParaModificacion() throws SQLException {
+        this.statement.setString(1, this.usuario.getTipoDocumento().toString());
+        this.statement.setString(2, this.usuario.getNumDocumento());
+        this.statement.setString(3, this.usuario.getContrasenha());
+        this.statement.setString(4, this.usuario.getNombres());
+        this.statement.setString(5, this.usuario.getApellidoPaterno());
+        this.statement.setString(6, this.usuario.getApellidoMaterno());
+        this.statement.setDate(7, Date.valueOf(this.usuario.getFechaNacimiento()));
+
+        if (usuario.getCorreoElectronico() != null) {
+            statement.setString(8, usuario.getCorreoElectronico());
+        } else {
+            statement.setNull(8, java.sql.Types.VARCHAR);
+        }
+
+        if (usuario.getNumCelular() != null) {
+            statement.setString(9, usuario.getNumCelular());
+        } else {
+            statement.setNull(9, java.sql.Types.VARCHAR);
+        }
+
+        if (usuario.getCodMedico() != null) {
+            statement.setString(10, usuario.getCodMedico());
+        } else {
+            statement.setNull(10, java.sql.Types.VARCHAR);
+        }
+
+        this.statement.setString(11, this.usuario.getGenero().toString());
+
+        this.statement.setInt(12, this.usuario.getIdUsuario());
+    }
+
+    @Override
+    protected void incluirValorDeParametrosParaEliminacion() throws SQLException {
+        this.statement.setInt(1, this.usuario.getIdUsuario());
+    }
+
+    @Override
+    protected void incluirValorDeParametrosParaObtenerPorId() throws SQLException {
+        this.statement.setInt(1, this.usuario.getIdUsuario());
+    }
+
+    @Override
+    protected void instanciarObjetoDelResultSet() throws SQLException {
+        this.usuario = new UsuarioDTO();
+        usuario.setIdUsuario(this.resultSet.getInt("id_usuario"));//1
+        usuario.setTipoDocumento(TipoDocumento.valueOf(this.resultSet.getString("tipo_documento")));//2
+        usuario.setNumDocumento(this.resultSet.getString("nro_documento"));//3
+        usuario.setContrasenha(this.resultSet.getString("contrasenha"));//4
+        usuario.setNombres(this.resultSet.getString("nombre"));//5
+        usuario.setApellidoPaterno(this.resultSet.getString("apellido_paterno"));//6
+        usuario.setApellidoMaterno(this.resultSet.getString("apellido_materno"));//7
+
+        java.sql.Date fechaSQL = this.resultSet.getDate("fecha_nacimiento");//8
+        usuario.setFechaNacimiento(fechaSQL.toLocalDate());
+
+        usuario.setCorreoElectronico(this.resultSet.getString("correo_electronico")); //9
+        usuario.setNumCelular(this.resultSet.getString("num_celular"));//10
+        usuario.setCodMedico(this.resultSet.getString("cod_medico")); //11
+        usuario.setGenero(Genero.valueOf(this.resultSet.getString("genero"))); //12
+
+    }
+
+    @Override
+    protected void limpiarObjetoDelResultSet() {
+        this.usuario = null;
+    }
+
+    @Override
+    protected void agregarObjetoALaLista(List lista) throws SQLException {
+        this.instanciarObjetoDelResultSet();
+        lista.add(this.usuario);
+    }
+
+    @Override
+    public UsuarioDTO obtenerPorId(Integer id) {
+        this.usuario = new UsuarioDTO();
+        this.usuario.setIdUsuario(id);
+        super.obtenerPorId();;
+        return this.usuario;
+    }
+
+    @Override
+    public UsuarioDTO buscarCuenta(String nroDocumento, String tipoDoc, String contrasenha) {
+
+        this.usuario = null; // Asegúrate de reiniciar el objeto
+
+        try {
+            this.abrirConexion();
+
+            String sql = "SELECT * FROM usuario "
+                    + "WHERE nro_documento = ? AND tipo_documento = ? AND contrasenha = ?";
+
+            this.colocarSQLenStatement(sql);
+
+            this.statement.setString(1, nroDocumento);
+            this.statement.setString(2, tipoDoc);
+            this.statement.setString(3, contrasenha);
+
+            this.ejecutarConsultaEnBD(); 
+
+            if (this.resultSet.next()) {
+                this.instanciarObjetoDelResultSet(); 
+            } else {
+                this.limpiarObjetoDelResultSet();
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                this.cerrarConexion();
+            } catch (SQLException ex) {
+                Logger.getLogger(UsuarioDAOImpl.class.getName()).log(Level.SEVERE, "Error al cerrar la conexión", ex);
+            }
+        }
+
+        return this.usuario;
+    }
+
+    @Override
+    public Integer cambiarEstadoGeneral(UsuarioDTO usuario) {
+        this.usuario = usuario;
+        return super.modificar();
+    }
+
+    @Override
+    public Integer cambiarEstadoLogico(UsuarioDTO usuario) {
+        this.usuario = usuario;
+        return super.modificar();
+    }
+
+}
