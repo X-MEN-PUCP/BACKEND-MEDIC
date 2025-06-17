@@ -17,5 +17,5 @@ public interface HistoriaClinicaPorCitaDAO {
     public ArrayList<HistoriaClinicaPorCitaDTO> listarTodos();
     public ArrayList<HistoriaClinicaPorCitaDTO> 
         listarPorIdHistoria(Integer idHistoria);
-    public ArrayList<HistoriaClinicaPorCitaDTO> listarPorIdCita(Integer idCita);
+    public HistoriaClinicaPorCitaDTO ObtenerPorIdCita(Integer idCita);
 }

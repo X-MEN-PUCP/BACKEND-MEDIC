@@ -418,3 +418,5 @@ FodyWeavers.xsd
 /SoftBO/target/
 /SoftWS/target/
 /SoftCitPersistance/target/
+/SoftCitBO/target/
+/SoftCitWS/target/
