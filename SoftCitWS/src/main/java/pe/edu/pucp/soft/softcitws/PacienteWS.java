@@ -32,39 +32,39 @@ public class PacienteWS {
         this.pacienteBO = new PacienteBO();
     }
 
-    @WebMethod(operationName = "listarCitas")
-    public ArrayList<CitaDTO> listarCitas(
+    @WebMethod(operationName = "listarCitasPaciente")
+    public ArrayList<CitaDTO> listarCitasPaciente(
             @WebParam(name = "idEspecialidad") Integer idEspecialidad,
             @WebParam(name = "fecha") LocalDate fecha,
             @WebParam(name = "idMedico") Integer idMedico) {
         return this.pacienteBO.listarCitas(idEspecialidad, fecha, idMedico);
     }
     
-    @WebMethod(operationName = "reservarCita")
-    public int reservarCita(
+    @WebMethod(operationName = "reservarCitaPaciente")
+    public int reservarCitaPaciente(
             @WebParam(name = "cita")CitaDTO cita,
             @WebParam(name = "paciente")UsuarioDTO paciente) {//es id de cuenta o id persona? cemanu: no sabria decirte
         return this.pacienteBO.reservarCita(cita, paciente);
     }
 
-    @WebMethod(operationName = "cancelarCita")
-    public int cancelarCita(
+    @WebMethod(operationName = "cancelarCitaPaciente")
+    public int cancelarCitaPaciente(
             @WebParam(name = "cita")CitaDTO cita,
             @WebParam(name = "historia_por_cita")
                     HistoriaClinicaPorCitaDTO historia_por_cita) {
         return this.pacienteBO.cancelarCita(cita, historia_por_cita);
     }
 
-    @WebMethod(operationName = "reprogramar")
-    public int reprogramar(
+    @WebMethod(operationName = "reprogramarCitaPaciente")
+    public int reprogramarCitaPaciente(
             @WebParam(name = "citaAntigua")CitaDTO citaAntigua,
             @WebParam(name = "citaNueva")CitaDTO citaNueva,
             @WebParam(name = "historia_por_cita")HistoriaClinicaPorCitaDTO historia_por_cita) {
         return this.pacienteBO.reprogramar(citaAntigua, citaNueva, historia_por_cita);
     }
 
-    @WebMethod(operationName = "listarCitasPorPersona")
-    public ArrayList<HistoriaClinicaPorCitaDTO> listarCitasPorPersona(
+    @WebMethod(operationName = "listarCitasPorPersonaPaciente")
+    public ArrayList<HistoriaClinicaPorCitaDTO> listarCitasPorPersonaPaciente(
             @WebParam(name = "historia")HistoriaClinicaDTO historia) {
         return this.pacienteBO.listarCitasPorPersona(historia);
     }

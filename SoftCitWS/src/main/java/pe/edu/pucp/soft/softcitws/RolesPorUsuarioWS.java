@@ -24,14 +24,14 @@ public class RolesPorUsuarioWS {
         this.rolesPorUsuarioBO=new RolesPorUsuarioBO();
     }
     
-    @WebMethod(operationName = "listarPorUsuario")
-    public ArrayList<UsuarioPorRolDTO> listarPorUsuario(
+    @WebMethod(operationName = "listarPorUsuarioRolesPorUsuario")
+    public ArrayList<UsuarioPorRolDTO> listarPorUsuarioRolesPorUsuario(
             @WebParam(name = "id")Integer id){
         return this.rolesPorUsuarioBO.listarPorUsuario(id);
     }
     
-    @WebMethod(operationName = "insertar")
-    public Integer insertar(
+    @WebMethod(operationName = "insertarRolesPorUsuario")
+    public Integer insertarRolesPorUsuario(
             @WebParam(name = "usarioPorRol")UsuarioPorRolDTO usarioPorRol){
         return this.rolesPorUsuarioBO.insertar(usarioPorRol);
     }

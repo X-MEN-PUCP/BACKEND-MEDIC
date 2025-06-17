@@ -23,18 +23,18 @@ public class ExamenWS {
         examenBO = new ExamenBO();
     }
     
-    @WebMethod(operationName = "insertar")
-    public Integer insertar(@WebParam(name = "examen")ExamenDTO examen){
+    @WebMethod(operationName = "insertarExamen")
+    public Integer insertarExamen(@WebParam(name = "examen")ExamenDTO examen){
         return this.examenBO.insertar(examen);
     }
     
-    @WebMethod(operationName = "obtenerPorId")
-    public ExamenDTO obtenerPorId(@WebParam(name = "examenId")Integer examenId){
+    @WebMethod(operationName = "obtenerPorIdTablaExamen")
+    public ExamenDTO obtenerPorIdTablaExamen(@WebParam(name = "examenId")Integer examenId){
         return this.examenBO.obtenerPorId(examenId);
     }
     
-    @WebMethod(operationName = "listarTodos")
-    public ArrayList<ExamenDTO> listarTodos(){
+    @WebMethod(operationName = "listarTodosTablaExamen")
+    public ArrayList<ExamenDTO> listarTodosTablaExamen(){
         return this.examenBO.listarTodos();
     }
 }

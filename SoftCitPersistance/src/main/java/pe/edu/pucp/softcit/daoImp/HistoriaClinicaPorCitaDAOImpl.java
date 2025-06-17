@@ -213,8 +213,8 @@ public class HistoriaClinicaPorCitaDAOImpl extends DAOImplBase implements Histor
     }
 
     @Override
-    public ArrayList<HistoriaClinicaPorCitaDTO> listarPorIdCita(Integer idCita) {
-        try {
+    public HistoriaClinicaPorCitaDTO ObtenerPorIdCita(Integer idCita){
+         try {
             ArrayList<HistoriaClinicaPorCitaDTO> lista;
             lista = new ArrayList<>();
             this.conexion = DBManager.getInstance().getConnection();
@@ -222,7 +222,7 @@ public class HistoriaClinicaPorCitaDAOImpl extends DAOImplBase implements Histor
             this.statement = this.conexion.prepareCall(sql);
             this.statement.setInt(1, idCita);
             this.resultSet = this.statement.executeQuery();
-            while (this.resultSet.next()) {
+            if (this.resultSet.next()) {
                 HistoriaClinicaPorCitaDTO historia_por_cita = new HistoriaClinicaPorCitaDTO();
                 historia_por_cita.setHistoriaClinica(new HistoriaDAOImpl().obtenerPorId(this.resultSet.getInt("id_historia")));
                 historia_por_cita.setCita(new CitaDAOImpl().obtenerPorId(this.resultSet.getInt("id_cita")));
@@ -236,9 +236,9 @@ public class HistoriaClinicaPorCitaDAOImpl extends DAOImplBase implements Histor
                 historia_por_cita.setEvolucion(this.resultSet.getString("evolucion"));
                 historia_por_cita.setRecomendacion(this.resultSet.getString("recomendacion"));
                 historia_por_cita.setReceta(this.resultSet.getString("receta"));
-                lista.add(historia_por_cita);
+                this.historiaPorCita = historiaPorCita;
             }
-            return lista;
+            return this.historiaPorCita;
         } catch (SQLException ex) {
             System.err.println("Error al listar por cita");
         }

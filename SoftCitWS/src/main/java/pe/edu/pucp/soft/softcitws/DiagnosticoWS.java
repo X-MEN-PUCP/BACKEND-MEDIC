@@ -24,18 +24,18 @@ public class DiagnosticoWS {
         diagnosticoBO = new DiagnosticoBO();
     }
 
-    @WebMethod(operationName = "insertar")
-    public Integer insertar(@WebParam(name = "diagnostico")DiagnosticoDTO diagnostico) {
+    @WebMethod(operationName = "insertarDiagnostico")
+    public Integer insertarDiagnostico(@WebParam(name = "diagnostico")DiagnosticoDTO diagnostico) {
         return this.diagnosticoBO.insertar(diagnostico);
     }
 
-    @WebMethod(operationName = "obtenerPorId")
-    public DiagnosticoDTO obtenerPorId(@WebParam(name = "diagnosticoId")Integer diagnosticoId) {
+    @WebMethod(operationName = "obtenerPorIdDiagnostico")
+    public DiagnosticoDTO obtenerPorIdDiagnostico(@WebParam(name = "diagnosticoId")Integer diagnosticoId) {
         return this.diagnosticoBO.obtenerPorId(diagnosticoId);
     }
 
-    @WebMethod(operationName = "listarTodos")
-    public ArrayList<DiagnosticoDTO> listarTodos() {
+    @WebMethod(operationName = "listarTodosDiagnostico")
+    public ArrayList<DiagnosticoDTO> listarTodosDiagnostico() {
         return this.diagnosticoBO.listarTodos();
     }
 }

@@ -27,13 +27,13 @@ public class CitaWS {
         citaBO = new CitaBO();
     }
     
-    @WebMethod(operationName = "modificar")
-    public Integer modificar(@WebParam(name = "idCita")CitaDTO cita) {
+    @WebMethod(operationName = "modificarCita")
+    public Integer modificarCita(@WebParam(name = "idCita")CitaDTO cita) {
         return citaBO.modificar(cita);
     }
     
-    @WebMethod(operationName = "listarTodos")
-    public ArrayList<CitaDTO> listarTodos(){
+    @WebMethod(operationName = "listarTodosCita")
+    public ArrayList<CitaDTO> listarTodosCita(){
         return this.citaBO.listarTodos();
     }
     
@@ -51,8 +51,8 @@ public class CitaWS {
         return this.citaBO.buscarCitasDisponibles(idEspecialidad, codMedico, fecha);
     }
     
-    @WebMethod(operationName = "obtenerPorId")
-    public CitaDTO obtenerPorId(@WebParam(name = "id")Integer id){
+    @WebMethod(operationName = "obtenerPorIdCitaCita")
+    public CitaDTO obtenerPorIdCita(@WebParam(name = "id")Integer id){
         return this.citaBO.obtenerPorId(id);
     }
 }

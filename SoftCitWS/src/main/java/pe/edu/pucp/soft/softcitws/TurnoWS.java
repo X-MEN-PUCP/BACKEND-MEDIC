@@ -24,18 +24,18 @@ public class TurnoWS {
         this.turnoBO = new TurnoBO();
     }
     
-    @WebMethod(operationName = "modificar")
-    public Integer modificar(@WebParam(name = "turno")TurnoDTO turno){
+    @WebMethod(operationName = "modificarTurno")
+    public Integer modificarTurno(@WebParam(name = "turno")TurnoDTO turno){
         return this.turnoBO.modificar(turno);
     }
     
-    @WebMethod(operationName = "obtenerPorId")
-    public TurnoDTO obtenerPorId(@WebParam(name = "idTurno")Integer idTurno){
+    @WebMethod(operationName = "obtenerPorIdTurno")
+    public TurnoDTO obtenerPorIdTurno(@WebParam(name = "idTurno")Integer idTurno){
         return this.turnoBO.obtenerPorId(idTurno);
     }
     
-    @WebMethod(operationName = "listarTodos")
-    public ArrayList<TurnoDTO> listarTodos(){
+    @WebMethod(operationName = "listarTodosTurno")
+    public ArrayList<TurnoDTO> listarTodosTurno(){
         return this.turnoBO.listarTodos();
     }
 }

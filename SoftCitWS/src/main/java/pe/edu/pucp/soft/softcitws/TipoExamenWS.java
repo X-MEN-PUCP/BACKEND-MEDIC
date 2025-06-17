@@ -24,23 +24,23 @@ public class TipoExamenWS {
         this.tipoExamenBO = new TipoExamenBO();
     }
     
-    @WebMethod(operationName = "insertar")
-    public Integer insertar(@WebParam(name = "tipoExamen")TipoExamenDTO tipoExamen){
+    @WebMethod(operationName = "insertarTipoExamen")
+    public Integer insertarTipoExamen(@WebParam(name = "tipoExamen")TipoExamenDTO tipoExamen){
         return this.tipoExamenBO.insertar(tipoExamen);
     }
     
-    @WebMethod(operationName = "modificar")
-    public Integer modificar(@WebParam(name = "tipoExamen")TipoExamenDTO tipoExamen){
+    @WebMethod(operationName = "modificarTipoExamen")
+    public Integer modificarTipoExamen(@WebParam(name = "tipoExamen")TipoExamenDTO tipoExamen){
         return this.tipoExamenBO.modificar(tipoExamen);
     }
     
-    @WebMethod(operationName = "obtenerPorId")
-    public TipoExamenDTO obtenerPorId(@WebParam(name = "tipoExamenId")Integer tipoExamenId){
+    @WebMethod(operationName = "obtenerPorIdTipoExamen")
+    public TipoExamenDTO obtenerPorIdTipoExamen(@WebParam(name = "tipoExamenId")Integer tipoExamenId){
         return this.tipoExamenBO.obtenerPorId(tipoExamenId);
     }
     
-    @WebMethod(operationName = "listarTodos")
-    public ArrayList<TipoExamenDTO> listarTodos(){
+    @WebMethod(operationName = "listarTodosTipoExamen")
+    public ArrayList<TipoExamenDTO> listarTodosTipoExamen(){
         return this.tipoExamenBO.listarTodos();
     }
 }

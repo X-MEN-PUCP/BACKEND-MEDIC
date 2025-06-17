@@ -26,14 +26,14 @@ public class MedicoWS {
         this.medicoBo = new MedicoBO();
     }
     
-    @WebMethod(operationName = "listarCitasProgramadas")
-    public ArrayList<CitaDTO> listarCitasProgramadas(
+    @WebMethod(operationName = "listarCitasProgramadasMedico")
+    public ArrayList<CitaDTO> listarCitasProgramadasMedico(
             @WebParam(name = "codMedico")Integer codMedico) {
         return this.medicoBo.listarCitasProgramadas(codMedico);
     }
     
-    @WebMethod(operationName = "llenarEpicrisis")
-    public Integer llenarEpicrisis(
+    @WebMethod(operationName = "llenarEpicrisisMedico")
+    public Integer llenarEpicrisisMedico(
             @WebParam(name = "epiciris")HistoriaClinicaPorCitaDTO epiciris){
         return this.medicoBo.llenarEpicrisis(epiciris);
     }

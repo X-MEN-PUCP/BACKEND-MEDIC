@@ -26,42 +26,42 @@ public class UsuarioWS {
         this.usuarioBO = new UsuarioBO();
     }
     
-    @WebMethod(operationName = "obtenerPorId")
-    public UsuarioDTO obtenerPorId(@WebParam(name = "id")Integer id){
+    @WebMethod(operationName = "obtenerPorIdUsuario")
+    public UsuarioDTO obtenerPorIdUsuario(@WebParam(name = "id")Integer id){
         return this.usuarioBO.obtenerPorId(id);
     }
     
-    @WebMethod(operationName = "buscarCuenta")
-    public UsuarioDTO buscarCuenta(@WebParam(name = "nroDocumento")String nroDocumento,
+    @WebMethod(operationName = "buscarCuentaUsuario")
+    public UsuarioDTO buscarCuentaUsuario(@WebParam(name = "nroDocumento")String nroDocumento,
             @WebParam(name = "tipoDoc")String tipoDoc,
             @WebParam(name = "contrasenha")String contrasenha){
         return this.usuarioBO.buscarCuenta(nroDocumento, tipoDoc, contrasenha);
     }
     
-    @WebMethod(operationName = "insertar")
-    public Integer insertar(@WebParam(name = "usuario")UsuarioDTO usuario){
+    @WebMethod(operationName = "insertarUsuario")
+    public Integer insertarUsuario(@WebParam(name = "usuario")UsuarioDTO usuario){
         return this.usuarioBO.insertar(usuario);
     }
     
-    @WebMethod(operationName = "modificar")
-    public Integer modificar(@WebParam(name = "usuario")UsuarioDTO usuario){
+    @WebMethod(operationName = "modificarUsuario")
+    public Integer modificarUsuario(@WebParam(name = "usuario")UsuarioDTO usuario){
         return this.usuarioBO.modificar(usuario);
     }
     
-    @WebMethod(operationName = "cambiarEstadoGeneral")
-    public Integer cambiarEstadoGeneral(@WebParam(name = "usuario")UsuarioDTO usuario,
+    @WebMethod(operationName = "cambiarEstadoGeneralUsuario")
+    public Integer cambiarEstadoGeneralUsuario(@WebParam(name = "usuario")UsuarioDTO usuario,
             @WebParam(name = "estadoGeneral")Integer estadoGeneral){
         return this.usuarioBO.cambiarEstadoGeneral(usuario,estadoGeneral);
     }
     
-    @WebMethod(operationName = "cambiarEstadoLogico")
-    public Integer cambiarEstadoLogico(@WebParam(name = "usuario")UsuarioDTO usuario,
+    @WebMethod(operationName = "cambiarEstadoLogicoUsuario")
+    public Integer cambiarEstadoLogicoUsuario(@WebParam(name = "usuario")UsuarioDTO usuario,
             @WebParam(name = "estadoLogico")Integer estadoLogico){
         return this.usuarioBO.cambiarEstadoLogico(usuario,estadoLogico);
     }
     
-    @WebMethod(operationName = "completarRoles")
-    public UsuarioDTO completarRoles(@WebParam(name = "usuario")UsuarioDTO usuario){
+    @WebMethod(operationName = "completarRolesUsuario")
+    public UsuarioDTO completarRolesUsuario(@WebParam(name = "usuario")UsuarioDTO usuario){
         return this.usuarioBO.completarRoles(usuario);
     }
 }

@@ -24,20 +24,20 @@ public class UsuarioPorEspecialidadWS {
         this.usuarioPorEspecialidadBO = new UsuarioPorEspecialidadBO();
     }
     
-    @WebMethod(operationName = "listarPorUsuario")
-    public ArrayList<UsuarioPorEspecialidadDTO> listarPorUsuario(
+    @WebMethod(operationName = "listarPorUsuarioUsuarioPorEspecialidad")
+    public ArrayList<UsuarioPorEspecialidadDTO> listarPorUsuarioUsuarioPorEspecialidad(
             @WebParam(name = "id")Integer id){
         return this.usuarioPorEspecialidadBO.listarPorUsuario(id);
     }
     
-    @WebMethod(operationName = "listarPorEspecialidad")
-    public ArrayList<UsuarioPorEspecialidadDTO> listarPorEspecialidad(
+    @WebMethod(operationName = "listarPorEspecialidadUsuarioPorEspecialidad")
+    public ArrayList<UsuarioPorEspecialidadDTO> listarPorEspecialidadUsuarioPorEspecialidad(
             @WebParam(name = "idEspecialidad")Integer idEspecialidad){
         return this.usuarioPorEspecialidadBO.listarPorEspecialidad(idEspecialidad);
     }
     
-    @WebMethod(operationName = "insertar")
-    public Integer insertar(
+    @WebMethod(operationName = "insertarUsuarioPorEspecialidad")
+    public Integer insertarUsuarioPorEspecialidad(
             @WebParam(name = "usuarioXespecialidad")
                     UsuarioPorEspecialidadDTO usuarioXespecialidad){
         return this.usuarioPorEspecialidadBO.insertar(usuarioXespecialidad);

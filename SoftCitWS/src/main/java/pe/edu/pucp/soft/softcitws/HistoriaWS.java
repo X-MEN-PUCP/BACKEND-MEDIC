@@ -24,23 +24,23 @@ public class HistoriaWS {
         historiaBO = new HistoriaBO();
     }
     
-    @WebMethod(operationName = "listar")
-    public ArrayList<HistoriaClinicaDTO> listar(){
+    @WebMethod(operationName = "listarHistoria")
+    public ArrayList<HistoriaClinicaDTO> listarHistoria(){
         return this.historiaBO.listar();
     }
     
-    @WebMethod(operationName = "insertar")
-    public Integer insertar(@WebParam(name = "historia")HistoriaClinicaDTO historia){
+    @WebMethod(operationName = "insertarHistoria")
+    public Integer insertarHistoria(@WebParam(name = "historia")HistoriaClinicaDTO historia){
         return this.historiaBO.insertar(historia);
     }
     
-    @WebMethod(operationName = "obtenerPorIdPaciente")
-    public HistoriaClinicaDTO obtenerPorIdPaciente(@WebParam(name = "id")Integer id){
+    @WebMethod(operationName = "obtenerHistoriaPorIdPaciente")
+    public HistoriaClinicaDTO obtenerHistoriaPorIdPaciente(@WebParam(name = "id")Integer id){
         return this.historiaBO.obtenerPorIdPaciente(id);
     }
     
-    @WebMethod(operationName = "obtenerPorId")
-    public HistoriaClinicaDTO obtenerPorId(@WebParam(name = "id")Integer id){
+    @WebMethod(operationName = "obtenerHistoriaPorId")
+    public HistoriaClinicaDTO obtenerHistoriaPorId(@WebParam(name = "id")Integer id){
         return this.historiaBO.obtenerPorId(id);
     }
 }

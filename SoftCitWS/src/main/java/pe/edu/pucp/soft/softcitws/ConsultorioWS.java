@@ -24,23 +24,23 @@ public class ConsultorioWS {
         consultorioBO = new ConsultorioBO();
     }
     
-    @WebMethod(operationName = "insertar")
-    public Integer insertar(@WebParam(name = "consultorio")ConsultorioDTO consultorio){
+    @WebMethod(operationName = "insertarConsultorio")
+    public Integer insertarConsultorio(@WebParam(name = "consultorio")ConsultorioDTO consultorio){
         return this.consultorioBO.insertar(consultorio);
     }
     
-    @WebMethod(operationName = "modificar")
-    public Integer modificar(@WebParam(name = "consultorio")ConsultorioDTO consultorio){
+    @WebMethod(operationName = "modificarConsultorio")
+    public Integer modificarConsultorio(@WebParam(name = "consultorio")ConsultorioDTO consultorio){
         return this.consultorioBO.modificar(consultorio);
     }
     
-    @WebMethod(operationName = "obtenerPorId")
-    public ConsultorioDTO obtenerPorId(@WebParam(name = "consultorioId")Integer consultorioId){
+    @WebMethod(operationName = "obtenerPorIdConsultorio")
+    public ConsultorioDTO obtenerPorIdConsultorio(@WebParam(name = "consultorioId")Integer consultorioId){
         return this.consultorioBO.obtenerPorId(consultorioId);
     }
     
-    @WebMethod(operationName = "listarTodos")
-    public ArrayList<ConsultorioDTO> listarTodos(){
+    @WebMethod(operationName = "listarTodosConsultorio")
+    public ArrayList<ConsultorioDTO> listarTodosConsultorio(){
         return this.consultorioBO.listarTodos();
     }
 }

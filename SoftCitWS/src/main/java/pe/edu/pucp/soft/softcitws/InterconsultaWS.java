@@ -24,20 +24,20 @@ public class InterconsultaWS {
         this.interconsultaBO = new InterconsultaBO();
     }
 
-    @WebMethod(operationName = "insertar")
-    public Integer insertar(@WebParam(name = "turno") InterconsultaDTO turno) {
+    @WebMethod(operationName = "insertarInterconuslta")
+    public Integer insertarInterconuslta(@WebParam(name = "turno") InterconsultaDTO turno) {
         return this.interconsultaBO.insertar(turno);
     }
 
-    @WebMethod(operationName = "obtenerPorId")
-    public InterconsultaDTO obtenerPorId(
+    @WebMethod(operationName = "obtenerPorIdInterconuslta")
+    public InterconsultaDTO obtenerPorIdInterconuslta(
             @WebParam(name = "idEspecialidad")Integer idEspecialidad,
             @WebParam(name = "idCita")Integer idCita) {
         return this.interconsultaBO.obtenerPorId(idEspecialidad, idCita);
     }
     
-    @WebMethod(operationName = "listarTodos")
-    public ArrayList<InterconsultaDTO> listarTodos() {
+    @WebMethod(operationName = "listarTodosInterconuslta")
+    public ArrayList<InterconsultaDTO> listarTodosInterconuslta() {
         return this.interconsultaBO.listarTodos();
     }
 }

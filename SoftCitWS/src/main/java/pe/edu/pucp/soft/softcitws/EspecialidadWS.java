@@ -25,18 +25,18 @@ public class EspecialidadWS {
         especialidadBO = new EspecialidadBO();
     }
     
-    @WebMethod(operationName = "listar")
-    public ArrayList<EspecialidadDTO> listar(){
+    @WebMethod(operationName = "listarEspecialidad")
+    public ArrayList<EspecialidadDTO> listarEspecialidad(){
         return this.especialidadBO.listar();
     }
 
-    @WebMethod(operationName = "insertar")
-    public Integer insertar(@WebParam(name = "especialidad")EspecialidadDTO especialidad){
+    @WebMethod(operationName = "insertarEspecialidad")
+    public Integer insertarEspecialidad(@WebParam(name = "especialidad")EspecialidadDTO especialidad){
         return this.especialidadBO.insertar(especialidad);
     }
 
-    @WebMethod(operationName = "modificar")
-    public Integer modificar(@WebParam(name = "especialidad")EspecialidadDTO especialidad){
+    @WebMethod(operationName = "modificarEspecialidad")
+    public Integer modificarEspecialidad(@WebParam(name = "especialidad")EspecialidadDTO especialidad){
         return this.especialidadBO.modificar(especialidad);
     }
 
@@ -48,8 +48,8 @@ public class EspecialidadWS {
         return this.especialidadBO.modificar(especialidad);
     }
     
-    @WebMethod(operationName = "obtenerPorId")
-    public EspecialidadDTO obtenerPorId(@WebParam(name = "id")Integer id){
+    @WebMethod(operationName = "obtenerPorIdTablaEspecialidad")
+    public EspecialidadDTO obtenerPorIdTablaEspecialidad(@WebParam(name = "id")Integer id){
         return this.especialidadBO.obtenerPorId(id);
     }
 }
