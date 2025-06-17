@@ -69,7 +69,7 @@ public class PacienteBO {
         return modificar;
     }
      
-     public int Reprogarar(CitaDTO citaAntigua,CitaDTO citaNueva,HistoriaClinicaPorCitaDTO historia_por_cita) {
+     public int reprogramar(CitaDTO citaAntigua,CitaDTO citaNueva,HistoriaClinicaPorCitaDTO historia_por_cita) {
         //actualizar cita (Estado: disponible)
         citaAntigua.setEstado(EstadoCita.DISPONIBLE);
         

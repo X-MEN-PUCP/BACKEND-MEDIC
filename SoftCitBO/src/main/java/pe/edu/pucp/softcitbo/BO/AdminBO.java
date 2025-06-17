@@ -39,5 +39,4 @@ public class AdminBO {
         
         return this.rolesPorUsuarioDao.insertar(usuarioPorRol);
     }
-    
 }
