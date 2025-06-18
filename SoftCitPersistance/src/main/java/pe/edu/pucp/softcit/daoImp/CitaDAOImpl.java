@@ -24,8 +24,6 @@ import pe.edu.pucp.softcit.dao.ConsultorioDAO;
 import pe.edu.pucp.softcit.dao.UsuarioDAO;
 import pe.edu.pucp.softcit.dao.TurnoDAO;
 import pe.edu.pucp.softcit.dao.EspecialidadDAO;
-import pe.edu.pucp.softcit.daoImp.UsuarioDAOImpl;
-import pe.edu.pucp.softcit.daoImp.EspecialidadDAOImpl;
 /**
  *
  * @author Mcerv
@@ -105,6 +103,11 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO{
         EstadoCita estado = EstadoCita.valueOfCodigo(idEstado);
         this.cita.setEstado(estado);
     }
+    
+    @Override
+    protected void incluirValorDeParametrosParaObtenerPorId() throws SQLException {
+        this.statement.setInt(1, this.cita.getIdCita());
+    }
 
     @Override
     protected void limpiarObjetoDelResultSet() {
@@ -129,33 +132,33 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO{
     }
     
     @Override
-    public ArrayList<CitaDTO> listarCitasProgramadas(Integer codMedico){
+    public ArrayList<CitaDTO> listarCitasProgramadas(Integer idMedico){
         Integer idEspecialidad = null;
         LocalDate fecha = null;
-        return this.buscarCitasDisponibles(idEspecialidad, codMedico, fecha);
+        return this.buscarCitasDisponibles(idEspecialidad, idMedico, fecha);
     }
     
     @Override
-    public ArrayList<CitaDTO> buscarCitasDisponibles(Integer idEspecialidad, Integer codMedico, LocalDate fecha) {
+    public ArrayList<CitaDTO> buscarCitasDisponibles(Integer idEspecialidad, Integer idMedico, LocalDate fecha) {
         Boolean conEspecialidad = (idEspecialidad!=null);
-        Boolean conCodMedico = (codMedico!=null);
+        Boolean conIdMedico = (idMedico!=null);
         Boolean conFecha = (fecha!=null);
         
-        String sql = this.generarSQLParaBuscarCitas(conEspecialidad, conCodMedico, conFecha);
+        String sql = this.generarSQLParaBuscarCitas(conEspecialidad, conIdMedico, conFecha);
         Date fechaD = (fecha!=null?Date.valueOf(fecha):null);
         List<Object> params = new ArrayList<>();
 
         if (idEspecialidad != null)
             params.add(idEspecialidad);
-        if (codMedico != null) 
-            params.add(codMedico);
+        if (idMedico != null) 
+            params.add(idMedico);
         if (fecha != null) 
             params.add(fechaD);
         
         return (ArrayList<CitaDTO>) super.listarTodos(sql, this::incluirValorDeParametros, params);
     }
     
-    private String generarSQLParaBuscarCitas(Boolean conEspecialidad,Boolean conCodMedico,Boolean conFecha) {
+    private String generarSQLParaBuscarCitas(Boolean conEspecialidad,Boolean conIdMedico,Boolean conFecha) {
         /*
         "SELECT * "
                 + "FROM cita c "
@@ -167,7 +170,7 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO{
         String sql = "SELECT ";
         String sql_columnas = "";
         String sql_predicado = "";
-        sql_predicado = sql_predicado.concat(" c.estado = 1 ");
+        sql_predicado = sql_predicado.concat(" c.estado_cita = 1 ");
         for (Columna columna : this.listaColumnas) {
             if (!sql_columnas.isBlank()) {
                 sql_columnas = sql_columnas.concat(", ");
@@ -185,8 +188,8 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO{
         if (conEspecialidad) {
             sql_predicado= sql_predicado.concat("AND e.id_especialidad = ? ");
         }
-        if (conCodMedico) {
-            sql_predicado= sql_predicado.concat("AND u.cod_medico = ? ");
+        if (conIdMedico) {
+            sql_predicado= sql_predicado.concat("AND u.id_usuario = ? ");
         }
         if (conFecha) {
             sql_predicado= sql_predicado.concat("AND DATE(c.fecha_cita) = ? ");

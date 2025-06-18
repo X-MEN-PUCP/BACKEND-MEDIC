@@ -173,7 +173,7 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
     public UsuarioDTO obtenerPorId(Integer id) {
         this.usuario = new UsuarioDTO();
         this.usuario.setIdUsuario(id);
-        super.obtenerPorId();;
+        super.obtenerPorId();
         return this.usuario;
     }
 

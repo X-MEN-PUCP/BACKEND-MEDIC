@@ -58,6 +58,7 @@ public class TurnoDAOImpl extends DAOImplBase implements TurnoDAO{
         this.turno.setEstadoGeneral(EstadoGeneral.valueOfCodigo(this.resultSet.getInt("estado_general")));
     }
 
+    @Override
     public Integer modificar(TurnoDTO turno) {
         this.turno=turno;
         return super.modificar();
