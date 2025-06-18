@@ -103,6 +103,11 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO{
         EstadoCita estado = EstadoCita.valueOfCodigo(idEstado);
         this.cita.setEstado(estado);
     }
+    
+    @Override
+    protected void incluirValorDeParametrosParaObtenerPorId() throws SQLException {
+        this.statement.setInt(1, this.cita.getIdCita());
+    }
 
     @Override
     protected void limpiarObjetoDelResultSet() {
