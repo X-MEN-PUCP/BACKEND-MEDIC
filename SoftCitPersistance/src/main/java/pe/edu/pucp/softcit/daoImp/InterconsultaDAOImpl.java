@@ -68,6 +68,7 @@ public class InterconsultaDAOImpl extends DAOImplBase implements InterconsultaDA
         this.interconsulta.setRazonInterconsulta(this.resultSet.getString("razon_interconsulta"));
     }
     
+    @Override
     public Integer insertar(InterconsultaDTO interconsulta) {
        this.interconsulta=interconsulta;
        return super.insertar();
