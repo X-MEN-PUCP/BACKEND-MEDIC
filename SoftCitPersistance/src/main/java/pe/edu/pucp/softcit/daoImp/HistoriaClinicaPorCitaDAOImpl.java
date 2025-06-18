@@ -185,7 +185,7 @@ public class HistoriaClinicaPorCitaDAOImpl extends DAOImplBase implements Histor
             ArrayList<HistoriaClinicaPorCitaDTO> lista;
             lista = new ArrayList<>();
             this.conexion = DBManager.getInstance().getConnection();
-            String sql = "SELECT * FROM historia_clinica_por_cita WHERE id_cita = ?";
+            String sql = "SELECT * FROM historia_clinica_por_cita WHERE id_historia = ?";
             this.statement = this.conexion.prepareCall(sql);
             this.statement.setInt(1, idHistoria);
             this.resultSet = this.statement.executeQuery();
@@ -203,7 +203,8 @@ public class HistoriaClinicaPorCitaDAOImpl extends DAOImplBase implements Histor
                 historia_por_cita.setEvolucion(this.resultSet.getString("evolucion"));
                 historia_por_cita.setRecomendacion(this.resultSet.getString("recomendacion"));
                 historia_por_cita.setReceta(this.resultSet.getString("receta"));
-                lista.add(historia_por_cita);
+                this.historiaPorCita = historia_por_cita;
+                lista.add(this.historiaPorCita);
             }
             return lista;
         } catch (SQLException ex) {
@@ -236,7 +237,7 @@ public class HistoriaClinicaPorCitaDAOImpl extends DAOImplBase implements Histor
                 historia_por_cita.setEvolucion(this.resultSet.getString("evolucion"));
                 historia_por_cita.setRecomendacion(this.resultSet.getString("recomendacion"));
                 historia_por_cita.setReceta(this.resultSet.getString("receta"));
-                this.historiaPorCita = historiaPorCita;
+                this.historiaPorCita = historia_por_cita;
             }
             return this.historiaPorCita;
         } catch (SQLException ex) {
