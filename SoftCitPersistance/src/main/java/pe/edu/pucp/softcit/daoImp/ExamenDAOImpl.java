@@ -51,7 +51,7 @@ public class ExamenDAOImpl extends DAOImplBase implements ExamenDAO{
     protected void instanciarObjetoDelResultSet() throws SQLException {
         this.examen = new ExamenDTO();
         this.examen.setIdExamen(this.resultSet.getInt("id_examen"));
-        this.examen.setNombreExamen(this.resultSet.getString("nombre_diagnostico"));
+        this.examen.setNombreExamen(this.resultSet.getString("nombre_examen"));
         //cargar Tipo de examen
         Integer idTipoExamen = this.resultSet.getInt("id_tipo_de_examen");
         TipoExamenDAO tipoExamenDAO = new TipoExamenDAOImpl();

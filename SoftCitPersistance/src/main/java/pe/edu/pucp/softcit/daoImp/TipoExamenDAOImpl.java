@@ -6,6 +6,7 @@ package pe.edu.pucp.softcit.daoImp;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import pe.edu.pucp.softcit.dao.TipoExamenDAO;
 import pe.edu.pucp.softcit.daoImp.util.Columna;
 import pe.edu.pucp.softcit.model.TipoExamenDTO;
@@ -80,6 +81,13 @@ public class TipoExamenDAOImpl extends DAOImplBase implements TipoExamenDAO{
         super.obtenerPorId();
         return this.tipoExamen;
     }
+    
+    @Override
+    protected void agregarObjetoALaLista(List lista) throws SQLException {
+        this.instanciarObjetoDelResultSet();
+        lista.add(this.tipoExamen);
+    }
+    
     
     @Override
     public ArrayList<TipoExamenDTO> listarTodos() {
