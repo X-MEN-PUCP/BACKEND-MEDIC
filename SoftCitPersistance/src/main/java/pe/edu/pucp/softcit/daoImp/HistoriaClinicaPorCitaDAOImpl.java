@@ -188,7 +188,7 @@ public class HistoriaClinicaPorCitaDAOImpl extends DAOImplBase implements Histor
             String sql = "SELECT * FROM historia_clinica_por_cita WHERE id_historia = ?";
             this.statement = this.conexion.prepareCall(sql);
             this.statement.setInt(1, idHistoria);
-            this.resultSet = this.statement.executeQuery();
+            this.ejecutarConsultaEnBD();
             while (this.resultSet.next()) {
                 HistoriaClinicaPorCitaDTO historia_por_cita = new HistoriaClinicaPorCitaDTO();
                 historia_por_cita.setHistoriaClinica(new HistoriaDAOImpl().obtenerPorId(this.resultSet.getInt("id_historia")));
