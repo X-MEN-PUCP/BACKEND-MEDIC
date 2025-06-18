@@ -9,5 +9,5 @@ package pe.edu.pucp.softcit.model;
  * @author Mcerv
  */
 public enum TipoDocumento {
-    DNI, CARNET_EXTRANJERIA
+    DNI, CE
 }

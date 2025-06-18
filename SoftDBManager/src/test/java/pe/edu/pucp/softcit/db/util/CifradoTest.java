@@ -23,7 +23,7 @@ public class CifradoTest {
     
     @Test
     public void testCifrarMD5() {
-        String clave = "pass1";
+        String clave = "admin1";
         String claveCifrada;
         claveCifrada = cifrado.cifrarMD5(clave);
         System.out.println("Clave Cifrada>"+claveCifrada+"<");
@@ -31,25 +31,49 @@ public class CifradoTest {
         claveDecifrada = cifrado.descifrarMD5(claveCifrada);
         System.out.println("Clave decifrada>"+claveDecifrada+"<");
         
-        clave = "pass2";
+        clave = "admin2";
         claveCifrada = cifrado.cifrarMD5(clave);
         System.out.println("Clave Cifrada>"+claveCifrada+"<");
         claveDecifrada = cifrado.descifrarMD5(claveCifrada);
         System.out.println("Clave decifrada>"+claveDecifrada+"<");
         
-        clave = "pass3";
+        clave = "med1";
         claveCifrada = cifrado.cifrarMD5(clave);
         System.out.println("Clave Cifrada>"+claveCifrada+"<");
         claveDecifrada = cifrado.descifrarMD5(claveCifrada);
         System.out.println("Clave decifrada>"+claveDecifrada+"<");
         
-        clave = "pass4";
+        clave = "med2";
         claveCifrada = cifrado.cifrarMD5(clave);
         System.out.println("Clave Cifrada>"+claveCifrada+"<");
         claveDecifrada = cifrado.descifrarMD5(claveCifrada);
         System.out.println("Clave decifrada>"+claveDecifrada+"<");
         
-        clave = "pass5";
+        clave = "med3";
+        claveCifrada = cifrado.cifrarMD5(clave);
+        System.out.println("Clave Cifrada>"+claveCifrada+"<");
+        claveDecifrada = cifrado.descifrarMD5(claveCifrada);
+        System.out.println("Clave decifrada>"+claveDecifrada+"<");
+        
+        clave = "pac1";
+        claveCifrada = cifrado.cifrarMD5(clave);
+        System.out.println("Clave Cifrada>"+claveCifrada+"<");
+        claveDecifrada = cifrado.descifrarMD5(claveCifrada);
+        System.out.println("Clave decifrada>"+claveDecifrada+"<");
+        
+        clave = "pac2";
+        claveCifrada = cifrado.cifrarMD5(clave);
+        System.out.println("Clave Cifrada>"+claveCifrada+"<");
+        claveDecifrada = cifrado.descifrarMD5(claveCifrada);
+        System.out.println("Clave decifrada>"+claveDecifrada+"<");
+        
+        clave = "pac3";
+        claveCifrada = cifrado.cifrarMD5(clave);
+        System.out.println("Clave Cifrada>"+claveCifrada+"<");
+        claveDecifrada = cifrado.descifrarMD5(claveCifrada);
+        System.out.println("Clave decifrada>"+claveDecifrada+"<");
+        
+        clave = "pac4";
         claveCifrada = cifrado.cifrarMD5(clave);
         System.out.println("Clave Cifrada>"+claveCifrada+"<");
         claveDecifrada = cifrado.descifrarMD5(claveCifrada);
