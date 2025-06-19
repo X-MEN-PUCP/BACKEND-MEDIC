@@ -4,7 +4,6 @@
  */
 package pe.edu.pucp.softcit.model;
 
-import java.util.Date;
 
 /**
  *
