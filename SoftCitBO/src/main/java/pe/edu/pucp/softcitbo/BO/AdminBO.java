@@ -35,4 +35,8 @@ public class AdminBO {
         
         return this.rolesPorUsuarioDao.insertar(usuarioPorRol);
     }
+    
+    public Integer eliminarRol(UsuarioPorRolDTO usuarioPorRol){
+        return this.rolesPorUsuarioDao.eliminar(usuarioPorRol);
+    }
 }

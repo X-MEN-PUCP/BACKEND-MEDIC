@@ -8,6 +8,7 @@ import jakarta.jws.WebService;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
 import pe.edu.pucp.softcit.model.UsuarioDTO;
+import pe.edu.pucp.softcit.model.UsuarioPorRolDTO;
 import pe.edu.pucp.softcitbo.BO.AdminBO;
 /**
  *
@@ -16,7 +17,7 @@ import pe.edu.pucp.softcitbo.BO.AdminBO;
 @WebService(serviceName = "AdminWS")
 public class AdminWS {
     
-    private AdminBO adminBO;
+    private final AdminBO adminBO;
     
     public AdminWS(){
         this.adminBO = new AdminBO();
@@ -28,5 +29,8 @@ public class AdminWS {
         return this.adminBO.asignarNuevoRol(usuario, idRol);
     }
     
-    
+    @WebMethod(operationName = "eliminarRolDeUsuario")
+    public Integer eliminarRolDeUsuario(@WebParam(name="rolPorUsuario") UsuarioPorRolDTO usuarioPorRol){
+        return this.adminBO.eliminarRol(usuarioPorRol);
+    }
 }

@@ -26,6 +26,22 @@ public class PacienteBOTest {
     public PacienteBOTest() {
     }
 
+    @BeforeAll
+    public static void setUpClass() throws Exception {
+    }
+
+    @AfterAll
+    public static void tearDownClass() throws Exception {
+    }
+
+    @BeforeEach
+    public void setUp() throws Exception {
+    }
+
+    @AfterEach
+    public void tearDown() throws Exception {
+    }
+
     /**
      * Test of listarCitas method, of class PacienteBO.
      */
@@ -104,5 +120,69 @@ public class PacienteBOTest {
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
+
+    /**
+     * Test of reservarCita method, of class PacienteBO.
+     */
+    @Test
+    public void testReservarCita() {
+        System.out.println("reservarCita");
+        CitaDTO cita = null;
+        UsuarioDTO paciente = null;
+        PacienteBO instance = new PacienteBO();
+        int expResult = 0;
+        int result = instance.reservarCita(cita, paciente);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of cancelarCita method, of class PacienteBO.
+     */
+    @Test
+    public void testCancelarCita() {
+        System.out.println("cancelarCita");
+        CitaDTO cita = null;
+        HistoriaClinicaPorCitaDTO historia_por_cita = null;
+        PacienteBO instance = new PacienteBO();
+        int expResult = 0;
+        int result = instance.cancelarCita(cita, historia_por_cita);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of reprogramar method, of class PacienteBO.
+     */
+    @Test
+    public void testReprogramar() {
+        System.out.println("reprogramar");
+        CitaDTO citaAntigua = null;
+        CitaDTO citaNueva = null;
+        HistoriaClinicaPorCitaDTO historia_por_cita = null;
+        PacienteBO instance = new PacienteBO();
+        int expResult = 0;
+        int result = instance.reprogramar(citaAntigua, citaNueva, historia_por_cita);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of listarCitasPorPersona method, of class PacienteBO.
+     */
+    @Test
+    public void testListarCitasPorPersona() {
+        System.out.println("listarCitasPorPersona");
+        HistoriaClinicaDTO historia = null;
+        PacienteBO instance = new PacienteBO();
+        ArrayList<HistoriaClinicaPorCitaDTO> expResult = null;
+        ArrayList<HistoriaClinicaPorCitaDTO> result = instance.listarCitasPorPersona(historia);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
     
 }

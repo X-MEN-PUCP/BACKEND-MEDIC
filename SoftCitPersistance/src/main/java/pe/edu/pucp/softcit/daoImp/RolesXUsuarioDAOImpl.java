@@ -38,7 +38,6 @@ public class RolesXUsuarioDAOImpl extends DAOImplBase implements RolesXUsuarioDA
         
     }
     
-    
     @Override
     protected void incluirValorDeParametrosParaInsercion() throws SQLException {
         this.statement.setInt(1, this.usarioPorRol.getRol().getIdRol());
@@ -46,7 +45,11 @@ public class RolesXUsuarioDAOImpl extends DAOImplBase implements RolesXUsuarioDA
         this.statement.setInt(3, EstadoGeneral.ACTIVO.getCodigo());
     }
     
-    
+    @Override
+    protected void incluirValorDeParametrosParaEliminacion() throws SQLException {
+        this.statement.setInt(1, this.usarioPorRol.getRol().getIdRol());
+        this.statement.setInt(2, this.usarioPorRol.getUsuarioDTO().getIdUsuario());
+    }
     
     @Override
     protected void instanciarObjetoDelResultSet() throws SQLException {
@@ -88,6 +91,12 @@ public class RolesXUsuarioDAOImpl extends DAOImplBase implements RolesXUsuarioDA
     public Integer insertar(UsuarioPorRolDTO usarioPorRol) {
         this.usarioPorRol = usarioPorRol;
         return super.insertar();
+    }
+    
+    @Override
+    public Integer eliminar(UsuarioPorRolDTO usuarioPorRol) {
+        this.usarioPorRol = usuarioPorRol;
+        return super.eliminar();
     }
 
     @Override
