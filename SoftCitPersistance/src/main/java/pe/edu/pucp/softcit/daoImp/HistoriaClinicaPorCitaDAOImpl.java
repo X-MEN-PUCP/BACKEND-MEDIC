@@ -128,6 +128,12 @@ public class HistoriaClinicaPorCitaDAOImpl extends DAOImplBase implements Histor
         this.statement.setInt(12, this.historiaPorCita.getHistoriaClinica().getIdHistoriaClinica());
         this.statement.setInt(13, this.historiaPorCita.getCita().getIdCita());
     }
+    
+    @Override
+    protected void incluirValorDeParametrosParaEliminacion() throws SQLException {
+        this.statement.setInt(1, this.historiaPorCita.getHistoriaClinica().getIdHistoriaClinica());
+        this.statement.setInt(2, this.historiaPorCita.getCita().getIdCita());
+    }
 
     @Override
     protected void instanciarObjetoDelResultSet() throws SQLException {
@@ -146,9 +152,6 @@ public class HistoriaClinicaPorCitaDAOImpl extends DAOImplBase implements Histor
         this.historiaPorCita.setRecomendacion(this.resultSet.getString("recomendacion"));
         this.historiaPorCita.setReceta(this.resultSet.getString("receta"));
         this.historiaPorCita.setEstadoGeneral(EstadoGeneral.valueOfCodigo(this.resultSet.getInt("estado"))); //13
-
-        
-
     }
 
     @Override
@@ -173,15 +176,20 @@ public class HistoriaClinicaPorCitaDAOImpl extends DAOImplBase implements Histor
         this.historiaPorCita = historiaPorCita;
         return super.modificar();
     }
+    
+    @Override
+    public Integer eliminar(HistoriaClinicaPorCitaDTO historiaPorCita) {
+        this.historiaPorCita = historiaPorCita;
+        return super.eliminar();
+    }
 
     @Override
     public ArrayList<HistoriaClinicaPorCitaDTO> listarTodos() {
         return (ArrayList<HistoriaClinicaPorCitaDTO>) super.listarTodos();
     }
-
+    //refactorizar
     @Override
     public ArrayList<HistoriaClinicaPorCitaDTO> listarPorIdHistoria(Integer idHistoria) {       
-        
         ArrayList<HistoriaClinicaPorCitaDTO> lista = new ArrayList<>();
         this.historiaPorCita = null;
         try {

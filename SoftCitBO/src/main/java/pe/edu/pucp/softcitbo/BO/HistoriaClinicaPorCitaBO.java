@@ -41,4 +41,8 @@ public class HistoriaClinicaPorCitaBO {
         return this.historiaClinicaPorCitaDao.ObtenerPorIdCita(idCita);
     }
     
+    public Integer eliminar(HistoriaClinicaPorCitaDTO historiaPorCita){
+        return this.historiaClinicaPorCitaDao.eliminar(historiaPorCita);
+    }
+    
 }

@@ -22,75 +22,75 @@ import pe.edu.pucp.softcit.model.UsuarioDTO;
 public class PacienteBO {
     
     private final CitaBO citaBO;
+    private final HistoriaClinicaPorCitaBO historiaClinicaPorCitaBO;
+    private final HistoriaBO historiaBO;
     
     public PacienteBO(){
         this.citaBO = new CitaBO();
+        this.historiaClinicaPorCitaBO = new HistoriaClinicaPorCitaBO();
+        this.historiaBO = new HistoriaBO();
     }
     
+    //falta arreglar
     public ArrayList<CitaDTO> listarCitas(Integer idEspecialidad, String fecha, Integer idMedico){
         ArrayList<CitaDTO> citas = new ArrayList<>();
         if (idMedico != null || idEspecialidad != null) {
            citas = this.citaBO.buscarCitasDisponibles(idEspecialidad, idMedico, fecha);
         } else {
             System.out.println("Debe seleccionar una especialidad o un médico. Error listar Citas");
-            
         }
         return citas;
     }
     
     
-     public int reservarCita(CitaDTO cita, UsuarioDTO paciente) {//es id de cuenta o id persona?
+     public int reservarCita(CitaDTO cita, UsuarioDTO paciente){
         //actualizar cita (Estado: reservado)
         System.out.println("Modificando estado de cita");
         cita.setEstado(EstadoCita.RESERVADO);
-        //Integer id = super.getIdCuenta();
+        this.citaBO.modificar(cita);
         
         Integer idPaciente = paciente.getIdUsuario();
         HistoriaClinicaDTO historia;
-        historia = new HistoriaDAOImpl().obtenerPorIdPaciente(idPaciente);
+        historia = this.historiaBO.obtenerPorIdPaciente(idPaciente);
+        
         HistoriaClinicaPorCitaDTO historia_por_cita = new HistoriaClinicaPorCitaDTO();
         historia_por_cita.setCita(cita);
         historia_por_cita.setHistoriaClinica(historia);
-        Integer insert = new HistoriaClinicaPorCitaDAOImpl().insertar(historia_por_cita);
-        return insert;
+        return this.historiaClinicaPorCitaBO.insertar(historia_por_cita);
     }
      
-     public int cancelarCita(CitaDTO cita,HistoriaClinicaPorCitaDTO historia_por_cita) {
+    public int cancelarCita(HistoriaClinicaPorCitaDTO historia_por_cita) {
         //actualizar cita (Estado: disponible)
+        CitaDTO cita = historia_por_cita.getCita();
         cita.setEstado(EstadoCita.DISPONIBLE);
-        
         this.citaBO.modificar(cita);
-        historia_por_cita.setEstadoGeneral(EstadoGeneral.INACTIVO);
-        Integer modificar = new HistoriaClinicaPorCitaDAOImpl().modificar(historia_por_cita);
-        
-        
-        return modificar;
+        return this.historiaClinicaPorCitaBO.eliminar(historia_por_cita);
     }
      
-     public int reprogramar(CitaDTO citaAntigua,CitaDTO citaNueva,HistoriaClinicaPorCitaDTO historia_por_cita) {
+     public int reprogramar(CitaDTO citaNueva, HistoriaClinicaPorCitaDTO historia_por_cita) {
         //actualizar cita (Estado: disponible)
+        CitaDTO citaAntigua = historia_por_cita.getCita();
         citaAntigua.setEstado(EstadoCita.DISPONIBLE);
-        
         this.citaBO.modificar(citaAntigua);
+        this.historiaClinicaPorCitaBO.eliminar(historia_por_cita);
         
         citaNueva.setEstado(EstadoCita.RESERVADO);
+        this.citaBO.modificar(citaNueva);
         historia_por_cita.setCita(citaNueva);
         
-        Integer modificar = new HistoriaClinicaPorCitaDAOImpl().modificar(historia_por_cita);
-        
-        
-        return modificar;
+        return this.historiaClinicaPorCitaBO.insertar(historia_por_cita);
     }
-     
     
-
-     public ArrayList<HistoriaClinicaPorCitaDTO> listarCitasPorPersona(HistoriaClinicaDTO historia){
-        ArrayList<HistoriaClinicaPorCitaDTO> citas = null;
+    public ArrayList<HistoriaClinicaPorCitaDTO> listarCitasPorPersona(UsuarioDTO paciente){
+        Integer idPaciente = paciente.getIdUsuario();
+        HistoriaClinicaDTO historia = this.historiaBO.obtenerPorIdPaciente(idPaciente);
         Integer idHistoria = historia.getIdHistoriaClinica();
-       
-        citas = new HistoriaClinicaPorCitaDAOImpl().listarPorIdHistoria(idHistoria);
-        
-        return citas;
+        return this.historiaClinicaPorCitaBO.listarPorIdHistoria(idHistoria);
+    }
+    
+    public HistoriaClinicaDTO obtenerHistoriaDelPaciente(UsuarioDTO paciente){
+        Integer idPaciente = paciente.getIdUsuario();
+        return this.historiaBO.obtenerPorIdPaciente(idPaciente);
     }
     
 }

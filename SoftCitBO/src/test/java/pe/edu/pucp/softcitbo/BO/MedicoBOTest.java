@@ -23,50 +23,50 @@ public class MedicoBOTest {
     public MedicoBOTest() {
     }
     
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
-    @BeforeEach
-    public void setUp() {
-    }
-    
-    @AfterEach
-    public void tearDown() {
-    }
-
-    /**
-     * Test of listarCitasProgramadas method, of class MedicoBO.
-     */
-    @Test
-    public void testListarCitasProgramadas() {
-        System.out.println("listarCitasProgramadas");
-        Integer codMedico = null;
-        MedicoBO instance = new MedicoBO();
-        ArrayList<CitaDTO> expResult = null;
-        ArrayList<CitaDTO> result = instance.listarCitasProgramadas(codMedico);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of llenarEpicrisis method, of class MedicoBO.
-     */
-    @Test
-    public void testLlenarEpicrisis() {
-        System.out.println("llenarEpicrisis");
-        HistoriaClinicaPorCitaDTO epiciris = null;
-        MedicoBO instance = new MedicoBO();
-        Integer expResult = null;
-        Integer result = instance.llenarEpicrisis(epiciris);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+//    @BeforeAll
+//    public static void setUpClass() {
+//    }
+//    
+//    @AfterAll
+//    public static void tearDownClass() {
+//    }
+//    
+//    @BeforeEach
+//    public void setUp() {
+//    }
+//    
+//    @AfterEach
+//    public void tearDown() {
+//    }
+//
+//    /**
+//     * Test of listarCitasProgramadas method, of class MedicoBO.
+//     */
+//    @Test
+//    public void testListarCitasProgramadas() {
+//        System.out.println("listarCitasProgramadas");
+//        Integer codMedico = null;
+//        MedicoBO instance = new MedicoBO();
+//        ArrayList<CitaDTO> expResult = null;
+//        ArrayList<CitaDTO> result = instance.listarCitasProgramadas(codMedico);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//
+//    /**
+//     * Test of llenarEpicrisis method, of class MedicoBO.
+//     */
+//    @Test
+//    public void testLlenarEpicrisis() {
+//        System.out.println("llenarEpicrisis");
+//        HistoriaClinicaPorCitaDTO epiciris = null;
+//        MedicoBO instance = new MedicoBO();
+//        Integer expResult = null;
+//        Integer result = instance.llenarEpicrisis(epiciris);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
     
 }
