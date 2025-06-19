@@ -15,20 +15,20 @@ import pe.edu.pucp.softcit.model.TurnoDTO;
  */
 public class TurnoBO {
     
-    private TurnoDAO dao;
+    private final TurnoDAO turnoDao;
     
     public TurnoBO(){
-        this.dao = new TurnoDAOImpl();
+        this.turnoDao = new TurnoDAOImpl();
     }
     
     public Integer modificar(TurnoDTO turno){
-        return this.dao.modificar(turno);
+        return this.turnoDao.modificar(turno);
     }
     public TurnoDTO obtenerPorId(Integer idTurno){
-        return this.dao.obtenerPorId(idTurno);
+        return this.turnoDao.obtenerPorId(idTurno);
     }
     public ArrayList<TurnoDTO> listarTodos(){
-        return this.dao.listarTodos();
+        return this.turnoDao.listarTodos();
     }
             
     

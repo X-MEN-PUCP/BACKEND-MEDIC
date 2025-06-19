@@ -15,29 +15,30 @@ import pe.edu.pucp.softcit.model.HistoriaClinicaPorCitaDTO;
  */
 public class HistoriaClinicaPorCitaBO {
     
-    private HistoriaClinicaPorCitaDAO dao;
+    private final HistoriaClinicaPorCitaDAO historiaClinicaPorCitaDao;
     
     public HistoriaClinicaPorCitaBO(){
-        this.dao = new HistoriaClinicaPorCitaDAOImpl();
+        this.historiaClinicaPorCitaDao = new HistoriaClinicaPorCitaDAOImpl();
     }
     
+    public Integer insertar(HistoriaClinicaPorCitaDTO historiaPorCita){
+        return this.historiaClinicaPorCitaDao.insertar(historiaPorCita);
+    }
     
-    
-     public Integer insertar(HistoriaClinicaPorCitaDTO historiaPorCita){
-         return this.dao.insertar(historiaPorCita);
-     }
     public Integer modificar(HistoriaClinicaPorCitaDTO historiaPorCita){
-        return this.dao.modificar(historiaPorCita);
+        return this.historiaClinicaPorCitaDao.modificar(historiaPorCita);
     }
+    
     public ArrayList<HistoriaClinicaPorCitaDTO> listarTodos(){
-        return this.dao.listarTodos();
-        
+        return this.historiaClinicaPorCitaDao.listarTodos();    
     }
+    
     public ArrayList<HistoriaClinicaPorCitaDTO> listarPorIdHistoria(Integer idHistoria){
-        return this.dao.listarPorIdHistoria(idHistoria);
+        return this.historiaClinicaPorCitaDao.listarPorIdHistoria(idHistoria);
     }
+    
     public HistoriaClinicaPorCitaDTO ObtenerPorIdCita(Integer idCita){
-        return this.dao.ObtenerPorIdCita(idCita);
+        return this.historiaClinicaPorCitaDao.ObtenerPorIdCita(idCita);
     }
     
 }

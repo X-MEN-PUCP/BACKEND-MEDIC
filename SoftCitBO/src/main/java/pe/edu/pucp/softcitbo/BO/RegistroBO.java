@@ -18,24 +18,24 @@ import pe.edu.pucp.softcit.model.UsuarioPorRolDTO;
  */
 public class RegistroBO {
     
-    private UsuarioDAO usuarioDao;
-    private RolesXUsuarioDAO rolesPorUsuarioDao;
+    private final UsuarioDAO usuarioDao;
+    private final RolesXUsuarioDAO rolesPorUsuarioDao;
     
     
     public RegistroBO(){
-        usuarioDao = new UsuarioDAOImpl();
-        rolesPorUsuarioDao = new RolesXUsuarioDAOImpl();
+        this.usuarioDao = new UsuarioDAOImpl();
+        this.rolesPorUsuarioDao = new RolesXUsuarioDAOImpl();
     } 
     
     public boolean registrarse(UsuarioDTO usuario){
-        Integer insert = usuarioDao.insertar(usuario);
+        Integer insert = this.usuarioDao.insertar(usuario);
         if(insert!=0){
             UsuarioPorRolDTO usarioPorRol = new UsuarioPorRolDTO();
             usarioPorRol.setUsuarioDTO(usuario);
             RolDTO rol = new RolDTO();
             rol.setIdRol(1);
             usarioPorRol.setRol(rol);
-            rolesPorUsuarioDao.insertar(usarioPorRol);
+            this.rolesPorUsuarioDao.insertar(usarioPorRol);
             return true;
         }
         return false;

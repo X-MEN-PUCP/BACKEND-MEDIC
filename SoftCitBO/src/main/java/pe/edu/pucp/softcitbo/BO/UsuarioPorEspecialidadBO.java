@@ -15,21 +15,22 @@ import pe.edu.pucp.softcit.model.UsuarioPorEspecialidadDTO;
  */
 public class UsuarioPorEspecialidadBO {
     
-    private EspecialidadXUsuarioDAO dao;
+    private final EspecialidadXUsuarioDAO usuarioPorEspecialidadDao;
     
     public UsuarioPorEspecialidadBO(){
-        this.dao = new EspecialidadXUsuarioDAOImpl();
+        this.usuarioPorEspecialidadDao = new EspecialidadXUsuarioDAOImpl();
     }
-    
     
     public ArrayList<UsuarioPorEspecialidadDTO> listarPorUsuario(Integer id){
-        return this.dao.listarPorUsuario(id);
+        return this.usuarioPorEspecialidadDao.listarPorUsuario(id);
     }
+    
     public ArrayList<UsuarioPorEspecialidadDTO> listarPorEspecialidad(Integer idEspecialidad){
-        return this.dao.listarPorEspecialidad(idEspecialidad);
+        return this.usuarioPorEspecialidadDao.listarPorEspecialidad(idEspecialidad);
     }
+    
     public Integer insertar(UsuarioPorEspecialidadDTO usuarioXespecialidad){
-        return this.dao.insertar(usuarioXespecialidad);
+        return this.usuarioPorEspecialidadDao.insertar(usuarioXespecialidad);
     }
     
 }

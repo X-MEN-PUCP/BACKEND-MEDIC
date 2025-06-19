@@ -21,12 +21,10 @@ import pe.edu.pucp.softcit.model.UsuarioDTO;
  */
 public class PacienteBO {
     
-    private CitaBO citaBO;
-    
-    
+    private final CitaBO citaBO;
     
     public PacienteBO(){
-        citaBO = new CitaBO();
+        this.citaBO = new CitaBO();
     }
     
     public ArrayList<CitaDTO> listarCitas(Integer idEspecialidad, String fecha, Integer idMedico){
@@ -48,7 +46,7 @@ public class PacienteBO {
         //Integer id = super.getIdCuenta();
         
         Integer idPaciente = paciente.getIdUsuario();
-        HistoriaClinicaDTO historia = new HistoriaClinicaDTO();
+        HistoriaClinicaDTO historia;
         historia = new HistoriaDAOImpl().obtenerPorIdPaciente(idPaciente);
         HistoriaClinicaPorCitaDTO historia_por_cita = new HistoriaClinicaPorCitaDTO();
         historia_por_cita.setCita(cita);
@@ -61,7 +59,7 @@ public class PacienteBO {
         //actualizar cita (Estado: disponible)
         cita.setEstado(EstadoCita.DISPONIBLE);
         
-        citaBO.modificar(cita);
+        this.citaBO.modificar(cita);
         historia_por_cita.setEstadoGeneral(EstadoGeneral.INACTIVO);
         Integer modificar = new HistoriaClinicaPorCitaDAOImpl().modificar(historia_por_cita);
         
@@ -73,7 +71,7 @@ public class PacienteBO {
         //actualizar cita (Estado: disponible)
         citaAntigua.setEstado(EstadoCita.DISPONIBLE);
         
-        citaBO.modificar(citaAntigua);
+        this.citaBO.modificar(citaAntigua);
         
         citaNueva.setEstado(EstadoCita.RESERVADO);
         historia_por_cita.setCita(citaNueva);

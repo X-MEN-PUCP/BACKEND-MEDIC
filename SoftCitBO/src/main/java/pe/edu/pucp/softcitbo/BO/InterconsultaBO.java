@@ -15,20 +15,22 @@ import pe.edu.pucp.softcit.model.InterconsultaDTO;
  */
 public class InterconsultaBO {
     
-    private InterconsultaDAO dao;
+    private final InterconsultaDAO interconsultaDao;
     
     public InterconsultaBO(){
-        this.dao = new InterconsultaDAOImpl();
+        this.interconsultaDao = new InterconsultaDAOImpl();
     }
     
     public Integer insertar(InterconsultaDTO turno){
-        return this.dao.insertar(turno);
+        return this.interconsultaDao.insertar(turno);
     }
+    
     public InterconsultaDTO obtenerPorId(Integer idEspecialidad, Integer idCita){
-        return this.dao.obtenerPorId(idEspecialidad, idCita);
+        return this.interconsultaDao.obtenerPorId(idEspecialidad, idCita);
     }
+    
     public ArrayList<InterconsultaDTO> listarTodos(){
-        return this.dao.listarTodos();
+        return this.interconsultaDao.listarTodos();
     }
     
 }

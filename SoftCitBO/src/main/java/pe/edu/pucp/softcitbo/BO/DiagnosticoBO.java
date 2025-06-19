@@ -15,22 +15,22 @@ import pe.edu.pucp.softcit.model.DiagnosticoDTO;
  */
 public class DiagnosticoBO {
     
-    private DiagnosticoDAO dao;
+    private final DiagnosticoDAO DiagnosticoDao;
     
     public DiagnosticoBO(){
-        this.dao = new DiagnosticoDAOImpl();
+        this.DiagnosticoDao = new DiagnosticoDAOImpl();
     }
     
+    public Integer insertar(DiagnosticoDTO diagnostico){
+       return this.DiagnosticoDao.insertar(diagnostico);
+    }
     
-   public Integer insertar(DiagnosticoDTO diagnostico){
-       return this.dao.insertar(diagnostico);
-               
-   }
-   public DiagnosticoDTO obtenerPorId(Integer diagnosticoId){
-       return this.dao.obtenerPorId(diagnosticoId);
-   }
-   public ArrayList<DiagnosticoDTO> listarTodos(){
-       return this.dao.listarTodos();
-   }
+    public DiagnosticoDTO obtenerPorId(Integer diagnosticoId){
+       return this.DiagnosticoDao.obtenerPorId(diagnosticoId);
+    }
+    
+    public ArrayList<DiagnosticoDTO> listarTodos(){
+       return this.DiagnosticoDao.listarTodos();
+    }
     
 }

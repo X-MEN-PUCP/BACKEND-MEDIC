@@ -15,21 +15,22 @@ import pe.edu.pucp.softcit.model.ExamenPorCita;
  */
 public class ExamenPorCitaBO {
     
-    private ExamenPorCitaDAO dao;
+    private final ExamenPorCitaDAO examenPorCitaDao;
     
     public ExamenPorCitaBO(){
-        this.dao = new ExamenPorCitaDAOImpl();
+        this.examenPorCitaDao = new ExamenPorCitaDAOImpl();
     }
     
     public Integer insertar(ExamenPorCita examenPorCita){
-        return this.dao.insertar(examenPorCita);
-    }
-    public ArrayList<ExamenPorCita> listarTodos(){
-        return this.dao.listarTodos();
-    }
-    public ArrayList<ExamenPorCita> listarPorIdCita(Integer idCita){
-        return this.dao.listarPorIdCita(idCita);
+        return this.examenPorCitaDao.insertar(examenPorCita);
     }
     
+    public ArrayList<ExamenPorCita> listarTodos(){
+        return this.examenPorCitaDao.listarTodos();
+    }
+    
+    public ArrayList<ExamenPorCita> listarPorIdCita(Integer idCita){
+        return this.examenPorCitaDao.listarPorIdCita(idCita);
+    }
     
 }

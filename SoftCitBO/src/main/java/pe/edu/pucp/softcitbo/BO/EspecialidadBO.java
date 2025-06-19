@@ -16,31 +16,30 @@ import pe.edu.pucp.softcit.model.EstadoGeneral;
  */
 public class EspecialidadBO {
 
-    private EspecialidadDAO dao;
+    private final EspecialidadDAO especialidadDao;
 
     public EspecialidadBO() {
-        this.dao = new EspecialidadDAOImpl();
+        this.especialidadDao = new EspecialidadDAOImpl();
     }
 
     public ArrayList<EspecialidadDTO> listar(){
-        return this.dao.listar();
+        return this.especialidadDao.listar();
     }
 
     public Integer insertar(EspecialidadDTO especialidad){
-        return this.dao.insertar(especialidad);
+        return this.especialidadDao.insertar(especialidad);
     }
 
     public Integer modificar(EspecialidadDTO especialidad){
-        return this.dao.modificar(especialidad);
+        return this.especialidadDao.modificar(especialidad);
     }
 
     public Integer cambiarEstadoEspecialidad(EspecialidadDTO especialidad,Integer estado){
         especialidad.setEstadoGeneral(EstadoGeneral.valueOfCodigo(estado));
-        return this.dao.modificar(especialidad);
+        return this.especialidadDao.modificar(especialidad);
     }
     
-
     public EspecialidadDTO obtenerPorId(Integer id){
-        return this.dao.obtenerPorId(id);
+        return this.especialidadDao.obtenerPorId(id);
     }
 }

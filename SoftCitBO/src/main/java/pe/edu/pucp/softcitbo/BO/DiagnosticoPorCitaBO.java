@@ -15,22 +15,22 @@ import pe.edu.pucp.softcit.model.DiagnosticoPorCita;
  */
 public class DiagnosticoPorCitaBO {
     
-    private DiagnositcoPorCitaDAO dao;
+    private final DiagnositcoPorCitaDAO diagnosticoPorCitaDao;
     
     public DiagnosticoPorCitaBO(){
-        this.dao = new DiagnosticoPorCitaDAOImpl();
+        this.diagnosticoPorCitaDao = new DiagnosticoPorCitaDAOImpl();
     }
-    
     
     public Integer insertar(DiagnosticoPorCita diagnositcoPorCita){
-        return this.dao.insertar(diagnositcoPorCita);
-    }
-    public ArrayList<DiagnosticoPorCita> listarPorIdCita(Integer idCita){
-        return this.dao.listarPorIdCita(idCita);
-    }
-    public ArrayList<DiagnosticoPorCita> listarTodos(){
-        return this.dao.listarTodos();
+        return this.diagnosticoPorCitaDao.insertar(diagnositcoPorCita);
     }
     
+    public ArrayList<DiagnosticoPorCita> listarPorIdCita(Integer idCita){
+        return this.diagnosticoPorCitaDao.listarPorIdCita(idCita);
+    }
+    
+    public ArrayList<DiagnosticoPorCita> listarTodos(){
+        return this.diagnosticoPorCitaDao.listarTodos();
+    }
     
 }

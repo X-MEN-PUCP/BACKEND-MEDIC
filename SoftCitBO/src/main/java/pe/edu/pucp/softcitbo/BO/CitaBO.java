@@ -30,7 +30,7 @@ import pe.edu.pucp.softcit.model.UsuarioDTO;
  */
 public class CitaBO {
     
-    private CitaDAO citaDao;
+    private final CitaDAO citaDao;
     
     public CitaBO(){
         this.citaDao = new CitaDAOImpl();
@@ -39,15 +39,19 @@ public class CitaBO {
     public Integer modificar(CitaDTO cita){
         return this.citaDao.modificar(cita);
     }
+    
     public ArrayList<CitaDTO> listarTodos(){
         return this.citaDao.listarTodos();
     }
+    
     public ArrayList<CitaDTO> listarCitasProgramadas(Integer codMedico){
         return this.citaDao.listarCitasProgramadas(codMedico);
     }
+    
     public ArrayList<CitaDTO> buscarCitasDisponibles(Integer idEspecialidad, Integer codMedico, String fecha){
         return this.citaDao.buscarCitasDisponibles(idEspecialidad, codMedico, fecha);
     }
+    
     public CitaDTO obtenerPorId(Integer id){
         return this.citaDao.obtenerPorId(id);
     }

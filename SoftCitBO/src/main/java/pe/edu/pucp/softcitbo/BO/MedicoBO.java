@@ -15,16 +15,16 @@ import pe.edu.pucp.softcit.model.HistoriaClinicaPorCitaDTO;
  */
 public class MedicoBO {
 
-    private CitaBO citaBO;
+    private final CitaBO citaBO;
     
 
     public MedicoBO() {
-        citaBO = new CitaBO();
+        this.citaBO = new CitaBO();
     }
 
     public ArrayList<CitaDTO> listarCitasProgramadas(Integer codMedico) {
         ArrayList<CitaDTO> citas;
-        citas = citaBO.listarCitasProgramadas(codMedico);
+        citas = this.citaBO.listarCitasProgramadas(codMedico);
 
         return citas;
     }

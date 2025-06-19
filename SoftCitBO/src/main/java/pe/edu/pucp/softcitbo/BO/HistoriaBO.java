@@ -15,24 +15,26 @@ import pe.edu.pucp.softcit.model.HistoriaClinicaDTO;
  */
 public class HistoriaBO {
     
-    private HistoriaDAO dao;
+    private final HistoriaDAO historiaDao;
     
     public HistoriaBO(){
-        this.dao = new HistoriaDAOImpl();
+        this.historiaDao = new HistoriaDAOImpl();
     }
-    
     
     public ArrayList<HistoriaClinicaDTO> listar(){
-        return this.dao.listar();
+        return this.historiaDao.listar();
     }
+    
     public Integer insertar(HistoriaClinicaDTO historia){
-        return this.dao.insertar(historia);
-    }   
+        return this.historiaDao.insertar(historia);
+    }  
+    
     public HistoriaClinicaDTO obtenerPorIdPaciente(Integer id){
-        return this.dao.obtenerPorIdPaciente(id);
+        return this.historiaDao.obtenerPorIdPaciente(id);
     }
+    
     public HistoriaClinicaDTO obtenerPorId(Integer id){
-        return this.dao.obtenerPorId(id);
+        return this.historiaDao.obtenerPorId(id);
     }
     
 }
