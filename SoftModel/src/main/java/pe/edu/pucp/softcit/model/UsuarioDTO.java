@@ -19,7 +19,7 @@ public class UsuarioDTO {
     private String nombres;
     private String apellidoPaterno;
     private String apellidoMaterno;
-    private LocalDate fechaNacimiento;
+    private String fechaNacimiento;
     private String correoElectronico;
     private String numCelular;
     private String codMedico;
@@ -115,14 +115,15 @@ public class UsuarioDTO {
         this.apellidoMaterno = apellidoMaterno;
     }
 
-    public LocalDate getFechaNacimiento() {
+    public String getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+    public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    
     public String getCorreoElectronico() {
         return correoElectronico;
     }

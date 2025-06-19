@@ -145,7 +145,7 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
         this.usuario.setApellidoMaterno(this.resultSet.getString("apellido_materno"));//7
 
         java.sql.Date fechaSQL = this.resultSet.getDate("fecha_nacimiento");//8
-        this.usuario.setFechaNacimiento(fechaSQL.toLocalDate());
+        this.usuario.setFechaNacimiento(fechaSQL.toString());
 
         this.usuario.setCorreoElectronico(this.resultSet.getString("correo_electronico")); //9
         this.usuario.setNumCelular(this.resultSet.getString("num_celular"));//10

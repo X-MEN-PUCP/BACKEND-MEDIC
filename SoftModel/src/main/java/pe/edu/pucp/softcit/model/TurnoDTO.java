@@ -13,8 +13,8 @@ import java.util.Date;
 public class TurnoDTO {
     private Integer idTurno;
     private String nombreTurno;
-    private Date horaInicio;
-    private Date horaFin;
+    private String horaInicio;
+    private String horaFin;
     private EstadoGeneral estadoGeneral;
 
     public TurnoDTO() {
@@ -40,21 +40,23 @@ public class TurnoDTO {
         this.nombreTurno = nombreTurno;
     }
 
-    public Date getHoraInicio() {
+    public String getHoraInicio() {
         return horaInicio;
     }
 
-    public void setHoraInicio(Date horaInicio) {
+    public void setHoraInicio(String horaInicio) {
         this.horaInicio = horaInicio;
     }
 
-    public Date getHoraFin() {
+    public String getHoraFin() {
         return horaFin;
     }
 
-    public void setHoraFin(Date horaFin) {
+    public void setHoraFin(String horaFin) {
         this.horaFin = horaFin;
     }
+
+    
 
     public EstadoGeneral getEstadoGeneral() {
         return estadoGeneral;
