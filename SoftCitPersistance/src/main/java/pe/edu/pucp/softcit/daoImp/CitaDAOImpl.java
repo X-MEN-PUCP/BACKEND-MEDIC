@@ -98,7 +98,8 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO{
         
         this.cita.setHoraInicio(this.resultSet.getTime("hora_inicio").toLocalTime());
         this.cita.setHoraFin(this.resultSet.getTime("hora_fin").toLocalTime());
-        this.cita.setFechaCita(this.resultSet.getDate("fecha_cita").toLocalDate());
+        java.sql.Date fechaSql = resultSet.getDate("fecha_cita");
+        this.cita.setFechaCita(fechaSql.toString());
         Integer idEstado = this.resultSet.getInt("estado_cita");
         EstadoCita estado = EstadoCita.valueOfCodigo(idEstado);
         this.cita.setEstado(estado);
@@ -134,12 +135,12 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO{
     @Override
     public ArrayList<CitaDTO> listarCitasProgramadas(Integer idMedico){
         Integer idEspecialidad = null;
-        LocalDate fecha = null;
+        String fecha = null;
         return this.buscarCitasDisponibles(idEspecialidad, idMedico, fecha);
     }
     
     @Override
-    public ArrayList<CitaDTO> buscarCitasDisponibles(Integer idEspecialidad, Integer idMedico, LocalDate fecha) {
+    public ArrayList<CitaDTO> buscarCitasDisponibles(Integer idEspecialidad, Integer idMedico, String fecha) {
         Boolean conEspecialidad = (idEspecialidad!=null);
         Boolean conIdMedico = (idMedico!=null);
         Boolean conFecha = (fecha!=null);

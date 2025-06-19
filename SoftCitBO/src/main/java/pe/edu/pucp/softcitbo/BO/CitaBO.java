@@ -45,7 +45,7 @@ public class CitaBO {
     public ArrayList<CitaDTO> listarCitasProgramadas(Integer codMedico){
         return this.citaDao.listarCitasProgramadas(codMedico);
     }
-    public ArrayList<CitaDTO> buscarCitasDisponibles(Integer idEspecialidad, Integer codMedico, LocalDate fecha){
+    public ArrayList<CitaDTO> buscarCitasDisponibles(Integer idEspecialidad, Integer codMedico, String fecha){
         return this.citaDao.buscarCitasDisponibles(idEspecialidad, codMedico, fecha);
     }
     public CitaDTO obtenerPorId(Integer id){

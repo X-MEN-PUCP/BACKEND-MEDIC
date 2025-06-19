@@ -47,7 +47,7 @@ public class CitaWS {
     public ArrayList<CitaDTO> buscarCitasDisponibles(
             @WebParam(name = "idEspecialidad")Integer idEspecialidad,
             @WebParam(name = "codMedico")Integer codMedico,
-            @WebParam(name = "fecha")LocalDate fecha){
+            @WebParam(name = "fecha")String fecha){
         return this.citaBO.buscarCitasDisponibles(idEspecialidad, codMedico, fecha);
     }
     

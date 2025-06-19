@@ -29,7 +29,7 @@ public class PacienteBO {
         citaBO = new CitaBO();
     }
     
-    public ArrayList<CitaDTO> listarCitas(Integer idEspecialidad, LocalDate fecha, Integer idMedico){
+    public ArrayList<CitaDTO> listarCitas(Integer idEspecialidad, String fecha, Integer idMedico){
         ArrayList<CitaDTO> citas = new ArrayList<>();
         if (idMedico != null || idEspecialidad != null) {
            citas = this.citaBO.buscarCitasDisponibles(idEspecialidad, idMedico, fecha);

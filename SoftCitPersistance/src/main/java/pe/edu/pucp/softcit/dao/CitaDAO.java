@@ -16,6 +16,6 @@ public interface CitaDAO {
     public Integer modificar(CitaDTO cita);
     public ArrayList<CitaDTO> listarTodos();
     public ArrayList<CitaDTO> listarCitasProgramadas(Integer codMedico);
-    public ArrayList<CitaDTO> buscarCitasDisponibles(Integer idEspecialidad, Integer codMedico, LocalDate fecha); 
+    public ArrayList<CitaDTO> buscarCitasDisponibles(Integer idEspecialidad, Integer codMedico, String fecha); 
     public CitaDTO obtenerPorId(Integer id);
 }

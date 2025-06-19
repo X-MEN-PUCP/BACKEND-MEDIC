@@ -35,7 +35,7 @@ public class PacienteWS {
     @WebMethod(operationName = "listarCitasPaciente")
     public ArrayList<CitaDTO> listarCitasPaciente(
             @WebParam(name = "idEspecialidad") Integer idEspecialidad,
-            @WebParam(name = "fecha") LocalDate fecha,
+            @WebParam(name = "fecha") String fecha,
             @WebParam(name = "idMedico") Integer idMedico) {
         return this.pacienteBO.listarCitas(idEspecialidad, fecha, idMedico);
     }

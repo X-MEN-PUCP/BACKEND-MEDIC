@@ -33,7 +33,7 @@ public class PacienteBOTest {
     public void testListarCitas() {
         System.out.println("listarCitas");
         Integer idEspecialidad = null;
-        LocalDate fecha = null;
+        String fecha = null;
         Integer idMedico = 3;
         PacienteBO instance = new PacienteBO();
         ArrayList<CitaDTO> expResult = null;

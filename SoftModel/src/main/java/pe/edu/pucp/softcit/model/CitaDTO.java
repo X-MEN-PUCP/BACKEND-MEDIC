@@ -20,7 +20,7 @@ public class CitaDTO {
     private ConsultorioDTO consultorio;
     private LocalTime horaInicio;
     private LocalTime horaFin;
-    private LocalDate fechaCita;
+    private String fechaCita;
     private EstadoCita estado;
 
     public CitaDTO() {
@@ -102,13 +102,15 @@ public class CitaDTO {
         this.horaFin = horaFin;
     }
 
-    public LocalDate getFechaCita() {
+    public String getFechaCita() {
         return fechaCita;
     }
 
-    public void setFechaCita(LocalDate fechaCita) {
+    public void setFechaCita(String fechaCita) {
         this.fechaCita = fechaCita;
     }
+
+    
 
     public EstadoCita getEstado() {
         return estado;
