@@ -4,25 +4,11 @@
  */
 package pe.edu.pucp.softcitbo.BO;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+
 import java.util.ArrayList;
 import pe.edu.pucp.softcit.dao.CitaDAO;
-import pe.edu.pucp.softcit.dao.ConsultorioDAO;
-import pe.edu.pucp.softcit.dao.EspecialidadDAO;
-import pe.edu.pucp.softcit.dao.TurnoDAO;
-import pe.edu.pucp.softcit.dao.UsuarioDAO;
 import pe.edu.pucp.softcit.daoImp.CitaDAOImpl;
-import pe.edu.pucp.softcit.daoImp.ConsultorioDAOImpl;
-import pe.edu.pucp.softcit.daoImp.EspecialidadDAOImpl;
-import pe.edu.pucp.softcit.daoImp.TurnoDAOImpl;
-import pe.edu.pucp.softcit.daoImp.UsuarioDAOImpl;
 import pe.edu.pucp.softcit.model.CitaDTO;
-import pe.edu.pucp.softcit.model.ConsultorioDTO;
-import pe.edu.pucp.softcit.model.EspecialidadDTO;
-import pe.edu.pucp.softcit.model.EstadoCita;
-import pe.edu.pucp.softcit.model.TurnoDTO;
-import pe.edu.pucp.softcit.model.UsuarioDTO;
 
 /**
  *
@@ -55,7 +41,5 @@ public class CitaBO {
     public CitaDTO obtenerPorId(Integer id){
         return this.citaDao.obtenerPorId(id);
     }
-    
-    
     
 }

@@ -6,8 +6,10 @@ package pe.edu.pucp.softcitbo.BO;
 
 import pe.edu.pucp.softcit.dao.RolesXUsuarioDAO;
 import pe.edu.pucp.softcit.daoImp.RolesXUsuarioDAOImpl;
+import pe.edu.pucp.softcit.model.EspecialidadDTO;
 import pe.edu.pucp.softcit.model.RolDTO;
 import pe.edu.pucp.softcit.model.UsuarioDTO;
+import pe.edu.pucp.softcit.model.UsuarioPorEspecialidadDTO;
 import pe.edu.pucp.softcit.model.UsuarioPorRolDTO;
 
 /**
@@ -16,12 +18,17 @@ import pe.edu.pucp.softcit.model.UsuarioPorRolDTO;
  */
 public class AdminBO {
     
-    private final RolesXUsuarioDAO rolesPorUsuarioDao;
-    
+    private final RolesPorUsuarioBO rolesPorUsuarioBo;
+    private final EspecialidadBO especialidadBo;
+    private final UsuarioBO usuarioBo;
+    private final UsuarioPorEspecialidadBO usuarioPorEspecialidadBo;
     
     public AdminBO(){
-        this.rolesPorUsuarioDao = new RolesXUsuarioDAOImpl();
-    } 
+        this.rolesPorUsuarioBo = new RolesPorUsuarioBO();
+        this.especialidadBo = new EspecialidadBO();
+        this.usuarioBo = new UsuarioBO();
+        this.usuarioPorEspecialidadBo = new UsuarioPorEspecialidadBO();
+    }
     
     public Integer asignarNuevoRol(UsuarioDTO usuario,Integer idRol){
         
@@ -33,10 +40,31 @@ public class AdminBO {
         
         usuarioPorRol.setRol(rol);
         
-        return this.rolesPorUsuarioDao.insertar(usuarioPorRol);
+        return this.rolesPorUsuarioBo.insertar(usuarioPorRol);
     }
     
     public Integer eliminarRol(UsuarioPorRolDTO usuarioPorRol){
-        return this.rolesPorUsuarioDao.eliminar(usuarioPorRol);
+        return this.rolesPorUsuarioBo.eliminar(usuarioPorRol);
     }
+    
+    public Integer insertarNuevaEspecialidad(EspecialidadDTO especialidad){
+        return this.especialidadBo.insertar(especialidad);
+    }
+    
+    public Integer insertarNuevoMedico(UsuarioDTO medico, EspecialidadDTO especialidad){
+        Integer insertUsuario = this.usuarioBo.insertar(medico);
+        RolDTO rol = new RolDTO();
+        rol.setIdRol(2); //se debería obtener por nombre de rol "Médico"
+        UsuarioPorEspecialidadDTO usuarioPorEspecialidad = new UsuarioPorEspecialidadDTO();
+        usuarioPorEspecialidad.setEspecialidad(especialidad);
+        usuarioPorEspecialidad.setUsuario(medico);
+        
+        UsuarioPorRolDTO usuarioPorRol = new UsuarioPorRolDTO();
+        usuarioPorRol.setUsuarioDTO(medico);
+        usuarioPorRol.setRol(rol);
+        this.usuarioPorEspecialidadBo.insertar(usuarioPorEspecialidad);
+        this.rolesPorUsuarioBo.insertar(usuarioPorRol);
+        return insertUsuario;
+    }
+    
 }

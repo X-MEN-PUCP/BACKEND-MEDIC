@@ -7,6 +7,7 @@ package pe.edu.pucp.soft.softcitws;
 import jakarta.jws.WebService;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
+import pe.edu.pucp.softcit.model.EspecialidadDTO;
 import pe.edu.pucp.softcit.model.UsuarioDTO;
 import pe.edu.pucp.softcit.model.UsuarioPorRolDTO;
 import pe.edu.pucp.softcitbo.BO.AdminBO;
@@ -32,5 +33,15 @@ public class AdminWS {
     @WebMethod(operationName = "eliminarRolDeUsuario")
     public Integer eliminarRolDeUsuario(@WebParam(name="rolPorUsuario") UsuarioPorRolDTO usuarioPorRol){
         return this.adminBO.eliminarRol(usuarioPorRol);
+    }
+    
+    @WebMethod(operationName = "insertarNuevaEspecialidad")
+    public Integer insertarNuevaEspecialidad(@WebParam(name="especialidad") EspecialidadDTO especialidad){
+        return this.adminBO.insertarNuevaEspecialidad(especialidad);
+    }
+    
+    @WebMethod(operationName = "insertarNuevoMedico")
+    public Integer insertarNuevoMedico(@WebParam(name="medico") UsuarioDTO medico, @WebParam(name="especialidad") EspecialidadDTO especialidad){
+        return this.adminBO.insertarNuevoMedico(medico, especialidad);
     }
 }
