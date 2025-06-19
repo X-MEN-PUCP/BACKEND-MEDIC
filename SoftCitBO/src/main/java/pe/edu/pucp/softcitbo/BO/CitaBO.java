@@ -38,6 +38,10 @@ public class CitaBO {
         return this.citaDao.buscarCitasDisponibles(idEspecialidad, codMedico, fecha);
     }
     
+    public ArrayList<CitaDTO> buscarCitasParaCalendario(Integer idEspecialidad, Integer codMedico, String fecha){
+        return this.citaDao.buscarCitasDisponiblesSoloCalenario(idEspecialidad, codMedico, fecha);
+    }
+    
     public CitaDTO obtenerPorId(Integer id){
         return this.citaDao.obtenerPorId(id);
     }

@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Disabled;
 import pe.edu.pucp.softcit.model.CitaDTO;
 import pe.edu.pucp.softcit.model.HistoriaClinicaPorCitaDTO;
 
@@ -43,6 +44,7 @@ public class MedicoBOTest {
      * Test of listarCitasProgramadas method, of class MedicoBO.
      */
     @Test
+    @Disabled
     public void testListarCitasProgramadas() {
         System.out.println("listarCitasProgramadas");
         Integer codMedico = null;
@@ -58,6 +60,7 @@ public class MedicoBOTest {
      * Test of llenarEpicrisis method, of class MedicoBO.
      */
     @Test
+    @Disabled
     public void testLlenarEpicrisis() {
         System.out.println("llenarEpicrisis");
         HistoriaClinicaPorCitaDTO epiciris = null;

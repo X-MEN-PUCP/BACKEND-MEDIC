@@ -51,6 +51,14 @@ public class CitaWS {
         return this.citaBO.buscarCitasDisponibles(idEspecialidad, codMedico, fecha);
     }
     
+    @WebMethod(operationName = "buscarCitasoloCalendario")
+    public ArrayList<CitaDTO> buscarCitasoloCalendario(
+            @WebParam(name = "idEspecialidad")Integer idEspecialidad,
+            @WebParam(name = "codMedico")Integer codMedico,
+            @WebParam(name = "fecha")String fecha){
+        return this.citaBO.buscarCitasParaCalendario(idEspecialidad, codMedico, fecha);
+    }
+    
     @WebMethod(operationName = "obtenerPorIdCitaCita")
     public CitaDTO obtenerPorIdCita(@WebParam(name = "id")Integer id){
         return this.citaBO.obtenerPorId(id);

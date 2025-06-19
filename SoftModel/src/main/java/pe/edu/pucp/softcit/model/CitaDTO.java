@@ -18,8 +18,8 @@ public class CitaDTO {
     private EspecialidadDTO especialidad;
     private TurnoDTO turno;
     private ConsultorioDTO consultorio;
-    private LocalTime horaInicio;
-    private LocalTime horaFin;
+    private String horaInicio;
+    private String horaFin;
     private String fechaCita;
     private EstadoCita estado;
 
@@ -85,23 +85,24 @@ public class CitaDTO {
     public void setConsultorio(ConsultorioDTO consultorio) {
         this.consultorio = consultorio;
     }
-    
-    public LocalTime getHoraInicio() {
+
+    public String getHoraInicio() {
         return horaInicio;
     }
 
-    public void setHoraInicio(LocalTime horaInicio) {
+    public void setHoraInicio(String horaInicio) {
         this.horaInicio = horaInicio;
     }
 
-    public LocalTime getHoraFin() {
+    public String getHoraFin() {
         return horaFin;
     }
 
-    public void setHoraFin(LocalTime horaFin) {
+    public void setHoraFin(String horaFin) {
         this.horaFin = horaFin;
     }
-
+    
+    
     public String getFechaCita() {
         return fechaCita;
     }
