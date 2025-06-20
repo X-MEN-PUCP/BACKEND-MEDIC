@@ -99,7 +99,7 @@ public class HistoriaDAOImpl extends DAOImplBase implements HistoriaDAO {
 
     @Override
     public HistoriaClinicaDTO obtenerPorIdPaciente(Integer id) {
-        limpiarObjetoDelResultSet();
+    limpiarObjetoDelResultSet();
     try {
         this.abrirConexion();
 
