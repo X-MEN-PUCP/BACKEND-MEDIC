@@ -37,8 +37,8 @@ public class CitaWS {
         return this.citaBO.listarTodos();
     }
     
-    @WebMethod(operationName = "listarCitasMedico")
-    public ArrayList<CitaDTO> listarCitasMedico(
+    @WebMethod(operationName = "listarCitas")
+    public ArrayList<CitaDTO> listarCitas(
             @WebParam(name = "idMedico")Integer idMedico, @WebParam(name= "estadoCita") EstadoCita estado){
         return this.citaBO.listarCitasMedico(idMedico, estado);
     }
