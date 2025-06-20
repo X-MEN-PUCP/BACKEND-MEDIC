@@ -7,14 +7,9 @@ package pe.edu.pucp.soft.softcitws;
 import jakarta.jws.WebService;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import pe.edu.pucp.softcit.daoImp.HistoriaClinicaPorCitaDAOImpl;
-import pe.edu.pucp.softcit.daoImp.HistoriaDAOImpl;
 import pe.edu.pucp.softcit.model.CitaDTO;
 import pe.edu.pucp.softcit.model.EstadoCita;
-import pe.edu.pucp.softcit.model.EstadoGeneral;
-import pe.edu.pucp.softcit.model.HistoriaClinicaDTO;
 import pe.edu.pucp.softcit.model.HistoriaClinicaPorCitaDTO;
 import pe.edu.pucp.softcit.model.UsuarioDTO;
 import pe.edu.pucp.softcitbo.BO.PacienteBO;
@@ -26,18 +21,20 @@ import pe.edu.pucp.softcitbo.BO.PacienteBO;
 @WebService(serviceName = "PacienteWS")
 public class PacienteWS {
 
-    private PacienteBO pacienteBO;
+    private final PacienteBO pacienteBO;
 
     public PacienteWS() {
         this.pacienteBO = new PacienteBO();
     }
 
-    @WebMethod(operationName = "listarCitasPaciente")
-    public ArrayList<CitaDTO> listarCitasPaciente(
+    @WebMethod(operationName = "buscarCitasPaciente")
+    public ArrayList<CitaDTO> buscarCitasPaciente(
             @WebParam(name = "idEspecialidad") Integer idEspecialidad,
-            @WebParam(name = "fecha") LocalDate fecha,
-            @WebParam(name = "idMedico") Integer idMedico) {
-        return this.pacienteBO.listarCitas(idEspecialidad, fecha, idMedico);
+            @WebParam(name = "fecha") String fecha,
+            @WebParam(name = "idMedico") Integer idMedico,
+            @WebParam(name= "hora_inicio") String hora_inicio, 
+            @WebParam(name= "estadoCita") EstadoCita estado){
+        return this.pacienteBO.listarCitas(idEspecialidad, fecha, idMedico, hora_inicio, estado);
     }
     
     @WebMethod(operationName = "reservarCitaPaciente")
@@ -48,24 +45,23 @@ public class PacienteWS {
     }
 
     @WebMethod(operationName = "cancelarCitaPaciente")
-    public int cancelarCitaPaciente(
-            @WebParam(name = "cita")CitaDTO cita,
-            @WebParam(name = "historia_por_cita")
+    public int cancelarCitaPaciente(@WebParam(name = "historia_por_cita")
                     HistoriaClinicaPorCitaDTO historia_por_cita) {
-        return this.pacienteBO.cancelarCita(cita, historia_por_cita);
+        return this.pacienteBO.cancelarCita(historia_por_cita);
     }
 
     @WebMethod(operationName = "reprogramarCitaPaciente")
     public int reprogramarCitaPaciente(
-            @WebParam(name = "citaAntigua")CitaDTO citaAntigua,
             @WebParam(name = "citaNueva")CitaDTO citaNueva,
             @WebParam(name = "historia_por_cita")HistoriaClinicaPorCitaDTO historia_por_cita) {
-        return this.pacienteBO.reprogramar(citaAntigua, citaNueva, historia_por_cita);
+        return this.pacienteBO.reprogramar(citaNueva, historia_por_cita);
     }
 
-    @WebMethod(operationName = "listarCitasPorPersonaPaciente")
-    public ArrayList<HistoriaClinicaPorCitaDTO> listarCitasPorPersonaPaciente(
-            @WebParam(name = "historia")HistoriaClinicaDTO historia) {
-        return this.pacienteBO.listarCitasPorPersona(historia);
+    @WebMethod(operationName = "listarCitasPorPaciente")
+    public ArrayList<HistoriaClinicaPorCitaDTO> listarCitasPorPaciente(
+            @WebParam(name = "paciente")UsuarioDTO persona) {
+        return this.pacienteBO.listarCitasPorPersona(persona);
     }
+    
+    
 }

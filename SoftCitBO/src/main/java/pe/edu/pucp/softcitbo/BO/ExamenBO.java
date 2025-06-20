@@ -15,22 +15,23 @@ import pe.edu.pucp.softcit.model.ExamenDTO;
  */
 public class ExamenBO {
     
-    private ExamenDAO dao;
+    private final ExamenDAO examenDao;
     
     public ExamenBO(){
-        this.dao = new ExamenDAOImpl();
+        this.examenDao = new ExamenDAOImpl();
         
     }
     
     public Integer insertar(ExamenDTO examen){
-        return this.dao.insertar(examen);
-    }
-    public ExamenDTO obtenerPorId(Integer examenId){
-        return this.dao.obtenerPorId(examenId);
-    }
-    public ArrayList<ExamenDTO> listarTodos(){
-        return this.dao.listarTodos();
+        return this.examenDao.insertar(examen);
     }
     
+    public ExamenDTO obtenerPorId(Integer examenId){
+        return this.examenDao.obtenerPorId(examenId);
+    }
+    
+    public ArrayList<ExamenDTO> listarTodos(){
+        return this.examenDao.listarTodos();
+    }
     
 }

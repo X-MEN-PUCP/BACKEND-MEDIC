@@ -2,6 +2,7 @@ pe\edu\pucp\softcit\dao\ConsultorioDAO.class
 pe\edu\pucp\softcit\dao\InterconsultaDAO.class
 pe\edu\pucp\softcit\dao\HistoriaClinicaPorCitaDAO.class
 pe\edu\pucp\softcit\daoImp\DiagnosticoPorCitaDAOImpl.class
+pe\edu\pucp\softcit\dao\ReporteCitasDAO.class
 pe\edu\pucp\softcit\dao\DiagnosticoDAO.class
 pe\edu\pucp\softcit\dao\DiagnositcoPorCitaDAO.class
 pe\edu\pucp\softcit\daoImp\CitaDAOImpl.class
@@ -32,3 +33,4 @@ pe\edu\pucp\softcit\daoImp\ExamenDAOImpl.class
 pe\edu\pucp\softcit\daoImp\DiagnosticoDAOImpl.class
 pe\edu\pucp\softcit\daoImp\util\Tipo_Operacion.class
 pe\edu\pucp\softcit\daoImp\DAOImplBase$1.class
+pe\edu\pucp\softcit\daoImp\ReporteCitasDAOImpl.class

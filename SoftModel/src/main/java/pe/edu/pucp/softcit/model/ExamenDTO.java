@@ -13,11 +13,19 @@ public class ExamenDTO {
     private TipoExamenDTO tipoExamen;
     private String nombreExamen;
     private EstadoGeneral estadoGeneral;
+    private Integer usuarioCreacion;
+    private String fechaCreacion;
+    private Integer usuarioModificacion;
+    private String fechaModificacion;
     
     public ExamenDTO() {
         this.idExamen = null;
         this.tipoExamen = null;
         this.nombreExamen = null;
+        this.usuarioCreacion = null;
+        this.fechaCreacion = null;
+        this.usuarioModificacion = null;
+        this.fechaModificacion = null;
     }
 
     public ExamenDTO(ExamenDTO examen) {
@@ -57,5 +65,38 @@ public class ExamenDTO {
     public void setNombreExamen(String nombreExamen) {
         this.nombreExamen = nombreExamen;
     }
+
+    public Integer getUsuarioCreacion() {
+        return usuarioCreacion;
+    }
+
+    public void setUsuarioCreacion(Integer usuarioCreacion) {
+        this.usuarioCreacion = usuarioCreacion;
+    }
+
+    public String getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(String fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public Integer getUsuarioModificacion() {
+        return usuarioModificacion;
+    }
+
+    public void setUsuarioModificacion(Integer usuarioModificacion) {
+        this.usuarioModificacion = usuarioModificacion;
+    }
+
+    public String getFechaModificacion() {
+        return fechaModificacion;
+    }
+
+    public void setFechaModificacion(String fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
+    }
+    
     
 }

@@ -7,6 +7,7 @@ package pe.edu.pucp.softcit.dao;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import pe.edu.pucp.softcit.model.CitaDTO;
+import pe.edu.pucp.softcit.model.EstadoCita;
 
 /**
  *
@@ -15,7 +16,8 @@ import pe.edu.pucp.softcit.model.CitaDTO;
 public interface CitaDAO {
     public Integer modificar(CitaDTO cita);
     public ArrayList<CitaDTO> listarTodos();
-    public ArrayList<CitaDTO> listarCitasProgramadas(Integer codMedico);
-    public ArrayList<CitaDTO> buscarCitasDisponibles(Integer idEspecialidad, Integer codMedico, LocalDate fecha); 
+    public ArrayList<CitaDTO> listarCitasMedico(Integer idMedico, EstadoCita estado);
+    public ArrayList<CitaDTO> buscarCitas(Integer idEspecialidad, Integer idMedico, String fecha, String hora_inicio, EstadoCita estado);
     public CitaDTO obtenerPorId(Integer id);
+    public ArrayList<CitaDTO> buscarCitasDisponiblesSoloCalenario(Integer idEspecialidad, Integer idMedico, String fecha, String hora_inicio, EstadoCita estado);
 }

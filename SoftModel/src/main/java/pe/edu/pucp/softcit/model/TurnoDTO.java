@@ -4,7 +4,6 @@
  */
 package pe.edu.pucp.softcit.model;
 
-import java.util.Date;
 
 /**
  *
@@ -13,15 +12,23 @@ import java.util.Date;
 public class TurnoDTO {
     private Integer idTurno;
     private String nombreTurno;
-    private Date horaInicio;
-    private Date horaFin;
+    private String horaInicio;
+    private String horaFin;
     private EstadoGeneral estadoGeneral;
+    private Integer usuarioCreacion;
+    private String fechaCreacion;
+    private Integer usuarioModificacion;
+    private String fechaModificacion;
 
     public TurnoDTO() {
         this.idTurno = null;
         this.nombreTurno = null;
         this.horaInicio = null;
         this.horaFin = null;
+        this.usuarioCreacion = null;
+        this.fechaCreacion = null;
+        this.usuarioModificacion = null;
+        this.fechaModificacion = null;
     }
 
     public Integer getIdTurno() {
@@ -40,21 +47,23 @@ public class TurnoDTO {
         this.nombreTurno = nombreTurno;
     }
 
-    public Date getHoraInicio() {
+    public String getHoraInicio() {
         return horaInicio;
     }
 
-    public void setHoraInicio(Date horaInicio) {
+    public void setHoraInicio(String horaInicio) {
         this.horaInicio = horaInicio;
     }
 
-    public Date getHoraFin() {
+    public String getHoraFin() {
         return horaFin;
     }
 
-    public void setHoraFin(Date horaFin) {
+    public void setHoraFin(String horaFin) {
         this.horaFin = horaFin;
     }
+
+    
 
     public EstadoGeneral getEstadoGeneral() {
         return estadoGeneral;
@@ -62,6 +71,38 @@ public class TurnoDTO {
 
     public void setEstadoGeneral(EstadoGeneral estadoGeneral) {
         this.estadoGeneral = estadoGeneral;
+    }
+
+    public Integer getUsuarioCreacion() {
+        return usuarioCreacion;
+    }
+
+    public void setUsuarioCreacion(Integer usuarioCreacion) {
+        this.usuarioCreacion = usuarioCreacion;
+    }
+
+    public String getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(String fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public Integer getUsuarioModificacion() {
+        return usuarioModificacion;
+    }
+
+    public void setUsuarioModificacion(Integer usuarioModificacion) {
+        this.usuarioModificacion = usuarioModificacion;
+    }
+
+    public String getFechaModificacion() {
+        return fechaModificacion;
+    }
+
+    public void setFechaModificacion(String fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
     }
     
     

@@ -13,12 +13,19 @@ public class EspecialidadDTO {
     private String nombreEspecialidad;
     private Double precioConsulta;
     private EstadoGeneral estadoGeneral;
-    
+    private Integer usuarioCreacion;
+    private String fechaCreacion;
+    private Integer usuarioModificacion;
+    private String fechaModificacion;
 
     public EspecialidadDTO() {
         this.idEspecialidad = null;
         this.nombreEspecialidad = null;
         this.precioConsulta = null;
+        this.usuarioCreacion = null;
+        this.fechaCreacion = null;
+        this.usuarioModificacion = null;
+        this.fechaModificacion = null;
     }
     
     public EspecialidadDTO(EspecialidadDTO especialidad) {
@@ -26,6 +33,10 @@ public class EspecialidadDTO {
         this.nombreEspecialidad=especialidad.nombreEspecialidad;
         this.nombreEspecialidad=especialidad.nombreEspecialidad;
         this.estadoGeneral=especialidad.estadoGeneral;
+        this.usuarioCreacion = especialidad.usuarioCreacion;
+        this.fechaCreacion = especialidad.fechaCreacion;
+        this.usuarioModificacion = especialidad.usuarioModificacion;
+        this.fechaModificacion = especialidad.fechaModificacion;
     }
     
     public EstadoGeneral getEstadoGeneral() {
@@ -58,6 +69,38 @@ public class EspecialidadDTO {
 
     public void setPrecioConsulta(Double precioConsulta) {
         this.precioConsulta = precioConsulta;
+    }
+
+    public Integer getUsuarioCreacion() {
+        return usuarioCreacion;
+    }
+
+    public void setUsuarioCreacion(Integer usuarioCreacion) {
+        this.usuarioCreacion = usuarioCreacion;
+    }
+
+    public String getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(String fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public Integer getUsuarioModificacion() {
+        return usuarioModificacion;
+    }
+
+    public void setUsuarioModificacion(Integer usuarioModificacion) {
+        this.usuarioModificacion = usuarioModificacion;
+    }
+
+    public String getFechaModificacion() {
+        return fechaModificacion;
+    }
+
+    public void setFechaModificacion(String fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
     }
     
     

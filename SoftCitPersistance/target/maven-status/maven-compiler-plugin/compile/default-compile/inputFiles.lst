@@ -9,6 +9,7 @@ C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersist
 C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersistance\src\main\java\pe\edu\pucp\softcit\dao\HistoriaClinicaPorCitaDAO.java
 C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersistance\src\main\java\pe\edu\pucp\softcit\dao\HistoriaDAO.java
 C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersistance\src\main\java\pe\edu\pucp\softcit\dao\InterconsultaDAO.java
+C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersistance\src\main\java\pe\edu\pucp\softcit\dao\ReporteCitasDAO.java
 C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersistance\src\main\java\pe\edu\pucp\softcit\dao\RolesXUsuarioDAO.java
 C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersistance\src\main\java\pe\edu\pucp\softcit\dao\TipoExamenDAO.java
 C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersistance\src\main\java\pe\edu\pucp\softcit\dao\TurnoDAO.java
@@ -25,6 +26,7 @@ C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersist
 C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersistance\src\main\java\pe\edu\pucp\softcit\daoImp\HistoriaClinicaPorCitaDAOImpl.java
 C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersistance\src\main\java\pe\edu\pucp\softcit\daoImp\HistoriaDAOImpl.java
 C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersistance\src\main\java\pe\edu\pucp\softcit\daoImp\InterconsultaDAOImpl.java
+C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersistance\src\main\java\pe\edu\pucp\softcit\daoImp\ReporteCitasDAOImpl.java
 C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersistance\src\main\java\pe\edu\pucp\softcit\daoImp\RolesXUsuarioDAOImpl.java
 C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersistance\src\main\java\pe\edu\pucp\softcit\daoImp\TipoExamenDAOImpl.java
 C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersistance\src\main\java\pe\edu\pucp\softcit\daoImp\TurnoDAOImpl.java

@@ -13,11 +13,19 @@ public class ConsultorioDTO {
     private Integer numConsultorio;
     private Integer numPiso;
     private EstadoGeneral estadoGeneral;
+    private Integer usuarioCreacion;
+    private String fechaCreacion;
+    private Integer usuarioModificacion;
+    private String fechaModificacion;
 
     public ConsultorioDTO() {
         this.idConsultorio = null;
         this.numConsultorio = null;
         this.numPiso = null; 
+        this.usuarioCreacion = null;
+        this.fechaCreacion = null;
+        this.usuarioModificacion = null;
+        this.fechaModificacion = null;
     }
 
     public EstadoGeneral getEstadoGeneral() {
@@ -28,8 +36,6 @@ public class ConsultorioDTO {
         this.estadoGeneral = estadoGeneral;
     }
 
-    
-    
     public Integer getIdConsultorio() {
         return idConsultorio;
     }
@@ -52,6 +58,38 @@ public class ConsultorioDTO {
 
     public void setNumPiso(Integer numPiso) {
         this.numPiso = numPiso;
+    }
+
+    public Integer getUsuarioCreacion() {
+        return usuarioCreacion;
+    }
+
+    public void setUsuarioCreacion(Integer usuarioCreacion) {
+        this.usuarioCreacion = usuarioCreacion;
+    }
+
+    public String getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(String fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public Integer getUsuarioModificacion() {
+        return usuarioModificacion;
+    }
+
+    public void setUsuarioModificacion(Integer usuarioModificacion) {
+        this.usuarioModificacion = usuarioModificacion;
+    }
+
+    public String getFechaModificacion() {
+        return fechaModificacion;
+    }
+
+    public void setFechaModificacion(String fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
     }
     
 }

@@ -6,6 +6,7 @@ package pe.edu.pucp.softcit.daoImp;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -50,6 +51,10 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
         this.listaColumnas.add(new Columna("genero", false, false));
         this.listaColumnas.add(new Columna("estado_general", false, false));
         this.listaColumnas.add(new Columna("estado_logico", false, false));
+        this.listaColumnas.add(new Columna("usuario_creacion", false, false));//not null
+        this.listaColumnas.add(new Columna("fecha_creacion", false, false));//not null
+        this.listaColumnas.add(new Columna("usuario_modificacion", false, false));
+        this.listaColumnas.add(new Columna("fecha_modificacion", false, false));
 
     }
 
@@ -84,7 +89,10 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
         this.statement.setString(11, this.usuario.getGenero().toString());
         this.statement.setInt(12, EstadoGeneral.ACTIVO.getCodigo());
         this.statement.setInt(13, EstadoLogico.DISPONIBLE.getCodigo());
-
+        this.statement.setInt(4, this.usuario.getUsuarioCreacion());
+        this.statement.setDate(5, Date.valueOf(this.usuario.getFechaCreacion()));
+        this.statement.setNull(6, Types.INTEGER);
+        this.statement.setNull(7, Types.DATE);
     }
 
     @Override
@@ -119,8 +127,11 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
 
         this.statement.setInt(12, this.usuario.getEstadoGeneral().getCodigo());
         this.statement.setInt(13, this.usuario.getEstadoLogico().getCodigo());
-
-        this.statement.setInt(14, this.usuario.getIdUsuario());
+        this.statement.setInt(14, this.usuario.getUsuarioCreacion());
+        this.statement.setDate(15, Date.valueOf(this.usuario.getFechaCreacion()));
+        this.statement.setInt(16, this.usuario.getUsuarioModificacion());
+        this.statement.setDate(17, Date.valueOf(this.usuario.getFechaModificacion()));
+        this.statement.setInt(18, this.usuario.getIdUsuario());
     }
 
     @Override
@@ -145,7 +156,7 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
         this.usuario.setApellidoMaterno(this.resultSet.getString("apellido_materno"));//7
 
         java.sql.Date fechaSQL = this.resultSet.getDate("fecha_nacimiento");//8
-        this.usuario.setFechaNacimiento(fechaSQL.toLocalDate());
+        this.usuario.setFechaNacimiento(fechaSQL.toString());
 
         this.usuario.setCorreoElectronico(this.resultSet.getString("correo_electronico")); //9
         this.usuario.setNumCelular(this.resultSet.getString("num_celular"));//10
@@ -155,6 +166,11 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
 
         this.usuario.setEstadoGeneral(EstadoGeneral.valueOfCodigo(this.resultSet.getInt("estado_general"))); //13
         this.usuario.setEstadoLogico(EstadoLogico.valueOfCodigo(this.resultSet.getInt("estado_logico"))); //14
+        this.usuario.setUsuarioCreacion(this.resultSet.getInt("usuario_creacion"));
+        this.usuario.setFechaCreacion(this.resultSet.getDate("fecha_creacion").toString());
+        this.usuario.setUsuarioModificacion(this.resultSet.getInt("usuario_modificacion"));
+        if(this.resultSet.getDate("fecha_modificacion") != null) 
+            this.usuario.setFechaModificacion(this.resultSet.getDate("fecha_modificacion").toString());
 
     }
 

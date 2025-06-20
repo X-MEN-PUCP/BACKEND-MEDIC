@@ -94,8 +94,6 @@ public abstract class DAOImplBase {
         int resultado = 0;
         try {
             this.iniciarTransaccion();
-            //this.conexion = DBManager.getInstance().getConnection();
-            //this.conexion.setAutoCommit(false);
             String sql = null;
             switch (tipo_Operacion) {
                 case Tipo_Operacion.INSERTAR ->
@@ -106,6 +104,7 @@ public abstract class DAOImplBase {
                     sql = this.generarSQLParaEliminacion();
             }
             this.colocarSQLenStatement(sql);
+            System.out.println("SQL: "+sql);
             switch (tipo_Operacion) {
                 case Tipo_Operacion.INSERTAR ->
                     this.incluirValorDeParametrosParaInsercion();
@@ -123,18 +122,12 @@ public abstract class DAOImplBase {
             System.err.println("Error al intentar ejecutar consulta - " + tipo_Operacion.toString() + ": " + ex);
             try {
                 this.rollbackTransaccion();
-                //if (this.conexion != null) {
-                //    this.conexion.rollback();
-                //}
             } catch (SQLException ex1) {
                 System.err.println("Error al hacer rollback - " + ex);
             }
         } finally {
             try {
                 this.cerrarConexion();
-                //if (this.conexion != null) {
-                //    this.conexion.close();
-                //}
             } catch (SQLException ex) {
                 System.err.println("Error al cerrar la conexión - " + ex);
             }
@@ -178,7 +171,7 @@ public abstract class DAOImplBase {
         for (Columna columna : this.listaColumnas) {
             if (columna.getEsllavePrimaria()) {
                 if (!sql_predicado.isBlank()) {
-                    sql_predicado = sql_predicado.concat(", ");
+                    sql_predicado = sql_predicado.concat(" AND ");
                 }
                 sql_predicado = sql_predicado.concat(columna.getNombre());
                 sql_predicado = sql_predicado.concat("=?");
@@ -206,7 +199,7 @@ public abstract class DAOImplBase {
         for (Columna columna : this.listaColumnas) {
             if (columna.getEsllavePrimaria()) {
                 if (!sql_predicado.isBlank()) {
-                    sql_predicado = sql_predicado.concat(", ");
+                    sql_predicado = sql_predicado.concat(" AND ");
                 }
                 sql_predicado = sql_predicado.concat(columna.getNombre());
                 sql_predicado = sql_predicado.concat("=?");
@@ -225,7 +218,7 @@ public abstract class DAOImplBase {
         for (Columna columna : this.listaColumnas) {
             if (columna.getEsllavePrimaria()) {
                 if (!sql_predicado.isBlank()) {
-                    sql_predicado = sql_predicado.concat(", ");
+                    sql_predicado = sql_predicado.concat(" AND ");
                 }
                 sql_predicado = sql_predicado.concat(columna.getNombre());
                 sql_predicado = sql_predicado.concat("=?");

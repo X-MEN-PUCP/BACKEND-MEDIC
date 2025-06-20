@@ -4,7 +4,9 @@
  */
 package pe.edu.pucp.softcit.daoImp;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import pe.edu.pucp.softcit.dao.EspecialidadDAO;
@@ -32,6 +34,10 @@ public class EspecialidadDAOImpl extends DAOImplBase implements EspecialidadDAO 
         this.listaColumnas.add(new Columna("nombre_especialidad", false, false));
         this.listaColumnas.add(new Columna("precio_consulta", false, false));
         this.listaColumnas.add(new Columna("estado", false, false));
+        this.listaColumnas.add(new Columna("usuario_creación", false, false));//not null
+        this.listaColumnas.add(new Columna("fecha_creacion", false, false));//not null
+        this.listaColumnas.add(new Columna("usuario_modificación", false, false));
+        this.listaColumnas.add(new Columna("fecha_modificacion", false, false));
     }
 
     @Override
@@ -43,7 +49,10 @@ public class EspecialidadDAOImpl extends DAOImplBase implements EspecialidadDAO 
             throw new IllegalArgumentException("precioConsulta no puede ser null porque la BD no lo permite");
         }
         this.statement.setInt(3, EstadoGeneral.ACTIVO.getCodigo());
-
+        this.statement.setInt(4, this.especialidad.getUsuarioCreacion());
+        this.statement.setDate(5, Date.valueOf(this.especialidad.getFechaCreacion()));
+        this.statement.setNull(6, Types.INTEGER);
+        this.statement.setNull(7, Types.DATE);
     }
 
     @Override
@@ -56,7 +65,11 @@ public class EspecialidadDAOImpl extends DAOImplBase implements EspecialidadDAO 
             throw new IllegalArgumentException("precioConsulta no puede ser null porque la BD no lo permite");
         }
         this.statement.setInt(3, this.especialidad.getEstadoGeneral().getCodigo());
-        this.statement.setInt(4, this.especialidad.getIdEspecialidad());
+        this.statement.setInt(4, this.especialidad.getUsuarioCreacion());
+        this.statement.setDate(5, Date.valueOf(this.especialidad.getFechaCreacion()));
+        this.statement.setInt(6, this.especialidad.getUsuarioModificacion());
+        this.statement.setDate(7, Date.valueOf(this.especialidad.getFechaModificacion()));
+        this.statement.setInt(8, this.especialidad.getIdEspecialidad());
 
     }
 
@@ -77,6 +90,11 @@ public class EspecialidadDAOImpl extends DAOImplBase implements EspecialidadDAO 
         this.especialidad.setNombreEspecialidad(this.resultSet.getString("nombre_especialidad"));
         this.especialidad.setPrecioConsulta(this.resultSet.getDouble("precio_consulta"));
         this.especialidad.setEstadoGeneral(EstadoGeneral.valueOfCodigo(this.resultSet.getInt("estado"))); //13
+        this.especialidad.setUsuarioCreacion(this.resultSet.getInt("usuario_creación"));
+        this.especialidad.setFechaCreacion(this.resultSet.getDate("fecha_creacion").toString());
+        this.especialidad.setUsuarioModificacion(this.resultSet.getInt("usuario_modificación"));
+        if(this.resultSet.getDate("fecha_modificacion") != null) 
+            this.especialidad.setFechaModificacion(this.resultSet.getDate("fecha_modificacion").toString());
     }
 
     @Override
@@ -106,10 +124,6 @@ public class EspecialidadDAOImpl extends DAOImplBase implements EspecialidadDAO 
     public ArrayList<EspecialidadDTO> listar() {
         return (ArrayList<EspecialidadDTO>) super.listarTodos();
     }
-
-    
-
-    
 
     @Override
     public Integer cambiarEstadoEspecialidad(EspecialidadDTO especialidad) {

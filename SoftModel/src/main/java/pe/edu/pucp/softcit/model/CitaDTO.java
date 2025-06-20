@@ -18,10 +18,14 @@ public class CitaDTO {
     private EspecialidadDTO especialidad;
     private TurnoDTO turno;
     private ConsultorioDTO consultorio;
-    private LocalTime horaInicio;
-    private LocalTime horaFin;
-    private LocalDate fechaCita;
+    private String horaInicio;
+    private String horaFin;
+    private String fechaCita;
     private EstadoCita estado;
+    private Integer usuarioCreacion;
+    private String fechaCreacion;
+    private Integer usuarioModificacion;
+    private String fechaModificacion;
 
     public CitaDTO() {
         this.idCita = null;
@@ -33,6 +37,10 @@ public class CitaDTO {
         this.horaFin = null;
         this.fechaCita = null;
         this.estado = null;
+        this.usuarioCreacion = null;
+        this.fechaCreacion = null;
+        this.usuarioModificacion = null;
+        this.fechaModificacion = null;
     }
     
     public CitaDTO(CitaDTO cita) {
@@ -44,6 +52,11 @@ public class CitaDTO {
         this.horaInicio = cita.horaInicio;
         this.horaFin = cita.horaFin;
         this.fechaCita = cita.fechaCita;
+        this.estado = null;
+        this.usuarioCreacion = null;
+        this.fechaCreacion = null;
+        this.usuarioModificacion = null;
+        this.fechaModificacion = null;
     }
 
     public Integer getIdCita() {
@@ -85,28 +98,29 @@ public class CitaDTO {
     public void setConsultorio(ConsultorioDTO consultorio) {
         this.consultorio = consultorio;
     }
-    
-    public LocalTime getHoraInicio() {
+
+    public String getHoraInicio() {
         return horaInicio;
     }
 
-    public void setHoraInicio(LocalTime horaInicio) {
+    public void setHoraInicio(String horaInicio) {
         this.horaInicio = horaInicio;
     }
 
-    public LocalTime getHoraFin() {
+    public String getHoraFin() {
         return horaFin;
     }
 
-    public void setHoraFin(LocalTime horaFin) {
+    public void setHoraFin(String horaFin) {
         this.horaFin = horaFin;
     }
-
-    public LocalDate getFechaCita() {
+    
+    
+    public String getFechaCita() {
         return fechaCita;
     }
 
-    public void setFechaCita(LocalDate fechaCita) {
+    public void setFechaCita(String fechaCita) {
         this.fechaCita = fechaCita;
     }
 
@@ -117,5 +131,39 @@ public class CitaDTO {
     public void setEstado(EstadoCita estado) {
         this.estado = estado;
     }
+
+    public Integer getUsuarioCreacion() {
+        return usuarioCreacion;
+    }
+
+    public void setUsuarioCreacion(Integer usuarioCreacion) {
+        this.usuarioCreacion = usuarioCreacion;
+    }
+
+    public String getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(String fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public Integer getUsuarioModificacion() {
+        return usuarioModificacion;
+    }
+
+    public void setUsuarioModificacion(Integer usuarioModificacion) {
+        this.usuarioModificacion = usuarioModificacion;
+    }
+
+    public String getFechaModificacion() {
+        return fechaModificacion;
+    }
+
+    public void setFechaModificacion(String fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
+    }
+    
+    
     
 }

@@ -18,7 +18,7 @@ import pe.edu.pucp.softcitbo.BO.RolesPorUsuarioBO;
 @WebService(serviceName = "RolesPorUsuarioWS")
 public class RolesPorUsuarioWS {
 
-    private RolesPorUsuarioBO rolesPorUsuarioBO;
+    private final RolesPorUsuarioBO rolesPorUsuarioBO;
     
     public RolesPorUsuarioWS(){
         this.rolesPorUsuarioBO=new RolesPorUsuarioBO();
@@ -34,5 +34,11 @@ public class RolesPorUsuarioWS {
     public Integer insertarRolesPorUsuario(
             @WebParam(name = "usarioPorRol")UsuarioPorRolDTO usarioPorRol){
         return this.rolesPorUsuarioBO.insertar(usarioPorRol);
+    }
+    
+    @WebMethod(operationName = "eliminarRolPorUsuario")
+    public Integer eliminarRolPorUsuario(
+            @WebParam(name="usarioPorRol")UsuarioPorRolDTO usuarioPorRol){
+        return this.rolesPorUsuarioBO.eliminar(usuarioPorRol);
     }
 }

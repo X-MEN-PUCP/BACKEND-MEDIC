@@ -4,7 +4,9 @@
  */
 package pe.edu.pucp.softcit.daoImp;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import pe.edu.pucp.softcit.dao.ExamenPorCitaDAO;
@@ -35,6 +37,10 @@ public class ExamenPorCitaDAOImpl extends DAOImplBase implements ExamenPorCitaDA
         this.listaColumnas.add(new Columna("id_cita", true, false));
         this.listaColumnas.add(new Columna("observacion", false, false));
         this.listaColumnas.add(new Columna("estado", false, false));
+        this.listaColumnas.add(new Columna("usuario_creación", false, false));//not null
+        this.listaColumnas.add(new Columna("fecha_creacion", false, false));//not null
+        this.listaColumnas.add(new Columna("usuario_modificación", false, false));
+        this.listaColumnas.add(new Columna("fecha_modificacion", false, false));
     }
 
     @Override
@@ -43,16 +49,24 @@ public class ExamenPorCitaDAOImpl extends DAOImplBase implements ExamenPorCitaDA
         this.statement.setInt(2, new CitaDTO(this.examenPorCita.getCita()).getIdCita());
         this.statement.setString(3, this.examenPorCita.getObservaciones());
         this.statement.setInt(4, EstadoGeneral.ACTIVO.getCodigo());
+        this.statement.setInt(5, this.examenPorCita.getUsuarioCreacion());
+        this.statement.setDate(6, Date.valueOf(this.examenPorCita.getFechaCreacion()));
+        this.statement.setNull(7, Types.INTEGER);
+        this.statement.setNull(8, Types.DATE);        
     }
 
     @Override
     protected void instanciarObjetoDelResultSet() throws SQLException {
-        ExamenPorCita examen_por_Cita = new ExamenPorCita();
-        examen_por_Cita.setExamen(new ExamenDAOImpl().obtenerPorId(this.resultSet.getInt("id_examen")));
-        examen_por_Cita.setCita(new CitaDAOImpl().obtenerPorId(this.resultSet.getInt("id_cita")));
-        examen_por_Cita.setObservaciones(this.resultSet.getString("observacion"));
-        examen_por_Cita.setEstadoGeneral(EstadoGeneral.valueOfCodigo(this.resultSet.getInt("estado"))); //13
-        this.examenPorCita = examen_por_Cita;
+        this.examenPorCita = new ExamenPorCita();
+        this.examenPorCita.setExamen(new ExamenDAOImpl().obtenerPorId(this.resultSet.getInt("id_examen")));
+        this.examenPorCita.setCita(new CitaDAOImpl().obtenerPorId(this.resultSet.getInt("id_cita")));
+        this.examenPorCita.setObservaciones(this.resultSet.getString("observacion"));
+        this.examenPorCita.setEstadoGeneral(EstadoGeneral.valueOfCodigo(this.resultSet.getInt("estado"))); //13
+        this.examenPorCita.setUsuarioCreacion(this.resultSet.getInt("usuario_creación"));
+        this.examenPorCita.setFechaCreacion(this.resultSet.getDate("fecha_creacion").toString());
+        this.examenPorCita.setUsuarioModificacion(this.resultSet.getInt("usuario_modificación"));
+        if(this.resultSet.getDate("fecha_modificacion") != null) 
+            this.examenPorCita.setFechaModificacion(this.resultSet.getDate("fecha_modificacion").toString());
     }
     
     @Override

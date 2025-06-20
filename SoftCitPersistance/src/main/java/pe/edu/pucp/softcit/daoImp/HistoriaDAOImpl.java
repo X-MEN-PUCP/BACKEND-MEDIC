@@ -4,7 +4,9 @@
  */
 package pe.edu.pucp.softcit.daoImp;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import pe.edu.pucp.softcit.dao.EspecialidadDAO;
@@ -36,7 +38,10 @@ public class HistoriaDAOImpl extends DAOImplBase implements HistoriaDAO {
         this.listaColumnas.add(new Columna("id_historia", true, false));
         this.listaColumnas.add(new Columna("id_paciente", false, false));
         this.listaColumnas.add(new Columna("estado", false, false));
-
+        this.listaColumnas.add(new Columna("usuario_creación", false, false));//not null
+        this.listaColumnas.add(new Columna("fecha_creacion", false, false));//not null
+        this.listaColumnas.add(new Columna("usuario_modificación", false, false));
+        this.listaColumnas.add(new Columna("fecha_modificacion", false, false));
     }
     
 
@@ -45,7 +50,10 @@ public class HistoriaDAOImpl extends DAOImplBase implements HistoriaDAO {
         this.statement.setInt(1, this.historia.getIdHistoriaClinica());
         this.statement.setInt(2, this.historia.getPaciente().getIdUsuario());
         this.statement.setInt(3, EstadoGeneral.ACTIVO.getCodigo());
-
+        this.statement.setInt(4, this.historia.getUsuarioCreacion());
+        this.statement.setDate(5, Date.valueOf(this.historia.getFechaCreacion()));
+        this.statement.setNull(6, Types.INTEGER);
+        this.statement.setNull(7, Types.DATE);
     }
 
     @Override
@@ -62,6 +70,11 @@ public class HistoriaDAOImpl extends DAOImplBase implements HistoriaDAO {
         this.historia.setPaciente(usuario);
         
         this.historia.setEstadoGeneral(EstadoGeneral.valueOfCodigo(this.resultSet.getInt("estado"))); //13
+        this.historia.setUsuarioCreacion(this.resultSet.getInt("usuario_creación"));
+        this.historia.setFechaCreacion(this.resultSet.getDate("fecha_creacion").toString());
+        this.historia.setUsuarioModificacion(this.resultSet.getInt("usuario_modificación"));
+        if(this.resultSet.getDate("fecha_modificacion") != null) 
+            this.historia.setFechaModificacion(this.resultSet.getDate("fecha_modificacion").toString());
 
     }
     
@@ -99,7 +112,7 @@ public class HistoriaDAOImpl extends DAOImplBase implements HistoriaDAO {
 
     @Override
     public HistoriaClinicaDTO obtenerPorIdPaciente(Integer id) {
-        limpiarObjetoDelResultSet();
+    limpiarObjetoDelResultSet();
     try {
         this.abrirConexion();
 

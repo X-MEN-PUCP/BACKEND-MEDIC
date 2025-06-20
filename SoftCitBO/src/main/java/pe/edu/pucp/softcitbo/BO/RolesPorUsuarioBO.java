@@ -15,19 +15,22 @@ import pe.edu.pucp.softcit.model.UsuarioPorRolDTO;
  */
 public class RolesPorUsuarioBO {
     
- 
-    private RolesXUsuarioDAO rolesPorUsuarioDao;
-    
+    private final RolesXUsuarioDAO rolesPorUsuarioDao;
     
     public RolesPorUsuarioBO(){
-        rolesPorUsuarioDao = new RolesXUsuarioDAOImpl();
+        this.rolesPorUsuarioDao = new RolesXUsuarioDAOImpl();
     } 
     
     public ArrayList<UsuarioPorRolDTO> listarPorUsuario(Integer id){
         return this.rolesPorUsuarioDao.listarPorUsuario(id);
     }
+    
     public Integer insertar(UsuarioPorRolDTO usarioPorRol){
         return this.rolesPorUsuarioDao.insertar(usarioPorRol);
+    }
+    
+    public Integer eliminar(UsuarioPorRolDTO usuarioPorRol){
+        return this.rolesPorUsuarioDao.eliminar(usuarioPorRol);
     }
     
 }

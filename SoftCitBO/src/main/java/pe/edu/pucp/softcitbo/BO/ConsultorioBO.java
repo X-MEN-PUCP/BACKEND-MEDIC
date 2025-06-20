@@ -15,23 +15,26 @@ import pe.edu.pucp.softcit.model.ConsultorioDTO;
  */
 public class ConsultorioBO {
     
-    private ConsultorioDAO dao;
+    private final ConsultorioDAO consultorioDao;
     
     public ConsultorioBO(){
-        this.dao = new ConsultorioDAOImpl();
+        this.consultorioDao = new ConsultorioDAOImpl();
     }
     
     public Integer insertar(ConsultorioDTO consultorio){
-        return this.dao.insertar(consultorio);
+        return this.consultorioDao.insertar(consultorio);
     }
+    
     public Integer modificar(ConsultorioDTO consultorio){
-        return this.dao.modificar(consultorio);
+        return this.consultorioDao.modificar(consultorio);
     }
+    
     public ConsultorioDTO obtenerPorId(Integer consultorioId){
-        return this.dao.obtenerPorId(consultorioId);
+        return this.consultorioDao.obtenerPorId(consultorioId);
     }
+    
     public ArrayList<ConsultorioDTO> listarTodos(){
-        return this.dao.listarTodos();
+        return this.consultorioDao.listarTodos();
     }
     
 }

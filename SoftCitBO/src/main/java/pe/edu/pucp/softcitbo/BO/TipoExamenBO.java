@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import pe.edu.pucp.softcit.dao.TipoExamenDAO;
 import pe.edu.pucp.softcit.daoImp.TipoExamenDAOImpl;
 import pe.edu.pucp.softcit.model.TipoExamenDTO;
-import pe.edu.pucp.softcit.model.TurnoDTO;
 
 /**
  *
@@ -16,23 +15,23 @@ import pe.edu.pucp.softcit.model.TurnoDTO;
  */
 public class TipoExamenBO {
     
-    private TipoExamenDAO dao;
+    private final TipoExamenDAO tipoExamenDao;
     
     public TipoExamenBO(){
-        this.dao = new TipoExamenDAOImpl();
+        this.tipoExamenDao = new TipoExamenDAOImpl();
     }
     
     public Integer insertar(TipoExamenDTO tipoExamen){
-        return this.dao.insertar(tipoExamen);
+        return this.tipoExamenDao.insertar(tipoExamen);
     }
     public Integer modificar(TipoExamenDTO tipoExamen){
-        return this.dao.modificar(tipoExamen);
+        return this.tipoExamenDao.modificar(tipoExamen);
     }
     public TipoExamenDTO obtenerPorId(Integer tipoExamenId){
-        return this.dao.obtenerPorId(tipoExamenId);
+        return this.tipoExamenDao.obtenerPorId(tipoExamenId);
     }
     public ArrayList<TipoExamenDTO> listarTodos(){
-        return this.dao.listarTodos();
+        return this.tipoExamenDao.listarTodos();
     }
     
 }

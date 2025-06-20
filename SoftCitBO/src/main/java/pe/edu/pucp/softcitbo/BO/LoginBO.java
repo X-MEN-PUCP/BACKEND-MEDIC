@@ -15,24 +15,23 @@ import pe.edu.pucp.softcitbo.BO.util.Cifrado;
  */
 public class LoginBO {
     
-    private UsuarioDAO usuarioDao;
+    private final UsuarioDAO usuarioDao;
     
     
     public LoginBO(){
-        usuarioDao = new UsuarioDAOImpl();
+        this.usuarioDao = new UsuarioDAOImpl();
     } 
     
     public UsuarioDTO iniciarSesion(String numeroDoc,String tipoDoc , String contrasenha){
         UsuarioDTO cuenta;
-        cuenta= usuarioDao.buscarCuenta(numeroDoc, tipoDoc, Cifrado.cifrarMD5(contrasenha));
+        cuenta= this.usuarioDao.buscarCuenta(numeroDoc, tipoDoc, Cifrado.cifrarMD5(contrasenha));
         System.out.println(">"+ Cifrado.cifrarMD5(contrasenha)+"<");
         if(cuenta!=null){
-            cuenta = usuarioDao.completarRoles(cuenta);
+            cuenta = this.usuarioDao.completarRoles(cuenta);
             return cuenta;
-        }else{
-            System.out.println("No existe el usuario");
-            return null;
         }
+        System.out.println("No existe el usuario");
+        return null;
     }
     
     public boolean cerrarSesion(UsuarioDTO usuarioDTO){
