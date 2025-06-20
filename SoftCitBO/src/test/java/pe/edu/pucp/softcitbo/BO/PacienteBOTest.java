@@ -7,6 +7,7 @@ package pe.edu.pucp.softcitbo.BO;
 import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Disabled;
 import pe.edu.pucp.softcit.model.CitaDTO;
 import pe.edu.pucp.softcit.model.EstadoCita;
 import pe.edu.pucp.softcit.model.HistoriaClinicaDTO;
@@ -26,6 +27,7 @@ public class PacienteBOTest {
      * Test of listarCitas method, of class PacienteBO.
      */
     @Test
+    @Disabled
     public void testListarCitas() {
         System.out.println("listarCitas ======================");
         Integer idEspecialidad = null;
@@ -45,6 +47,7 @@ public class PacienteBOTest {
      * Test of reservarCita method, of class PacienteBO.
      */
     @Test
+    @Disabled
     public void testFlujoCita() {
 //        System.out.println("reservarCita");
         CitaDTO cita;

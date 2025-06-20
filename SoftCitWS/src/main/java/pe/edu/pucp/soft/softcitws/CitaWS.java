@@ -37,14 +37,14 @@ public class CitaWS {
         return this.citaBO.listarTodos();
     }
     
-    @WebMethod(operationName = "listarCitasMedico")
-    public ArrayList<CitaDTO> listarCitasMedico(
+    @WebMethod(operationName = "listarCitasMedicoWS")
+    public ArrayList<CitaDTO> listarCitasMedicoWS(
             @WebParam(name = "idMedico")Integer idMedico, @WebParam(name= "estadoCita") EstadoCita estado){
         return this.citaBO.listarCitasMedico(idMedico, estado);
     }
     
-    @WebMethod(operationName = "buscarCitas")
-    public ArrayList<CitaDTO> buscarCitas(
+    @WebMethod(operationName = "buscarCitasWSCitas")
+    public ArrayList<CitaDTO> buscarCitasWSCitas(
             @WebParam(name = "idEspecialidad")Integer idEspecialidad,
             @WebParam(name = "codMedico")Integer codMedico,
             @WebParam(name = "fecha")String fecha, 
