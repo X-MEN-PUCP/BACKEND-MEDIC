@@ -25,9 +25,9 @@ public class AdminWS {
     }
     
     @WebMethod(operationName = "asignarNuevoRolParaUsuario")
-    public Integer asignarNuevoRolUsuario(@WebParam(name = "usuario")UsuarioDTO usuario
-            ,@WebParam(name = "idRol")Integer idRol){
-        return this.adminBO.asignarNuevoRol(usuario, idRol);
+    public Integer asignarNuevoRolUsuario(
+            @WebParam(name = "rolPorUsuario")UsuarioPorRolDTO usuarioPorRol){
+        return this.adminBO.asignarNuevoRol(usuarioPorRol);
     }
     
     @WebMethod(operationName = "eliminarRolDeUsuario")

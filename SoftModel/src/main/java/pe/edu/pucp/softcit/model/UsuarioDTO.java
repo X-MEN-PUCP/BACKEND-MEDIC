@@ -27,11 +27,12 @@ public class UsuarioDTO {
     
     private ArrayList<Integer> roles;
 
-    
-    
     private EstadoGeneral estadoGeneral;
     private EstadoLogico estadoLogico;
-    
+    private Integer usuarioCreacion;
+    private String fechaCreacion;
+    private Integer usuarioModificacion;
+    private String fechaModificacion;
 
     public UsuarioDTO() {
         this.idUsuario = null;
@@ -47,6 +48,10 @@ public class UsuarioDTO {
         this.codMedico = null;
         this.genero = null;
         this.roles=null;
+        this.usuarioCreacion = null;
+        this.fechaCreacion = null;
+        this.usuarioModificacion = null;
+        this.fechaModificacion = null;
     }
 
     public ArrayList<Integer> getRoles() {
@@ -57,8 +62,6 @@ public class UsuarioDTO {
         this.roles = roles;
     }
     
-    
-
     public Integer getIdUsuario() {
         return idUsuario;
     }
@@ -123,7 +126,6 @@ public class UsuarioDTO {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    
     public String getCorreoElectronico() {
         return correoElectronico;
     }
@@ -170,6 +172,38 @@ public class UsuarioDTO {
 
     public void setEstadoLogico(EstadoLogico estadoLogico) {
         this.estadoLogico = estadoLogico;
+    }
+
+    public Integer getUsuarioCreacion() {
+        return usuarioCreacion;
+    }
+
+    public void setUsuarioCreacion(Integer usuarioCreacion) {
+        this.usuarioCreacion = usuarioCreacion;
+    }
+
+    public String getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(String fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public Integer getUsuarioModificacion() {
+        return usuarioModificacion;
+    }
+
+    public void setUsuarioModificacion(Integer usuarioModificacion) {
+        this.usuarioModificacion = usuarioModificacion;
+    }
+
+    public String getFechaModificacion() {
+        return fechaModificacion;
+    }
+
+    public void setFechaModificacion(String fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
     }
     
     

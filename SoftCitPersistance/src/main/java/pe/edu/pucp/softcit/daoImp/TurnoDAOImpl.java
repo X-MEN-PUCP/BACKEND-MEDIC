@@ -4,6 +4,7 @@
  */
 package pe.edu.pucp.softcit.daoImp;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -33,6 +34,10 @@ public class TurnoDAOImpl extends DAOImplBase implements TurnoDAO{
         this.listaColumnas.add(new Columna("hora_inicio",false,false));
         this.listaColumnas.add(new Columna("hora_fin",false,false));
         this.listaColumnas.add(new Columna("estado_general", false, false));
+        this.listaColumnas.add(new Columna("usuario_creación", false, false));//not null
+        this.listaColumnas.add(new Columna("fecha_creacion", false, false));//not null
+        this.listaColumnas.add(new Columna("usuario_modificación", false, false));
+        this.listaColumnas.add(new Columna("fecha_modificacion", false, false));
     }    
 
     @Override
@@ -41,7 +46,11 @@ public class TurnoDAOImpl extends DAOImplBase implements TurnoDAO{
         this.statement.setTime(2, Time.valueOf(this.turno.getHoraInicio()));
         this.statement.setTime(3, Time.valueOf(this.turno.getHoraFin()));
         this.statement.setInt(4, this.turno.getEstadoGeneral().getCodigo());
-        this.statement.setInt(5, this.turno.getIdTurno());
+        this.statement.setInt(5, this.turno.getUsuarioCreacion());
+        this.statement.setDate(6, Date.valueOf(this.turno.getFechaCreacion()));
+        this.statement.setInt(7, this.turno.getUsuarioModificacion());
+        this.statement.setDate(8, Date.valueOf(this.turno.getFechaModificacion()));
+        this.statement.setInt(9, this.turno.getIdTurno());
     }
 
     @Override
@@ -63,6 +72,11 @@ public class TurnoDAOImpl extends DAOImplBase implements TurnoDAO{
         
         
         this.turno.setEstadoGeneral(EstadoGeneral.valueOfCodigo(this.resultSet.getInt("estado_general")));
+        this.turno.setUsuarioCreacion(this.resultSet.getInt("usuario_creación"));
+        this.turno.setFechaCreacion(this.resultSet.getDate("fecha_creacion").toString());
+        this.turno.setUsuarioModificacion(this.resultSet.getInt("usuario_modificación"));
+        if(this.resultSet.getDate("fecha_modificacion") != null) 
+            this.turno.setFechaModificacion(this.resultSet.getDate("fecha_modificacion").toString());
     }
 
     @Override

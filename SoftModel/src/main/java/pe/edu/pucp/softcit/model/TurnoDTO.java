@@ -15,12 +15,20 @@ public class TurnoDTO {
     private String horaInicio;
     private String horaFin;
     private EstadoGeneral estadoGeneral;
+    private Integer usuarioCreacion;
+    private String fechaCreacion;
+    private Integer usuarioModificacion;
+    private String fechaModificacion;
 
     public TurnoDTO() {
         this.idTurno = null;
         this.nombreTurno = null;
         this.horaInicio = null;
         this.horaFin = null;
+        this.usuarioCreacion = null;
+        this.fechaCreacion = null;
+        this.usuarioModificacion = null;
+        this.fechaModificacion = null;
     }
 
     public Integer getIdTurno() {
@@ -63,6 +71,38 @@ public class TurnoDTO {
 
     public void setEstadoGeneral(EstadoGeneral estadoGeneral) {
         this.estadoGeneral = estadoGeneral;
+    }
+
+    public Integer getUsuarioCreacion() {
+        return usuarioCreacion;
+    }
+
+    public void setUsuarioCreacion(Integer usuarioCreacion) {
+        this.usuarioCreacion = usuarioCreacion;
+    }
+
+    public String getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(String fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public Integer getUsuarioModificacion() {
+        return usuarioModificacion;
+    }
+
+    public void setUsuarioModificacion(Integer usuarioModificacion) {
+        this.usuarioModificacion = usuarioModificacion;
+    }
+
+    public String getFechaModificacion() {
+        return fechaModificacion;
+    }
+
+    public void setFechaModificacion(String fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
     }
     
     

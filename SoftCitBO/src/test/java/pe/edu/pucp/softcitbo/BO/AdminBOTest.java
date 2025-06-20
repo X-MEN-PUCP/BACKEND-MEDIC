@@ -30,20 +30,26 @@ public class AdminBOTest {
      */
     public void testAsignarNuevoRolEliminarRol() {
         System.out.println("asignarNuevoRol");
-        UsuarioDTO usuario = new UsuarioDTO();
-        usuario.setIdUsuario(6);
-        Integer idRol = 2;
+        UsuarioDTO usuario;
+        UsuarioBO usuarioBo = new UsuarioBO();
+        usuario = usuarioBo.obtenerPorId(6);
+        RolDTO rol = new RolDTO();
+        rol.setIdRol(2);
+        UsuarioPorRolDTO usuarioPorRol = new UsuarioPorRolDTO();
+        usuarioPorRol.setRol(rol);
+        usuarioPorRol.setUsuarioDTO(usuario);
+        Integer result;
+        usuarioPorRol.setUsuarioCreacion(4);
+        usuarioPorRol.setFechaCreacion("2025-06-20");
         AdminBO instance = new AdminBO();
-        Integer result = instance.asignarNuevoRol(usuario, idRol);
+        result = instance.asignarNuevoRol(usuarioPorRol);
         System.out.println("Rol: "+2+" asignado: "+result);
         
         /**
         * Test of eliminarRol method, of class AdminBO.
         */
         System.out.println("eliminarRol");
-        UsuarioPorRolDTO usuarioPorRol = new UsuarioPorRolDTO();
-        RolDTO rol = new RolDTO();
-        rol.setIdRol(2);
+        
         usuarioPorRol.setRol(rol);
         usuarioPorRol.setUsuarioDTO(usuario);
         result = instance.eliminarRol(usuarioPorRol);

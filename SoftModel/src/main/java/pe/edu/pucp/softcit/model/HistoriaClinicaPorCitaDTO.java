@@ -22,6 +22,10 @@ public class HistoriaClinicaPorCitaDTO {
     private String recomendacion;
     private String receta;
     private EstadoGeneral estadoGeneral;
+    private Integer usuarioCreacion;
+    private String fechaCreacion;
+    private Integer usuarioModificacion;
+    private String fechaModificacion;
 
     public HistoriaClinicaPorCitaDTO() {
         this.historiaClinica = null;
@@ -36,6 +40,10 @@ public class HistoriaClinicaPorCitaDTO {
         this.evolucion = null;
         this.recomendacion = null;
         this.receta = null;
+        this.usuarioCreacion = null;
+        this.fechaCreacion = null;
+        this.usuarioModificacion = null;
+        this.fechaModificacion = null;
     }
 
     public HistoriaClinicaDTO getHistoriaClinica() {
@@ -142,6 +150,38 @@ public class HistoriaClinicaPorCitaDTO {
 
     public void setReceta(String receta) {
         this.receta = receta;
+    }
+
+    public Integer getUsuarioCreacion() {
+        return usuarioCreacion;
+    }
+
+    public void setUsuarioCreacion(Integer usuarioCreacion) {
+        this.usuarioCreacion = usuarioCreacion;
+    }
+
+    public String getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(String fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public Integer getUsuarioModificacion() {
+        return usuarioModificacion;
+    }
+
+    public void setUsuarioModificacion(Integer usuarioModificacion) {
+        this.usuarioModificacion = usuarioModificacion;
+    }
+
+    public String getFechaModificacion() {
+        return fechaModificacion;
+    }
+
+    public void setFechaModificacion(String fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
     }
     
 }

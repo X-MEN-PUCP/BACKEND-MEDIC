@@ -7,7 +7,7 @@ package pe.edu.pucp.softcit.daoImp;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
-import java.time.LocalDate;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -50,10 +50,10 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
         this.listaColumnas.add(new Columna("hora_fin", false, false));
         this.listaColumnas.add(new Columna("fecha_cita", false, false));
         this.listaColumnas.add(new Columna("estado_cita", false, false));
-//        this.listaColumnas.add(new Columna("usuario_creación", false, false));//not null
-//        this.listaColumnas.add(new Columna("fecha_creacion", false, false));//not null
-//        this.listaColumnas.add(new Columna("usuario_modificación", false, false));
-//        this.listaColumnas.add(new Columna("fecha_modificacion", false, false));
+        this.listaColumnas.add(new Columna("usuario_creación", false, false));//not null
+        this.listaColumnas.add(new Columna("fecha_creacion", false, false));//not null
+        this.listaColumnas.add(new Columna("usuario_modificación", false, false));
+        this.listaColumnas.add(new Columna("fecha_modificacion", false, false));
     }
 
     @Override
@@ -66,7 +66,11 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
         this.statement.setTime(6, Time.valueOf(this.cita.getHoraFin()));
         this.statement.setDate(7, Date.valueOf(this.cita.getFechaCita()));
         this.statement.setInt(8, this.cita.getEstado().getCodigo());
-        this.statement.setInt(9, this.cita.getIdCita());
+        this.statement.setInt(9, this.cita.getUsuarioCreacion());
+        this.statement.setDate(10, Date.valueOf(this.cita.getFechaCreacion()));
+        this.statement.setInt(11, this.cita.getUsuarioModificacion());
+        this.statement.setDate(12, Date.valueOf(this.cita.getFechaModificacion()));
+        this.statement.setInt(13, this.cita.getIdCita());
     }
 
     @Override
@@ -111,6 +115,11 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
         Integer idEstado = this.resultSet.getInt("estado_cita");
         EstadoCita estado = EstadoCita.valueOfCodigo(idEstado);
         this.cita.setEstado(estado);
+        this.cita.setUsuarioCreacion(this.resultSet.getInt("usuario_creación"));
+        this.cita.setFechaCreacion(this.resultSet.getDate("fecha_creacion").toString());
+        this.cita.setUsuarioModificacion(this.resultSet.getInt("usuario_modificación"));
+        if(this.resultSet.getDate("fecha_modificacion") != null) 
+            this.cita.setFechaModificacion(this.resultSet.getDate("fecha_modificacion").toString());
     }
 
     @Override

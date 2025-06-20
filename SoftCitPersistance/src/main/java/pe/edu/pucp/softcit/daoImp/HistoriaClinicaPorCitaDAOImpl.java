@@ -4,7 +4,9 @@
  */
 package pe.edu.pucp.softcit.daoImp;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import pe.edu.pucp.softcit.dao.HistoriaClinicaPorCitaDAO;
@@ -42,6 +44,10 @@ public class HistoriaClinicaPorCitaDAOImpl extends DAOImplBase implements Histor
         this.listaColumnas.add(new Columna("recomendacion", false, false));
         this.listaColumnas.add(new Columna("receta", false, false));
         this.listaColumnas.add(new Columna("estado", false, false));
+        this.listaColumnas.add(new Columna("usuario_creación", false, false));//not null
+        this.listaColumnas.add(new Columna("fecha_creacion", false, false));//not null
+        this.listaColumnas.add(new Columna("usuario_modificación", false, false));
+        this.listaColumnas.add(new Columna("fecha_modificacion", false, false));
     }
 
     @Override
@@ -109,6 +115,10 @@ public class HistoriaClinicaPorCitaDAOImpl extends DAOImplBase implements Histor
         }
 
         this.statement.setInt(13, EstadoGeneral.ACTIVO.getCodigo());
+        this.statement.setInt(14, this.historiaPorCita.getUsuarioCreacion());
+        this.statement.setDate(15, Date.valueOf(this.historiaPorCita.getFechaCreacion()));
+        this.statement.setNull(16, Types.INTEGER);
+        this.statement.setNull(17, Types.DATE);
     }
 
     @Override
@@ -126,7 +136,12 @@ public class HistoriaClinicaPorCitaDAOImpl extends DAOImplBase implements Histor
         this.statement.setString(10, this.historiaPorCita.getReceta());
         this.statement.setInt(11, this.historiaPorCita.getEstadoGeneral().getCodigo());
         this.statement.setInt(12, this.historiaPorCita.getHistoriaClinica().getIdHistoriaClinica());
-        this.statement.setInt(13, this.historiaPorCita.getCita().getIdCita());
+        this.statement.setInt(13, this.historiaPorCita.getUsuarioCreacion());
+        this.statement.setDate(14, Date.valueOf(this.historiaPorCita.getFechaCreacion()));
+        this.statement.setInt(15, this.historiaPorCita.getUsuarioModificacion());
+        this.statement.setDate(16, Date.valueOf(this.historiaPorCita.getFechaModificacion()));
+        this.statement.setInt(17, this.historiaPorCita.getCita().getIdCita());
+        
     }
     
     @Override
@@ -152,6 +167,11 @@ public class HistoriaClinicaPorCitaDAOImpl extends DAOImplBase implements Histor
         this.historiaPorCita.setRecomendacion(this.resultSet.getString("recomendacion"));
         this.historiaPorCita.setReceta(this.resultSet.getString("receta"));
         this.historiaPorCita.setEstadoGeneral(EstadoGeneral.valueOfCodigo(this.resultSet.getInt("estado"))); //13
+        this.historiaPorCita.setUsuarioCreacion(this.resultSet.getInt("usuario_creación"));
+        this.historiaPorCita.setFechaCreacion(this.resultSet.getDate("fecha_creacion").toString());
+        this.historiaPorCita.setUsuarioModificacion(this.resultSet.getInt("usuario_modificación"));
+        if(this.resultSet.getDate("fecha_modificacion") != null) 
+            this.historiaPorCita.setFechaModificacion(this.resultSet.getDate("fecha_modificacion").toString());
     }
 
     @Override

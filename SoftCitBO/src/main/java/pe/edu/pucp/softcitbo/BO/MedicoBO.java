@@ -4,6 +4,7 @@
  */
 package pe.edu.pucp.softcitbo.BO;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import pe.edu.pucp.softcit.daoImp.HistoriaClinicaPorCitaDAOImpl;
 import pe.edu.pucp.softcit.model.CitaDTO;
@@ -17,22 +18,23 @@ import pe.edu.pucp.softcit.model.HistoriaClinicaPorCitaDTO;
 public class MedicoBO {
 
     private final CitaBO citaBO;
-    
+    private final HistoriaClinicaPorCitaBO historiaClinicaPorCitaBO;
 
     public MedicoBO() {
         this.citaBO = new CitaBO();
+        this.historiaClinicaPorCitaBO = new HistoriaClinicaPorCitaBO();
     }
 
     public ArrayList<CitaDTO> listarCitasMedico(Integer idMedico, EstadoCita estado) {
         ArrayList<CitaDTO> citas;
         citas = this.citaBO.listarCitasMedico(idMedico, estado);
-
         return citas;
     }
     
     public Integer llenarEpicrisis(HistoriaClinicaPorCitaDTO epiciris){
-        Integer modificar = new HistoriaClinicaPorCitaDAOImpl().modificar(epiciris);
-        return modificar;
+        String fechaHoy = LocalDate.now().toString();
+        epiciris.setFechaModificacion(fechaHoy);
+        return this.historiaClinicaPorCitaBO.modificar(epiciris);
     }
 
 }

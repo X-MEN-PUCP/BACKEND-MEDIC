@@ -4,7 +4,9 @@
  */
 package pe.edu.pucp.softcit.daoImp;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import pe.edu.pucp.softcit.dao.ConsultorioDAO;
 import pe.edu.pucp.softcit.daoImp.util.Columna;
@@ -30,6 +32,10 @@ public class ConsultorioDAOImpl extends DAOImplBase implements ConsultorioDAO{
         this.listaColumnas.add(new Columna("numero_consultorio", false, false));
         this.listaColumnas.add(new Columna("piso", false, false));
         this.listaColumnas.add(new Columna("estado", false, false));
+        this.listaColumnas.add(new Columna("usuario_creación", false, false));//not null
+        this.listaColumnas.add(new Columna("fecha_creacion", false, false));//not null
+        this.listaColumnas.add(new Columna("usuario_modificación", false, false));
+        this.listaColumnas.add(new Columna("fecha_modificacion", false, false));
     }
     
     @Override
@@ -37,6 +43,10 @@ public class ConsultorioDAOImpl extends DAOImplBase implements ConsultorioDAO{
         this.statement.setInt(1, this.consultorio.getNumConsultorio());
         this.statement.setInt(2, this.consultorio.getNumPiso());
         this.statement.setInt(3, EstadoGeneral.ACTIVO.getCodigo());
+        this.statement.setInt(4, this.consultorio.getUsuarioCreacion());
+        this.statement.setDate(5, Date.valueOf(this.consultorio.getFechaCreacion()));
+        this.statement.setNull(6, Types.INTEGER);
+        this.statement.setNull(7, Types.DATE);
     }
     
     @Override
@@ -44,7 +54,11 @@ public class ConsultorioDAOImpl extends DAOImplBase implements ConsultorioDAO{
         this.statement.setInt(1, this.consultorio.getNumConsultorio());
         this.statement.setInt(2, this.consultorio.getNumPiso());
         this.statement.setInt(3, this.consultorio.getEstadoGeneral().getCodigo());
-        this.statement.setInt(4, this.consultorio.getIdConsultorio());
+        this.statement.setInt(4, this.consultorio.getUsuarioCreacion());
+        this.statement.setDate(5, Date.valueOf(this.consultorio.getFechaCreacion()));
+        this.statement.setInt(6, this.consultorio.getUsuarioModificacion());
+        this.statement.setDate(7, Date.valueOf(this.consultorio.getFechaModificacion()));
+        this.statement.setInt(8, this.consultorio.getIdConsultorio());
     }
     
     @Override
@@ -59,6 +73,11 @@ public class ConsultorioDAOImpl extends DAOImplBase implements ConsultorioDAO{
         this.consultorio.setNumConsultorio(this.resultSet.getInt("numero_consultorio"));
         this.consultorio.setNumPiso(this.resultSet.getInt("piso"));
         this.consultorio.setEstadoGeneral(EstadoGeneral.valueOfCodigo(this.resultSet.getInt("estado"))); //13
+        this.consultorio.setUsuarioCreacion(this.resultSet.getInt("usuario_creación"));
+        this.consultorio.setFechaCreacion(this.resultSet.getDate("fecha_creacion").toString());
+        this.consultorio.setUsuarioModificacion(this.resultSet.getInt("usuario_modificación"));
+        if(this.resultSet.getDate("fecha_modificacion") != null) 
+            this.consultorio.setFechaModificacion(this.resultSet.getDate("fecha_modificacion").toString());
     }
 
     @Override

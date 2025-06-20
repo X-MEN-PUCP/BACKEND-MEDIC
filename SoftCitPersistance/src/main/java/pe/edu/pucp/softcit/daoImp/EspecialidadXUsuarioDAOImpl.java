@@ -4,7 +4,9 @@
  */
 package pe.edu.pucp.softcit.daoImp;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import pe.edu.pucp.softcit.dao.EspecialidadXUsuarioDAO;
@@ -38,6 +40,10 @@ public class EspecialidadXUsuarioDAOImpl extends DAOImplBase implements Especial
         this.listaColumnas.add(new Columna("id_especialidad", true, false));
         this.listaColumnas.add(new Columna("id_usuario", true, false));
         this.listaColumnas.add(new Columna("estado", false, false));
+        this.listaColumnas.add(new Columna("usuario_creación", false, false));//not null
+        this.listaColumnas.add(new Columna("fecha_creacion", false, false));//not null
+        this.listaColumnas.add(new Columna("usuario_modificación", false, false));
+        this.listaColumnas.add(new Columna("fecha_modificacion", false, false));
 
     }
 
@@ -46,6 +52,10 @@ public class EspecialidadXUsuarioDAOImpl extends DAOImplBase implements Especial
         this.statement.setInt(1, this.usuarioPorEspecialidad.getEspecialidad().getIdEspecialidad());
         this.statement.setInt(2, this.usuarioPorEspecialidad.getUsuario().getIdUsuario());
         this.statement.setInt(3, EstadoGeneral.ACTIVO.getCodigo());
+        this.statement.setInt(4, this.usuarioPorEspecialidad.getUsuarioCreacion());
+        this.statement.setDate(5, Date.valueOf(this.usuarioPorEspecialidad.getFechaCreacion()));
+        this.statement.setNull(6, Types.INTEGER);
+        this.statement.setNull(7, Types.DATE);
 
     }
 
@@ -62,6 +72,11 @@ public class EspecialidadXUsuarioDAOImpl extends DAOImplBase implements Especial
         this.usuarioPorEspecialidad.setEspecialidad(especialidad);
         
         this.usuarioPorEspecialidad.setEstadoGeneral(EstadoGeneral.valueOfCodigo(this.resultSet.getInt("estado"))); //13
+        this.usuarioPorEspecialidad.setUsuarioCreacion(this.resultSet.getInt("usuario_creación"));
+        this.usuarioPorEspecialidad.setFechaCreacion(this.resultSet.getDate("fecha_creacion").toString());
+        this.usuarioPorEspecialidad.setUsuarioModificacion(this.resultSet.getInt("usuario_modificación"));
+        if(this.resultSet.getDate("fecha_modificacion") != null) 
+            this.usuarioPorEspecialidad.setFechaModificacion(this.resultSet.getDate("fecha_modificacion").toString());
     }
 
     protected UsuarioDTO obtenerUsuario(Integer id) {

@@ -54,18 +54,24 @@ public class PacienteBO {
     
     
     public int reservarCita(CitaDTO cita, UsuarioDTO paciente){
+        Integer idPaciente = paciente.getIdUsuario();
         //actualizar cita (Estado: reservado)
         System.out.println("Modificando estado de cita");
         cita.setEstado(EstadoCita.RESERVADO);
+        cita.setUsuarioModificacion(idPaciente);
+        String fechaHoy = LocalDate.now().toString();
+        cita.setFechaModificacion(fechaHoy);
         this.citaBO.modificar(cita);
         
-        Integer idPaciente = paciente.getIdUsuario();
+        
         HistoriaClinicaDTO historia;
         historia = this.historiaBO.obtenerPorIdPaciente(idPaciente);
         
         HistoriaClinicaPorCitaDTO historia_por_cita = new HistoriaClinicaPorCitaDTO();
         historia_por_cita.setCita(cita);
         historia_por_cita.setHistoriaClinica(historia);
+        historia_por_cita.setUsuarioCreacion(idPaciente);
+        historia_por_cita.setFechaCreacion(fechaHoy);
         return this.historiaClinicaPorCitaBO.insertar(historia_por_cita);
     }
      
@@ -77,17 +83,23 @@ public class PacienteBO {
         return this.historiaClinicaPorCitaBO.eliminar(historia_por_cita);
     }
      
-     public int reprogramar(CitaDTO citaNueva, HistoriaClinicaPorCitaDTO historia_por_cita) {
+    public int reprogramar(CitaDTO citaNueva, HistoriaClinicaPorCitaDTO historia_por_cita) {
+        Integer idUsuarioModifcacion = citaNueva.getUsuarioModificacion();
+        String fechaHoy = LocalDate.now().toString();
         //actualizar cita (Estado: disponible)
         CitaDTO citaAntigua = historia_por_cita.getCita();
         citaAntigua.setEstado(EstadoCita.DISPONIBLE);
+        citaAntigua.setUsuarioModificacion(idUsuarioModifcacion);
+        citaAntigua.setFechaModificacion(fechaHoy);
         this.citaBO.modificar(citaAntigua);
         this.historiaClinicaPorCitaBO.eliminar(historia_por_cita);
         
         citaNueva.setEstado(EstadoCita.RESERVADO);
+        citaNueva.setFechaModificacion(fechaHoy);
         this.citaBO.modificar(citaNueva);
         historia_por_cita.setCita(citaNueva);
-        
+        historia_por_cita.setUsuarioCreacion(idUsuarioModifcacion);
+        historia_por_cita.setFechaCreacion(fechaHoy);
         return this.historiaClinicaPorCitaBO.insertar(historia_por_cita);
     }
     
