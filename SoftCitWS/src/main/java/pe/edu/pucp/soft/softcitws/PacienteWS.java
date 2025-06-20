@@ -27,8 +27,8 @@ public class PacienteWS {
         this.pacienteBO = new PacienteBO();
     }
 
-    @WebMethod(operationName = "buscarCitas")
-    public ArrayList<CitaDTO> buscarCitas(
+    @WebMethod(operationName = "buscarCitasPaciente")
+    public ArrayList<CitaDTO> buscarCitasPaciente(
             @WebParam(name = "idEspecialidad") Integer idEspecialidad,
             @WebParam(name = "fecha") String fecha,
             @WebParam(name = "idMedico") Integer idMedico,
