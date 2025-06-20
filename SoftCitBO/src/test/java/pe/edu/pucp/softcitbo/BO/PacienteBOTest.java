@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import pe.edu.pucp.softcit.model.CitaDTO;
+import pe.edu.pucp.softcit.model.EstadoCita;
 import pe.edu.pucp.softcit.model.HistoriaClinicaDTO;
 import pe.edu.pucp.softcit.model.HistoriaClinicaPorCitaDTO;
 import pe.edu.pucp.softcit.model.UsuarioDTO;
@@ -24,17 +25,21 @@ public class PacienteBOTest {
     /**
      * Test of listarCitas method, of class PacienteBO.
      */
-//    @Test
-//    public void testListarCitas() {
-//        System.out.println("listarCitas");
-//        Integer idEspecialidad = null;
-//        String fecha = null;
-//        Integer idMedico = 3;
-//        PacienteBO instance = new PacienteBO();
-//        ArrayList<CitaDTO> expResult = null;
-//        ArrayList<CitaDTO> result = instance.listarCitas(idEspecialidad, fecha, idMedico);
-//        System.out.println("Citas: " + result.size());
-//    }
+    @Test
+    public void testListarCitas() {
+        System.out.println("listarCitas ======================");
+        Integer idEspecialidad = null;
+        String fecha = null;
+        Integer idMedico = 3;
+        EstadoCita estado = EstadoCita.DISPONIBLE;
+        String hora_inicio = null;
+        PacienteBO instance = new PacienteBO();
+        ArrayList<CitaDTO> result = instance.listarCitas(idEspecialidad, fecha, idMedico, hora_inicio, estado);
+        System.out.println("Citas: " + result.size());
+        System.out.println("listarCitasCalendario ======================");
+        result = instance.buscarCitasParaCalendario(idEspecialidad, fecha, idMedico, hora_inicio, estado);
+        System.out.println("Citas: " + result.size());
+    }
 //
     /**
      * Test of reservarCita method, of class PacienteBO.

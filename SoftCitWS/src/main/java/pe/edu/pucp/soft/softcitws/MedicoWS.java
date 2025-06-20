@@ -10,6 +10,7 @@ import jakarta.jws.WebParam;
 import java.util.ArrayList;
 import pe.edu.pucp.softcit.daoImp.HistoriaClinicaPorCitaDAOImpl;
 import pe.edu.pucp.softcit.model.CitaDTO;
+import pe.edu.pucp.softcit.model.EstadoCita;
 import pe.edu.pucp.softcit.model.HistoriaClinicaPorCitaDTO;
 import pe.edu.pucp.softcitbo.BO.MedicoBO;
 
@@ -26,10 +27,11 @@ public class MedicoWS {
         this.medicoBo = new MedicoBO();
     }
     
-    @WebMethod(operationName = "listarCitasProgramadasMedico")
-    public ArrayList<CitaDTO> listarCitasProgramadasMedico(
-            @WebParam(name = "codMedico")Integer codMedico) {
-        return this.medicoBo.listarCitasProgramadas(codMedico);
+    @WebMethod(operationName = "listarCitasMedico")
+    public ArrayList<CitaDTO> listarCitasMedico(
+            @WebParam(name = "idMedico")Integer idMedico, 
+            @WebParam(name= "estadoCita") EstadoCita estado){
+        return this.medicoBo.listarCitasMedico(idMedico, estado);
     }
     
     @WebMethod(operationName = "llenarEpicrisisMedico")

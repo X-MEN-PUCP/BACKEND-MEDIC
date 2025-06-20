@@ -7,6 +7,7 @@ package pe.edu.pucp.softcitbo.BO;
 import java.util.ArrayList;
 import pe.edu.pucp.softcit.daoImp.HistoriaClinicaPorCitaDAOImpl;
 import pe.edu.pucp.softcit.model.CitaDTO;
+import pe.edu.pucp.softcit.model.EstadoCita;
 import pe.edu.pucp.softcit.model.HistoriaClinicaPorCitaDTO;
 
 /**
@@ -22,9 +23,9 @@ public class MedicoBO {
         this.citaBO = new CitaBO();
     }
 
-    public ArrayList<CitaDTO> listarCitasProgramadas(Integer codMedico) {
+    public ArrayList<CitaDTO> listarCitasMedico(Integer idMedico, EstadoCita estado) {
         ArrayList<CitaDTO> citas;
-        citas = this.citaBO.listarCitasProgramadas(codMedico);
+        citas = this.citaBO.listarCitasMedico(idMedico, estado);
 
         return citas;
     }

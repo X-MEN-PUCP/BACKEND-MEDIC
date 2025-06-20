@@ -31,11 +31,21 @@ public class PacienteBO {
         this.historiaBO = new HistoriaBO();
     }
     
-    //falta arreglar
-    public ArrayList<CitaDTO> listarCitas(Integer idEspecialidad, String fecha, Integer idMedico){
+    
+    public ArrayList<CitaDTO> listarCitas(Integer idEspecialidad, String fecha, Integer idMedico, String hora_inicio, EstadoCita estado){
         ArrayList<CitaDTO> citas = new ArrayList<>();
         if (idMedico != null || idEspecialidad != null) {
-           citas = this.citaBO.buscarCitasDisponibles(idEspecialidad, idMedico, fecha);
+           citas = this.citaBO.buscarCitas(idEspecialidad, idMedico, fecha, hora_inicio, estado);
+        } else {
+            System.out.println("Debe seleccionar una especialidad o un médico. Error listar Citas");
+        }
+        return citas;
+    }
+    
+    public ArrayList<CitaDTO> buscarCitasParaCalendario(Integer idEspecialidad, String fecha, Integer idMedico, String hora_inicio, EstadoCita estado){
+        ArrayList<CitaDTO> citas = new ArrayList<>();
+        if (idMedico != null || idEspecialidad != null) {
+           citas = this.citaBO.buscarCitasParaCalendario(idEspecialidad, idMedico, fecha, hora_inicio, estado);
         } else {
             System.out.println("Debe seleccionar una especialidad o un médico. Error listar Citas");
         }
@@ -43,7 +53,7 @@ public class PacienteBO {
     }
     
     
-     public int reservarCita(CitaDTO cita, UsuarioDTO paciente){
+    public int reservarCita(CitaDTO cita, UsuarioDTO paciente){
         //actualizar cita (Estado: reservado)
         System.out.println("Modificando estado de cita");
         cita.setEstado(EstadoCita.RESERVADO);

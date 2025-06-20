@@ -37,26 +37,30 @@ public class CitaWS {
         return this.citaBO.listarTodos();
     }
     
-    @WebMethod(operationName = "listarCitasProgramadas")
-    public ArrayList<CitaDTO> listarCitasProgramadas(
-            @WebParam(name = "codMedico")Integer codMedico){
-        return this.citaBO.listarCitasProgramadas(codMedico);
+    @WebMethod(operationName = "listarCitasMedico")
+    public ArrayList<CitaDTO> listarCitasMedico(
+            @WebParam(name = "idMedico")Integer idMedico, @WebParam(name= "estadoCita") EstadoCita estado){
+        return this.citaBO.listarCitasMedico(idMedico, estado);
     }
     
-    @WebMethod(operationName = "buscarCitasDisponibles")
-    public ArrayList<CitaDTO> buscarCitasDisponibles(
+    @WebMethod(operationName = "buscarCitas")
+    public ArrayList<CitaDTO> buscarCitas(
             @WebParam(name = "idEspecialidad")Integer idEspecialidad,
             @WebParam(name = "codMedico")Integer codMedico,
-            @WebParam(name = "fecha")String fecha){
-        return this.citaBO.buscarCitasDisponibles(idEspecialidad, codMedico, fecha);
+            @WebParam(name = "fecha")String fecha, 
+            @WebParam(name= "hora_inicio") String hora_inicio, 
+            @WebParam(name= "estadoCita") EstadoCita estado){
+        return this.citaBO.buscarCitas(idEspecialidad, codMedico, fecha, hora_inicio, estado);
     }
     
     @WebMethod(operationName = "buscarCitasoloCalendario")
     public ArrayList<CitaDTO> buscarCitasoloCalendario(
             @WebParam(name = "idEspecialidad")Integer idEspecialidad,
             @WebParam(name = "codMedico")Integer codMedico,
-            @WebParam(name = "fecha")String fecha){
-        return this.citaBO.buscarCitasParaCalendario(idEspecialidad, codMedico, fecha);
+            @WebParam(name = "fecha")String fecha,
+            @WebParam(name= "hora_inicio") String hora_inicio, 
+            @WebParam(name= "estadoCita") EstadoCita estado){
+        return this.citaBO.buscarCitasParaCalendario(idEspecialidad, codMedico, fecha, hora_inicio, estado);
     }
     
     @WebMethod(operationName = "obtenerPorIdCitaCita")

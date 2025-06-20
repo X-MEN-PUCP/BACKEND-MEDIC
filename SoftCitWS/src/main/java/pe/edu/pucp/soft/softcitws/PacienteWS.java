@@ -9,6 +9,7 @@ import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
 import java.util.ArrayList;
 import pe.edu.pucp.softcit.model.CitaDTO;
+import pe.edu.pucp.softcit.model.EstadoCita;
 import pe.edu.pucp.softcit.model.HistoriaClinicaPorCitaDTO;
 import pe.edu.pucp.softcit.model.UsuarioDTO;
 import pe.edu.pucp.softcitbo.BO.PacienteBO;
@@ -26,12 +27,14 @@ public class PacienteWS {
         this.pacienteBO = new PacienteBO();
     }
 
-    @WebMethod(operationName = "listarCitasPaciente")
-    public ArrayList<CitaDTO> listarCitasPaciente(
+    @WebMethod(operationName = "buscarCitas")
+    public ArrayList<CitaDTO> buscarCitas(
             @WebParam(name = "idEspecialidad") Integer idEspecialidad,
             @WebParam(name = "fecha") String fecha,
-            @WebParam(name = "idMedico") Integer idMedico) {
-        return this.pacienteBO.listarCitas(idEspecialidad, fecha, idMedico);
+            @WebParam(name = "idMedico") Integer idMedico,
+            @WebParam(name= "hora_inicio") String hora_inicio, 
+            @WebParam(name= "estadoCita") EstadoCita estado){
+        return this.pacienteBO.listarCitas(idEspecialidad, fecha, idMedico, hora_inicio, estado);
     }
     
     @WebMethod(operationName = "reservarCitaPaciente")

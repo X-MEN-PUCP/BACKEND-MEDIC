@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import pe.edu.pucp.softcit.dao.CitaDAO;
 import pe.edu.pucp.softcit.daoImp.CitaDAOImpl;
 import pe.edu.pucp.softcit.model.CitaDTO;
+import pe.edu.pucp.softcit.model.EstadoCita;
 
 /**
  *
@@ -30,16 +31,16 @@ public class CitaBO {
         return this.citaDao.listarTodos();
     }
     
-    public ArrayList<CitaDTO> listarCitasProgramadas(Integer codMedico){
-        return this.citaDao.listarCitasProgramadas(codMedico);
+    public ArrayList<CitaDTO> listarCitasMedico(Integer idMedico, EstadoCita estado){
+        return this.citaDao.listarCitasMedico(idMedico, estado);
     }
     
-    public ArrayList<CitaDTO> buscarCitasDisponibles(Integer idEspecialidad, Integer codMedico, String fecha){
-        return this.citaDao.buscarCitasDisponibles(idEspecialidad, codMedico, fecha);
+    public ArrayList<CitaDTO> buscarCitas(Integer idEspecialidad, Integer idMedico, String fecha, String hora_inicio, EstadoCita estado){
+        return this.citaDao.buscarCitas(idEspecialidad, idMedico, fecha, hora_inicio, estado);
     }
     
-    public ArrayList<CitaDTO> buscarCitasParaCalendario(Integer idEspecialidad, Integer codMedico, String fecha){
-        return this.citaDao.buscarCitasDisponiblesSoloCalenario(idEspecialidad, codMedico, fecha);
+    public ArrayList<CitaDTO> buscarCitasParaCalendario(Integer idEspecialidad, Integer codMedico, String fecha, String hora_inicio, EstadoCita estado){
+        return this.citaDao.buscarCitasDisponiblesSoloCalenario(idEspecialidad, codMedico, fecha, hora_inicio, estado);
     }
     
     public CitaDTO obtenerPorId(Integer id){
