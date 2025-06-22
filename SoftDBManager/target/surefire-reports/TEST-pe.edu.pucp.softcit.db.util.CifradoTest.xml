@@ -15,7 +15,7 @@
     <property name="user.country" value="PE"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-21\bin"/>
-    <property name="sun.java.command" value="C:\Users\Mcerv\AppData\Local\Temp\surefire12698499531915641751\surefirebooter-20250622144313152_3.jar C:\Users\Mcerv\AppData\Local\Temp\surefire12698499531915641751 2025-06-22T14-43-12_987-jvmRun1 surefire-20250622144313152_1tmp surefire_0-20250622144313152_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\Mcerv\AppData\Local\Temp\surefire12433810575996498821\surefirebooter-20250622184850866_3.jar C:\Users\Mcerv\AppData\Local\Temp\surefire12433810575996498821 2025-06-22T18-48-50_713-jvmRun1 surefire-20250622184850866_1tmp surefire_0-20250622184850866_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Porgra3\NUEVA_TA\BACKEND-MEDIC\SoftDBManager\target\test-classes;C:\Porgra3\NUEVA_TA\BACKEND-MEDIC\SoftDBManager\target\classes;C:\Users\Mcerv\.m2\repository\com\mysql\mysql-connector-j\8.0.33\mysql-connector-j-8.0.33.jar;C:\Users\Mcerv\.m2\repository\com\google\protobuf\protobuf-java\3.21.9\protobuf-java-3.21.9.jar;C:\Users\Mcerv\.m2\repository\commons-codec\commons-codec\1.18.0\commons-codec-1.18.0.jar;C:\Users\Mcerv\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.6.0\junit-jupiter-api-5.6.0.jar;C:\Users\Mcerv\.m2\repository\org\apiguardian\apiguardian-api\1.1.0\apiguardian-api-1.1.0.jar;C:\Users\Mcerv\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\Mcerv\.m2\repository\org\junit\platform\junit-platform-commons\1.6.0\junit-platform-commons-1.6.0.jar;C:\Users\Mcerv\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.6.0\junit-jupiter-params-5.6.0.jar;C:\Users\Mcerv\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.6.0\junit-jupiter-engine-5.6.0.jar;C:\Users\Mcerv\.m2\repository\org\junit\platform\junit-platform-engine\1.6.0\junit-platform-engine-1.6.0.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\Mcerv\AppData\Local\Temp\surefire12698499531915641751\surefirebooter-20250622144313152_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\Mcerv\AppData\Local\Temp\surefire12433810575996498821\surefirebooter-20250622184850866_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="21.0.1+12-LTS-29"/>

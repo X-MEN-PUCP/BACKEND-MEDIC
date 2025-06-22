@@ -54,7 +54,7 @@ public class InterconsultaDAOImpl extends DAOImplBase implements InterconsultaDA
         this.interconsulta = new InterconsultaDTO();
         
         //Cargar Especialidad - Interconsulta
-        Integer idEspecialidad = this.resultSet.getInt("id_especialidad");
+        Integer idEspecialidad = this.resultSet.getInt("id_interconsulta");
         EspecialidadDAO especialidadDAO = new EspecialidadDAOImpl();
         EspecialidadDTO especialidad = especialidadDAO.obtenerPorId(idEspecialidad);
         this.interconsulta.setEspecialidadInterconsulta(especialidad);
