@@ -186,6 +186,7 @@ public abstract class DAOImplBase {
         sql = sql.concat(sql_columnas);
         sql = sql.concat(" WHERE ");
         sql = sql.concat(sql_predicado);
+        System.out.println(sql);
         return sql;
     }
 

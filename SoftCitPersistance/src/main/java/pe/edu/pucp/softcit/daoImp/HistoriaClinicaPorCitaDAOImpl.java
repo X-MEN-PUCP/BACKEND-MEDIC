@@ -134,14 +134,12 @@ public class HistoriaClinicaPorCitaDAOImpl extends DAOImplBase implements Histor
         this.statement.setString(9, this.historiaPorCita.getRecomendacion());
         this.statement.setString(10, this.historiaPorCita.getReceta());
         this.statement.setInt(11, this.historiaPorCita.getEstadoGeneral().getCodigo());
-        this.statement.setInt(12, this.historiaPorCita.getHistoriaClinica().getIdHistoriaClinica());
-        this.statement.setInt(13, this.historiaPorCita.getUsuarioCreacion());
-        this.statement.setDate(14, Date.valueOf(this.historiaPorCita.getFechaCreacion()));
-        this.statement.setInt(15, this.historiaPorCita.getUsuarioModificacion());
-        this.statement.setDate(16, Date.valueOf(this.historiaPorCita.getFechaModificacion()));
-        this.statement.setInt(17, this.historiaPorCita.getHistoriaClinica().getIdHistoriaClinica());
-        this.statement.setInt(18, this.historiaPorCita.getCita().getIdCita());
-        
+        this.statement.setInt(12, this.historiaPorCita.getUsuarioCreacion());
+        this.statement.setDate(13, Date.valueOf(this.historiaPorCita.getFechaCreacion()));
+        this.statement.setInt(14, this.historiaPorCita.getUsuarioModificacion());
+        this.statement.setDate(15, Date.valueOf(this.historiaPorCita.getFechaModificacion()));
+        this.statement.setInt(16, this.historiaPorCita.getHistoriaClinica().getIdHistoriaClinica());
+        this.statement.setInt(17, this.historiaPorCita.getCita().getIdCita());
     }
     
     @Override
