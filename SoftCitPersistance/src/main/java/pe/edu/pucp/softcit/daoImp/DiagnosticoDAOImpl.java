@@ -6,6 +6,7 @@ package pe.edu.pucp.softcit.daoImp;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import pe.edu.pucp.softcit.dao.DiagnosticoDAO;
 import pe.edu.pucp.softcit.daoImp.util.Columna;
 import pe.edu.pucp.softcit.model.DiagnosticoDTO;
@@ -62,6 +63,12 @@ public class DiagnosticoDAOImpl extends DAOImplBase implements DiagnosticoDAO{
     @Override
     protected void limpiarObjetoDelResultSet() {
         this.diagnostico = null;
+    }
+    
+    @Override
+    protected void agregarObjetoALaLista(List lista) throws SQLException{
+        this.instanciarObjetoDelResultSet();
+        lista.add(this.diagnostico);
     }
     
     @Override
