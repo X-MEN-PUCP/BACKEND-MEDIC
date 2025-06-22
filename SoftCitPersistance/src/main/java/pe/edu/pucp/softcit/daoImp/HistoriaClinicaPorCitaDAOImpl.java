@@ -123,7 +123,6 @@ public class HistoriaClinicaPorCitaDAOImpl extends DAOImplBase implements Histor
 
     @Override
     protected void incluirValorDeParametrosParaModificacion() throws SQLException {
-
         this.statement.setDouble(1, this.historiaPorCita.getPeso());
         this.statement.setDouble(2, this.historiaPorCita.getTalla());
         this.statement.setString(3, this.historiaPorCita.getPresionArterial());
@@ -140,7 +139,8 @@ public class HistoriaClinicaPorCitaDAOImpl extends DAOImplBase implements Histor
         this.statement.setDate(14, Date.valueOf(this.historiaPorCita.getFechaCreacion()));
         this.statement.setInt(15, this.historiaPorCita.getUsuarioModificacion());
         this.statement.setDate(16, Date.valueOf(this.historiaPorCita.getFechaModificacion()));
-        this.statement.setInt(17, this.historiaPorCita.getCita().getIdCita());
+        this.statement.setInt(17, this.historiaPorCita.getHistoriaClinica().getIdHistoriaClinica());
+        this.statement.setInt(18, this.historiaPorCita.getCita().getIdCita());
         
     }
     
