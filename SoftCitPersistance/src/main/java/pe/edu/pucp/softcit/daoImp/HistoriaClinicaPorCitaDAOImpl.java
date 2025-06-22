@@ -252,20 +252,7 @@ public class HistoriaClinicaPorCitaDAOImpl extends DAOImplBase implements Histor
             this.statement.setInt(1, idCita);
             this.resultSet = this.statement.executeQuery();
             if (this.resultSet.next()) {
-                HistoriaClinicaPorCitaDTO historia_por_cita = new HistoriaClinicaPorCitaDTO();
-                historia_por_cita.setHistoriaClinica(new HistoriaDAOImpl().obtenerPorId(this.resultSet.getInt("id_historia")));
-                historia_por_cita.setCita(new CitaDAOImpl().obtenerPorId(this.resultSet.getInt("id_cita")));
-                historia_por_cita.setPeso(this.resultSet.getDouble("peso"));
-                historia_por_cita.setTalla(this.resultSet.getDouble("talla"));
-                historia_por_cita.setPresionArterial(this.resultSet.getString("presion_arterial"));
-                historia_por_cita.setTemperatura(this.resultSet.getDouble("temperatura"));
-                historia_por_cita.setFrecuenciaCardiaca(this.resultSet.getInt("frecuencia_cardiaca"));
-                historia_por_cita.setMotivoConsulta(this.resultSet.getString("motivo_consulta"));
-                historia_por_cita.setTratamiento(this.resultSet.getString("tratamiento"));
-                historia_por_cita.setEvolucion(this.resultSet.getString("evolucion"));
-                historia_por_cita.setRecomendacion(this.resultSet.getString("recomendacion"));
-                historia_por_cita.setReceta(this.resultSet.getString("receta"));
-                this.historiaPorCita = historia_por_cita;
+                this.instanciarObjetoDelResultSet();
             }
             return this.historiaPorCita;
         } catch (SQLException ex) {
