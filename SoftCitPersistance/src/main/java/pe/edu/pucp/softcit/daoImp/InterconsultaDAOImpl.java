@@ -6,6 +6,7 @@ package pe.edu.pucp.softcit.daoImp;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import pe.edu.pucp.softcit.dao.CitaDAO;
 import pe.edu.pucp.softcit.dao.InterconsultaDAO;
 import pe.edu.pucp.softcit.dao.EspecialidadDAO;
@@ -66,6 +67,17 @@ public class InterconsultaDAOImpl extends DAOImplBase implements InterconsultaDA
         
         //Cargar razon
         this.interconsulta.setRazonInterconsulta(this.resultSet.getString("razon_interconsulta"));
+    }
+    
+    @Override
+    protected void limpiarObjetoDelResultSet() {
+        this.interconsulta = null;
+    }
+    
+    @Override
+    protected void agregarObjetoALaLista(List lista) throws SQLException {
+        this.instanciarObjetoDelResultSet();
+        lista.add(this.interconsulta);
     }
     
     @Override
