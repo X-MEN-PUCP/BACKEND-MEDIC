@@ -57,4 +57,8 @@ public class UsuarioBO {
     public ArrayList<UsuarioDTO> listarMedicos(){
         return this.usuarioDao.listarMedicos();
     }
+    
+    public ArrayList<UsuarioDTO> listarTodos(){
+        return this.usuarioDao.listarTodos();
+    }
 }

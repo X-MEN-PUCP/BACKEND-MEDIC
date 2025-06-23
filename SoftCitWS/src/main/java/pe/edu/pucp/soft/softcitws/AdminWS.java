@@ -50,4 +50,9 @@ public class AdminWS {
     public ArrayList<UsuarioDTO> listarMedicos(){
         return this.adminBO.listarMedicos();
     }
+    
+    @WebMethod(operationName = "listarTodosUsuarios")
+    public ArrayList<UsuarioDTO> listarTodosUsuarios(){
+        return this.adminBO.listarTodosUsuarios();
+    }
 }

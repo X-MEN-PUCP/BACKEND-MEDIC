@@ -270,6 +270,11 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
     }
     
     @Override
+    public ArrayList<UsuarioDTO> listarTodos() {
+        return (ArrayList<UsuarioDTO>) super.listarTodos();
+    }
+    
+    @Override
     public ArrayList<UsuarioDTO> listarMedicos(){
         String sql = "{call SP_CIT_LISTAR_MEDICOS()}";
         Object parametros = null;

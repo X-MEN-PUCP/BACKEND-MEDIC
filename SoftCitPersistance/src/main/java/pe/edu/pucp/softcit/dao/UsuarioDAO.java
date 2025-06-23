@@ -21,5 +21,5 @@ public interface UsuarioDAO {
     public Integer cambiarEstadoLogico(UsuarioDTO usuario);
     public UsuarioDTO completarRoles(UsuarioDTO usuario);
     public ArrayList<UsuarioDTO> listarMedicos();
-    
+    public ArrayList<UsuarioDTO> listarTodos();
 }

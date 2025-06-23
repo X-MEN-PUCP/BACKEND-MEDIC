@@ -70,4 +70,7 @@ public class AdminBO {
         return this.usuarioBo.listarMedicos();
     }
     
+    public ArrayList<UsuarioDTO> listarTodosUsuarios(){
+        return this.usuarioBo.listarTodos();
+    }
 }
