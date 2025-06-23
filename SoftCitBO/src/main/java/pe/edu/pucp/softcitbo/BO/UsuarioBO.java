@@ -4,6 +4,7 @@
  */
 package pe.edu.pucp.softcitbo.BO;
 
+import java.util.ArrayList;
 import pe.edu.pucp.softcit.dao.UsuarioDAO;
 import pe.edu.pucp.softcit.daoImp.UsuarioDAOImpl;
 import pe.edu.pucp.softcit.model.EstadoGeneral;
@@ -53,4 +54,7 @@ public class UsuarioBO {
         return this.usuarioDao.completarRoles(usuario);
     }
     
+    public ArrayList<UsuarioDTO> listarMedicos(){
+        return this.usuarioDao.listarMedicos();
+    }
 }

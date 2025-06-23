@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import pe.edu.pucp.softcit.dao.UsuarioDAO;
@@ -267,5 +268,13 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
         usuario.setRoles(listaIds);
         return usuario;
     }
-
+    
+    @Override
+    public ArrayList<UsuarioDTO> listarMedicos(){
+        String sql = "{call SP_CIT_LISTAR_MEDICOS()}";
+        Object parametros = null;
+        Consumer incluirValorDeParametros = null;
+        return (ArrayList<UsuarioDTO>) super.listarTodos(sql, incluirValorDeParametros, parametros);
+    }
+    
 }
