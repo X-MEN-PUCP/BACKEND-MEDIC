@@ -4,6 +4,7 @@
  */
 package pe.edu.pucp.softcitbo.BO;
 
+import java.time.LocalDate;
 import pe.edu.pucp.softcit.dao.HistoriaDAO;
 import pe.edu.pucp.softcit.dao.RolesXUsuarioDAO;
 import pe.edu.pucp.softcit.dao.UsuarioDAO;
@@ -35,10 +36,13 @@ public class RegistroBO {
     
     public boolean registrarse(UsuarioDTO usuario){
         usuario.setUsuarioCreacion(1);
+        String fechaCreacion = LocalDate.now().toString();
+        usuario.setFechaCreacion(fechaCreacion);
         Integer insert = this.usuarioDao.insertar(usuario);
         if(insert!=0){
             usuario.setUsuarioCreacion(insert);
             usuario.setUsuarioModificacion(insert);
+            usuario.setFechaModificacion(usuario.getFechaCreacion());
             this.usuarioDao.modificar(usuario);
             
             UsuarioPorRolDTO usarioPorRol = new UsuarioPorRolDTO();

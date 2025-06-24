@@ -11,7 +11,7 @@ import java.util.Objects;
  * @author Mcerv
  */
 public enum EstadoCita {
-    RESERVADO(0), DISPONIBLE(1), PAGADO(2);
+    RESERVADO(0), DISPONIBLE(1), PAGADO(2), ATENDIDO(3);
     
     private Integer codigo;
 
