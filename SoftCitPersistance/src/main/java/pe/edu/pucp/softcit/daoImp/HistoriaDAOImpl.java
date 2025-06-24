@@ -35,7 +35,7 @@ public class HistoriaDAOImpl extends DAOImplBase implements HistoriaDAO {
     
     @Override
     protected void configurarListaDeColumnas() {
-        this.listaColumnas.add(new Columna("id_historia", true, false));
+        this.listaColumnas.add(new Columna("id_historia", true, true));
         this.listaColumnas.add(new Columna("id_paciente", false, false));
         this.listaColumnas.add(new Columna("estado", false, false));
         this.listaColumnas.add(new Columna("usuario_creación", false, false));//not null
@@ -47,13 +47,13 @@ public class HistoriaDAOImpl extends DAOImplBase implements HistoriaDAO {
 
     @Override
     protected void incluirValorDeParametrosParaInsercion() throws SQLException {
-        this.statement.setInt(1, this.historia.getIdHistoriaClinica());
-        this.statement.setInt(2, this.historia.getPaciente().getIdUsuario());
-        this.statement.setInt(3, EstadoGeneral.ACTIVO.getCodigo());
-        this.statement.setInt(4, this.historia.getUsuarioCreacion());
-        this.statement.setDate(5, Date.valueOf(this.historia.getFechaCreacion()));
-        this.statement.setNull(6, Types.INTEGER);
-        this.statement.setNull(7, Types.DATE);
+
+        this.statement.setInt(1, this.historia.getPaciente().getIdUsuario());
+        this.statement.setInt(2, EstadoGeneral.ACTIVO.getCodigo());
+        this.statement.setInt(3, this.historia.getUsuarioCreacion());
+        this.statement.setDate(4, Date.valueOf(this.historia.getFechaCreacion()));
+        this.statement.setNull(5, Types.INTEGER);
+        this.statement.setNull(6, Types.DATE);
     }
 
     @Override
