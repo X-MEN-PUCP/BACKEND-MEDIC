@@ -34,6 +34,9 @@ public class UsuarioBO {
     }
     
     public Integer insertar(UsuarioDTO usuario){
+        String contra = usuario.getContrasenha();
+        contra = Cifrado.cifrarMD5(contra);
+        usuario.setContrasenha(contra);
         return this.usuarioDao.insertar(usuario);
     }
     
