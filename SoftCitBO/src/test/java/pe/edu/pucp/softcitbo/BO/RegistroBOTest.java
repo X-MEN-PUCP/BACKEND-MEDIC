@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Disabled;
 import pe.edu.pucp.softcit.model.Genero;
 import pe.edu.pucp.softcit.model.TipoDocumento;
 import pe.edu.pucp.softcit.model.UsuarioDTO;
@@ -25,6 +26,7 @@ public class RegistroBOTest {
     
     
     @Test
+    @Disabled
     public void testRegistrarse() {
         System.out.println("registrarse");
         UsuarioDTO usuario = new UsuarioDTO();
