@@ -18,12 +18,11 @@ public class ReporteBOTest {
     
     
     @Test
-    @Disabled
     public void testListarCitas() {
         System.out.println("ReportelistarCitas ======================");
         ReporteCitaBO instance = new ReporteCitaBO();
-        Integer id_espcialidad = null;
-        Integer id_medico = null;
+        Integer id_espcialidad = 0;
+        Integer id_medico = 0;
         String Fecha_Inico = null;
         String Fecha_Fin = null;
         
