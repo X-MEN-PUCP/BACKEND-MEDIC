@@ -52,7 +52,7 @@ public class RegistroBO {
             UsuarioPorRolDTO usarioPorRol = new UsuarioPorRolDTO();
             usarioPorRol.setUsuarioDTO(usuario);
             RolDTO rol = new RolDTO();
-            rol.setIdRol(1);
+            rol.setIdRol(3);
             usarioPorRol.setRol(rol);
             usarioPorRol.setUsuarioCreacion(insert);
             usarioPorRol.setFechaCreacion(usuario.getFechaCreacion());
