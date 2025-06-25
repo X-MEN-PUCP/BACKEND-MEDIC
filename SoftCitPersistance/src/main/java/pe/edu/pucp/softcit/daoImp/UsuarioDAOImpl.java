@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import pe.edu.pucp.softcit.dao.UsuarioDAO;
 import pe.edu.pucp.softcit.daoImp.util.Columna;
+import pe.edu.pucp.softcit.db.util.Cifrado;
 import pe.edu.pucp.softcit.model.EstadoGeneral;
 import pe.edu.pucp.softcit.model.EstadoLogico;
 import pe.edu.pucp.softcit.model.Genero;
@@ -90,10 +91,10 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
         this.statement.setString(11, this.usuario.getGenero().toString());
         this.statement.setInt(12, EstadoGeneral.ACTIVO.getCodigo());
         this.statement.setInt(13, EstadoLogico.DISPONIBLE.getCodigo());
-        this.statement.setInt(4, this.usuario.getUsuarioCreacion());
-        this.statement.setDate(5, Date.valueOf(this.usuario.getFechaCreacion()));
-        this.statement.setNull(6, Types.INTEGER);
-        this.statement.setNull(7, Types.DATE);
+        this.statement.setInt(14, this.usuario.getUsuarioCreacion());
+        this.statement.setDate(15, Date.valueOf(this.usuario.getFechaCreacion()));
+        this.statement.setNull(16, Types.INTEGER);
+        this.statement.setNull(17, Types.DATE);
     }
 
     @Override
@@ -247,6 +248,9 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
     @Override
     public Integer insertar(UsuarioDTO usuario) {
         this.usuario = usuario;
+        String contra = usuario.getContrasenha();
+        contra = Cifrado.cifrarMD5(contra);
+        usuario.setContrasenha(contra);
         return super.insertar();
     }
 

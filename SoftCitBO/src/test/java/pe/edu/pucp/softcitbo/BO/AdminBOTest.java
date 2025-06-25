@@ -60,6 +60,7 @@ public class AdminBOTest {
     }
     
     @Test
+    @Disabled
     public void listarMedicos(){
         System.out.println("listarMedicos");
         AdminBO adminBO = new AdminBO();

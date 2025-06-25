@@ -12,6 +12,7 @@ import pe.edu.pucp.softcit.daoImp.HistoriaDAOImpl;
 import pe.edu.pucp.softcit.daoImp.RolesXUsuarioDAOImpl;
 import pe.edu.pucp.softcit.daoImp.UsuarioDAOImpl;
 import pe.edu.pucp.softcit.model.EstadoGeneral;
+import pe.edu.pucp.softcit.model.EstadoLogico;
 import pe.edu.pucp.softcit.model.HistoriaClinicaDTO;
 import pe.edu.pucp.softcit.model.RolDTO;
 import pe.edu.pucp.softcit.model.UsuarioDTO;
@@ -40,9 +41,12 @@ public class RegistroBO {
         usuario.setFechaCreacion(fechaCreacion);
         Integer insert = this.usuarioDao.insertar(usuario);
         if(insert!=0){
+            usuario.setIdUsuario(insert);
             usuario.setUsuarioCreacion(insert);
             usuario.setUsuarioModificacion(insert);
             usuario.setFechaModificacion(usuario.getFechaCreacion());
+            usuario.setEstadoGeneral(EstadoGeneral.ACTIVO);
+            usuario.setEstadoLogico(EstadoLogico.DISPONIBLE);
             this.usuarioDao.modificar(usuario);
             
             UsuarioPorRolDTO usarioPorRol = new UsuarioPorRolDTO();

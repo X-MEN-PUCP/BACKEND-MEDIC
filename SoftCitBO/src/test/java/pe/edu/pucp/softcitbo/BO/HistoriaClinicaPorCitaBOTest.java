@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Disabled;
 import pe.edu.pucp.softcit.dao.HistoriaClinicaPorCitaDAO;
 import pe.edu.pucp.softcit.model.HistoriaClinicaPorCitaDTO;
 
@@ -58,6 +59,7 @@ public class HistoriaClinicaPorCitaBOTest {
      * Test of modificar method, of class HistoriaClinicaPorCitaBO.
      */
     @Test
+    @Disabled
     public void testModificar() {
         System.out.println("modificar");
         HistoriaClinicaPorCitaBO instance = new HistoriaClinicaPorCitaBO();

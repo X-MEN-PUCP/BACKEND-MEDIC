@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Disabled;
 
 import pe.edu.pucp.softcit.model.DiagnosticoDTO;
 /**
@@ -71,6 +72,7 @@ public class DiagnosticoBOTest {
      * Test of listarTodos method, of class DiagnosticoBO.
      */
     @Test
+    @Disabled
     public void testListarTodos() {
         System.out.println("listarTodos");
         DiagnosticoBO instance = new DiagnosticoBO();

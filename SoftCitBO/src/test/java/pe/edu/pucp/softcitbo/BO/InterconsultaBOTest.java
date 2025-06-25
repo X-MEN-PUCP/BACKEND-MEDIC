@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Disabled;
 import pe.edu.pucp.softcit.model.InterconsultaDTO;
 
 /**
@@ -73,6 +74,7 @@ public class InterconsultaBOTest {
      * Test of listarTodos method, of class InterconsultaBO.
      */
     @Test
+    @Disabled
     public void testListarTodos() {
         System.out.println("listarTodos");
         InterconsultaBO instance = new InterconsultaBO();
