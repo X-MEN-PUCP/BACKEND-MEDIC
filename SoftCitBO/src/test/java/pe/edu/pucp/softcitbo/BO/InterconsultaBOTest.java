@@ -74,7 +74,7 @@ public class InterconsultaBOTest {
      * Test of listarTodos method, of class InterconsultaBO.
      */
     @Test
-    @Disabled
+    
     public void testListarTodos() {
         System.out.println("listarTodos");
         InterconsultaBO instance = new InterconsultaBO();

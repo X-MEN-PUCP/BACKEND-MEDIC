@@ -27,7 +27,7 @@ public class LoginBOTest {
      * Test of iniciarSesion method, of class LoginBO.
      */
     @Test
-    @Disabled
+    
     public void testIniciarSesion() {
         System.out.println("iniciarSesion");
         String numeroDoc = "X1234567";

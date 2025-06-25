@@ -59,7 +59,7 @@ public class HistoriaClinicaPorCitaBOTest {
      * Test of modificar method, of class HistoriaClinicaPorCitaBO.
      */
     @Test
-    @Disabled
+    
     public void testModificar() {
         System.out.println("modificar");
         HistoriaClinicaPorCitaBO instance = new HistoriaClinicaPorCitaBO();
