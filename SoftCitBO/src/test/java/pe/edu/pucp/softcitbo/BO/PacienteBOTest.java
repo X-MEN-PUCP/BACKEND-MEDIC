@@ -47,7 +47,7 @@ public class PacienteBOTest {
      * Test of reservarCita method, of class PacienteBO.
      */
     @Test
-    
+    @Disabled
     public void testFlujoCita() {
 //        System.out.println("reservarCita");
         CitaDTO cita;

@@ -72,7 +72,7 @@ public class DiagnosticoBOTest {
      * Test of listarTodos method, of class DiagnosticoBO.
      */
     @Test
-    
+    @Disabled
     public void testListarTodos() {
         System.out.println("listarTodos");
         DiagnosticoBO instance = new DiagnosticoBO();

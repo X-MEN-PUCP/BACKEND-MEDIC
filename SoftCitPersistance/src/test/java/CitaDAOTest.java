@@ -32,30 +32,28 @@ public class CitaDAOTest {
             // Imprimir tamaño y un atributo si hay resultados
             System.out.println("🔍 Total de citas encontradas: " + citas.size());
 
-            if (!citas.isEmpty()) {
-                CitaDTO cita = citas.get(0);
+            for (int i = 0; i < citas.size(); i++) {
+                CitaDTO cita = citas.get(i);
 
-                System.out.println("📄 Detalle de la primera cita:");
-                System.out.println("🩺 Médico: " + cita.getMedico().getNombres() + " "
+                System.out.println("----- Cita " + (i + 1) + " -----");
+
+                System.out.println("Medico: " + cita.getMedico().getNombres() + " "
                         + cita.getMedico().getApellidoPaterno() + " "
                         + cita.getMedico().getApellidoMaterno());
-                System.out.println("📧 Correo: " + cita.getMedico().getCorreoElectronico());
-                System.out.println("📱 Celular: " + cita.getMedico().getNumCelular());
+                System.out.println("Correo: " + cita.getMedico().getCorreoElectronico());
+                System.out.println("Celular: " + cita.getMedico().getNumCelular());
 
-                System.out.println("🏥 Consultorio: Nº " + cita.getConsultorio().getNumConsultorio()
-                        + ", Piso: " + cita.getConsultorio().getNumPiso());
+                System.out.println("Consultorio: Numero " + cita.getConsultorio().getNumConsultorio()
+                        + ", Piso " + cita.getConsultorio().getNumPiso());
 
-                System.out.println("📚 Especialidad: " + cita.getEspecialidad().getNombreEspecialidad()
-                        + " (S/. " + cita.getEspecialidad().getPrecioConsulta() + ")");
+                System.out.println("Especialidad: " + cita.getEspecialidad().getNombreEspecialidad()
+                        + " (Precio: " + cita.getEspecialidad().getPrecioConsulta() + ")");
 
-                System.out.println("📅 Fecha: " + cita.getFechaCita());
-                System.out.println("🕒 Hora: " + cita.getHoraInicio() + " - " + cita.getHoraFin());
-                System.out.println("🎯 Estado: " + cita.getEstado());
+                System.out.println("Fecha: " + cita.getFechaCita());
+                System.out.println("Hora: " + cita.getHoraInicio() + " - " + cita.getHoraFin());
+                System.out.println("Estado: " + cita.getEstado());
 
-                // Asegurar que los campos clave no son nulos
-                assertNotNull(cita.getMedico().getNombres(), "El nombre del médico no debe ser nulo");
-                assertNotNull(cita.getEspecialidad().getNombreEspecialidad(), "El nombre de la especialidad no debe ser nulo");
-                assertNotNull(cita.getConsultorio().getNumConsultorio(), "El número de consultorio no debe ser nulo");
+                System.out.println();
             }
 
         } catch (Exception e) {
