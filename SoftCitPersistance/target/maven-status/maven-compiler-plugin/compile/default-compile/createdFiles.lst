@@ -25,6 +25,7 @@ pe\edu\pucp\softcit\daoImp\TurnoDAOImpl.class
 pe\edu\pucp\softcit\daoImp\util\NuevoBuscarCitasBorrador.class
 pe\edu\pucp\softcit\daoImp\EspecialidadXUsuarioDAOImpl.class
 pe\edu\pucp\softcit\daoImp\ExamenPorCitaDAOImpl.class
+pe\edu\pucp\softcit\daoImp\util\CargaTablas.class
 pe\edu\pucp\softcit\daoImp\DAOImplBase.class
 pe\edu\pucp\softcit\daoImp\util\Columna.class
 pe\edu\pucp\softcit\daoImp\UsuarioDAOImpl.class
