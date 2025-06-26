@@ -17,6 +17,7 @@ public class CitaDAOTest {
             CitaDAO citaDAO = new CitaDAOImpl();
 
             // Parámetros de prueba
+            Integer idCita = null;
             Integer idEspecialidad = null;
             Integer idMedico = null;
             String fecha = null;
@@ -24,7 +25,7 @@ public class CitaDAOTest {
             EstadoCita estado = null;
 
             // Ejecutar
-            ArrayList<CitaDTO> citas = citaDAO.buscarCitasDisponibles(idEspecialidad, idMedico, fecha, horaInicio, estado);
+            ArrayList<CitaDTO> citas = citaDAO.BuscaCitasMaestro(idCita,idEspecialidad, idMedico, fecha, horaInicio, estado);
 
             // Verificar que el array no es nulo
             assertNotNull(citas, "La lista de citas no debe ser nula");

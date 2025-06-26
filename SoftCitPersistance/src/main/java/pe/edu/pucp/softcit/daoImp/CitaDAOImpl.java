@@ -80,60 +80,8 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
         this.statement.setInt(13, this.cita.getIdCita());
     }
 
-    @Override
-    protected void instanciarObjetoDelResultSet() throws SQLException {
-        this.cita = new CitaDTO();
-        this.cita.setIdCita(this.resultSet.getInt("id_cita"));
-
-        //cargar Medico
-        Integer idMedico = this.resultSet.getInt("id_medico");
-        UsuarioDAO usuarioDAO = new UsuarioDAOImpl();
-        /////
-        UsuarioDTO medico = usuarioDAO.obtenerPorId(idMedico);
-        this.cita.setMedico(medico);
-
-        //cargar Especialidad
-        Integer idEspecialidad = this.resultSet.getInt("id_especialidad");
-        EspecialidadDAO especialidadDAO = new EspecialidadDAOImpl();
-        EspecialidadDTO especialidad = especialidadDAO.obtenerPorId(idEspecialidad);
-        this.cita.setEspecialidad(especialidad);
-
-        //cargar turno
-        Integer idTurno = this.resultSet.getInt("id_turno");
-        TurnoDAO turnoDAO = new TurnoDAOImpl();
-        TurnoDTO turno = turnoDAO.obtenerPorId(idTurno);
-        this.cita.setTurno(turno);
-
-        //cargar Consultorio
-        Integer idConsultorio = this.resultSet.getInt("id_consultorio");
-        ConsultorioDAO consultorioDAO = new ConsultorioDAOImpl();
-        ConsultorioDTO consultorio = consultorioDAO.obtenerPorId(idConsultorio);
-        this.cita.setConsultorio(consultorio);
-
-        java.sql.Time horain = this.resultSet.getTime("hora_inicio");
-        this.cita.setHoraInicio(horain.toString());
-
-        java.sql.Time horafi = this.resultSet.getTime("hora_fin");
-        this.cita.setHoraFin(horafi.toString());
-
-        java.sql.Date fechaSql = resultSet.getDate("fecha_cita");
-        this.cita.setFechaCita(fechaSql.toString());
-
-        Integer idEstado = this.resultSet.getInt("estado_cita");
-        EstadoCita estado = EstadoCita.valueOfCodigo(idEstado);
-        this.cita.setEstado(estado);
-        this.cita.setUsuarioCreacion(this.resultSet.getInt("usuario_creación"));
-        this.cita.setFechaCreacion(this.resultSet.getDate("fecha_creacion").toString());
-        this.cita.setUsuarioModificacion(this.resultSet.getInt("usuario_modificación"));
-        if (this.resultSet.getDate("fecha_modificacion") != null) {
-            this.cita.setFechaModificacion(this.resultSet.getDate("fecha_modificacion").toString());
-        }
-    }
-
-    @Override
-    protected void incluirValorDeParametrosParaObtenerPorId() throws SQLException {
-        this.statement.setInt(1, this.cita.getIdCita());
-    }
+    
+    
 
     @Override
     protected void limpiarObjetoDelResultSet() {
@@ -142,7 +90,7 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
 
     @Override
     protected void agregarObjetoALaLista(List lista) throws SQLException {
-        this.instanciarObjetoDelResultSet();
+        this.instanciarObjetoDelResultSetEficaz();
         lista.add(this.cita);
     }
 
@@ -154,7 +102,7 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
 
     @Override
     public ArrayList<CitaDTO> listarTodos() {
-        return (ArrayList<CitaDTO>) super.listarTodos();
+        return (ArrayList<CitaDTO>) this.BuscaCitasMaestro(null, null,null, null, null, null);
     }
 
     @Override //
@@ -162,224 +110,56 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
         Integer idEspecialidad = null;
         String fecha = null;
         String hora_inicio = null;
-        return this.buscarCitas(idEspecialidad, idMedico, fecha, hora_inicio, estado);
+        return this.BuscaCitasMaestro(null,idEspecialidad, idMedico, fecha, hora_inicio, estado);
     }
 
     @Override //
     public ArrayList<CitaDTO> buscarCitas(Integer idEspecialidad, Integer idMedico, String fecha, String hora_inicio, EstadoCita estado) {
-        Boolean conEspecialidad = (idEspecialidad != null);
-        Boolean conIdMedico = (idMedico != null);
-        Boolean conFecha = (fecha != null);
-        Boolean conHora = (hora_inicio != null);
-        Boolean conEstado = (estado != null);
-
-        String sql = this.generarSQLParaBuscarCitas(conEspecialidad, conIdMedico, conFecha, conHora, conEstado);
-        Date fechaD = (fecha != null ? Date.valueOf(fecha) : null);
-        List<Object> params = new ArrayList<>();
-
-        if (estado != null) {
-            params.add(estado.getCodigo());
-        }
-        if (idMedico != null) {
-            params.add(idMedico);
-        }
-        if (idEspecialidad != null) {
-            params.add(idEspecialidad);
-        }
-        if (hora_inicio != null) {
-            params.add(hora_inicio);
-        }
-        if (fecha != null) {
-            params.add(fechaD);
-        }
-
-        return (ArrayList<CitaDTO>) super.listarTodos(sql, this::incluirValorDeParametros, params);
+        return (ArrayList<CitaDTO>) this.BuscaCitasMaestro(null, idEspecialidad, idMedico, fecha, hora_inicio, estado);
     }
 
-    private String generarSQLParaBuscarCitas(Boolean conEspecialidad, Boolean conIdMedico, Boolean conFecha, Boolean conHora, Boolean conEstado) {
-        /*
-        "SELECT * "
-                + "FROM cita"
-                + "WHERE estado=? "
-        
-         */
-        String sql = "SELECT ";
-        String sql_columnas = "";
-        String sql_predicado = "";
-        for (Columna columna : this.listaColumnas) {
-            if (!sql_columnas.isBlank()) {
-                sql_columnas = sql_columnas.concat(", ");
-            }
-//            sql_columnas = sql_columnas.concat(" ");
-            sql_columnas = sql_columnas.concat(columna.getNombre());
-        }
-        sql = sql.concat(sql_columnas);
-        sql = sql.concat(" FROM ");
-        sql = sql.concat(this.nombre_tabla);
-//        sql = sql.concat(" c JOIN usuario u ON c.id_medico = u.id_usuario");
-//        sql = sql.concat(" JOIN especialidad e ON c.id_especialidad = e.id_especialidad");
-        sql = sql.concat(" WHERE ");
-
-        if (conEstado) {
-            sql_predicado = sql_predicado.concat("estado_cita = ? AND ");
-        }
-
-        if (conIdMedico) {
-            sql_predicado = sql_predicado.concat("id_medico = ? ");
-        }
-
-        if (conEspecialidad) {
-            sql_predicado = sql_predicado.concat("AND id_especialidad = ? ");
-        }
-
-        if (conHora) {
-            sql_predicado = sql_predicado.concat("AND TIME(hora_inicio) = ? ");
-        }
-
-        if (conFecha) {
-            sql_predicado = sql_predicado.concat("AND DATE(fecha_cita) = ? ");
-        }
-
-        sql = sql.concat(sql_predicado);
-        System.out.println(sql);
-        return sql;
-    }
-
-    private void incluirValorDeParametros(Object objetoParametros) {
-        List<Object> params = (List<Object>) objetoParametros;
-        try {
-            for (int i = 0; i < params.size(); i++) {
-                this.statement.setObject(i + 1, params.get(i));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    
 
     @Override
     public ArrayList<CitaDTO> buscarCitasDisponiblesSoloCalenario(Integer idEspecialidad, Integer idMedico, String fecha, String hora_inicio, EstadoCita estado) {
         ArrayList<CitaDTO> lista = new ArrayList<>();
         this.limpiarObjetoDelResultSet();
-
-        try {
-
-            Boolean conEspecialidad = (idEspecialidad != null);
-            Boolean conIdMedico = (idMedico != null);
-            Boolean conFecha = (fecha != null);
-            Boolean conHora = (hora_inicio != null);
-            Boolean conEstado = (estado != null);
-
-            String sql = this.generarSQLParaBuscarCitas(conEspecialidad, conIdMedico, conFecha, conHora, conEstado);
-            Date fechaD = (fecha != null ? Date.valueOf(fecha) : null);
-            List<Object> params = new ArrayList<>();
-
-            if (estado != null) {
-                params.add(estado.getCodigo());
-            }
-            if (idMedico != null) {
-                params.add(idMedico);
-            }
-            if (idEspecialidad != null) {
-                params.add(idEspecialidad);
-            }
-            if (hora_inicio != null) {
-                params.add(hora_inicio);
-            }
-            if (fecha != null) {
-                params.add(fechaD);
-            }
-
-            this.abrirConexion();
-
-            this.colocarSQLenStatement(sql);
-
-            this.incluirValorDeParametros(params);
-
-            this.ejecutarConsultaEnBD();
-            while (this.resultSet.next()) {
-                this.cita = new CitaDTO();
-                java.sql.Time horain = this.resultSet.getTime("hora_inicio");
-                this.cita.setHoraInicio(horain.toString());
-
-                java.sql.Time horafi = this.resultSet.getTime("hora_fin");
-                this.cita.setHoraFin(horafi.toString());
-
-                java.sql.Date fechaSql = resultSet.getDate("fecha_cita");
-                this.cita.setFechaCita(fechaSql.toString());
-
-                lista.add(this.cita);
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return lista;
+        return this.BuscaCitasMaestro(null, idEspecialidad, idMedico, fecha, hora_inicio, estado);
     }
 
     @Override
     public CitaDTO obtenerPorId(Integer id) {
-        this.cita = new CitaDTO();
-        cita.setIdCita(id);
-        super.obtenerPorId();
-        return this.cita;
+        ArrayList<CitaDTO> lista = new ArrayList<>();
+
+        lista = BuscaCitasMaestro(id, null, null, null, null, null);
+        if (lista.size() > 0) {
+            this.cita = new CitaDTO();
+            this.cita = lista.getFirst();
+            return this.cita;
+        }
+        return null;
     }
 
     @Override
-    public ArrayList<CitaDTO> buscarCitasDisponibles(Integer idEspecialidad, Integer idMedico, String fecha, String hora_inicio, EstadoCita estado) {
+    public ArrayList<CitaDTO> BuscaCitasMaestro(Integer idCita, Integer idEspecialidad, Integer idMedico, String fecha, String hora_inicio, EstadoCita estado) {
         ArrayList<CitaDTO> lista = new ArrayList<>();
 
         try {
 
             boolean conTransaccion = true;
 
-            String sql = "{CALL universidad.sp_listar_citas_completas(?, ?, ?, ?, ?)}";
+            String sql = "{CALL universidad.sp_listar_citas_completas(?, ?, ?, ?, ?, ?)}";
 
             this.abrirConexion();
 
             this.colocarSQLenStatement(sql);
 
-            // Parámetro 1: idEspecialidad
-            if (idEspecialidad != null) {
-                this.statement.setInt(1, idEspecialidad);
-            } else {
-                this.statement.setNull(1, Types.INTEGER);
-            }
-
-            // Parámetro 2: idMedico
-            if (idMedico != null) {
-                this.statement.setInt(2, idMedico);
-            } else {
-                this.statement.setNull(2, Types.INTEGER);
-            }
-
-            // Parámetro 3: fecha (DATE)
-            if (fecha != null && !fecha.isEmpty()) {
-                java.sql.Date sqlFecha = java.sql.Date.valueOf(fecha); // formato yyyy-MM-dd
-                this.statement.setDate(3, sqlFecha);
-            } else {
-                this.statement.setNull(3, Types.DATE);
-            }
-
-            // Parámetro 4: hora_inicio (TIME)
-            if (hora_inicio != null && !hora_inicio.isEmpty()) {
-                java.sql.Time sqlHora = java.sql.Time.valueOf(hora_inicio); // formato HH:mm:ss
-                this.statement.setTime(4, sqlHora);
-            } else {
-                this.statement.setNull(4, Types.TIME);
-            }
-
-            // Parámetro 5: estado (TINYINT)
-            if (estado != null) {
-                this.statement.setInt(5, estado.getCodigo()); // asegúrate de tener getCodigo() en tu enum
-            } else {
-                this.statement.setNull(5, Types.TINYINT);
-            }
+            setParametrosFiltroCita(idCita, idEspecialidad, idMedico, fecha, hora_inicio, estado);
 
             this.ejecutarConsultaEnBD();// asegúrate que esto realmente hace un SELECT
 
             while (this.resultSet.next()) {
-                this.instanciarObjetoDelResultSetEficaz();
-                lista.add(this.cita);
+                this.agregarObjetoALaLista(lista);
             }
 
         } catch (SQLException ex) {
@@ -487,6 +267,53 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
         }
 
         return consultorio;
+    }
+
+    private void setParametrosFiltroCita(Integer idCita, Integer idEspecialidad, Integer idMedico,
+            String fecha, String horaInicio, EstadoCita estado) throws SQLException {
+        // Parámetro 1: idCita
+        if (idCita != null) {
+            this.statement.setInt(1, idCita);
+        } else {
+            this.statement.setNull(1, Types.INTEGER);
+        }
+
+        // Parámetro 2: idEspecialidad
+        if (idEspecialidad != null) {
+            this.statement.setInt(2, idEspecialidad);
+        } else {
+            this.statement.setNull(2, Types.INTEGER);
+        }
+
+        // Parámetro 3: idMedico
+        if (idMedico != null) {
+            this.statement.setInt(3, idMedico);
+        } else {
+            this.statement.setNull(3, Types.INTEGER);
+        }
+
+        // Parámetro 4: fecha (DATE)
+        if (fecha != null && !fecha.isEmpty()) {
+            java.sql.Date sqlFecha = java.sql.Date.valueOf(fecha); // formato esperado: yyyy-MM-dd
+            this.statement.setDate(4, sqlFecha);
+        } else {
+            this.statement.setNull(4, Types.DATE);
+        }
+
+        // Parámetro 5: hora_inicio (TIME)
+        if (horaInicio != null && !horaInicio.isEmpty()) {
+            java.sql.Time sqlHora = java.sql.Time.valueOf(horaInicio); // formato esperado: HH:mm:ss
+            this.statement.setTime(5, sqlHora);
+        } else {
+            this.statement.setNull(5, Types.TIME);
+        }
+
+        // Parámetro 6: estado_cita (TINYINT)
+        if (estado != null) {
+            this.statement.setInt(6, estado.getCodigo()); // Asegúrate de que EstadoCita tenga getCodigo()
+        } else {
+            this.statement.setNull(6, Types.TINYINT);
+        }
     }
 
 }
