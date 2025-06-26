@@ -14,6 +14,7 @@ import pe.edu.pucp.softcit.model.EstadoCita;
 import pe.edu.pucp.softcit.model.EstadoGeneral;
 import pe.edu.pucp.softcit.model.EstadoLogico;
 import pe.edu.pucp.softcit.model.Genero;
+import pe.edu.pucp.softcit.model.HistoriaClinicaDTO;
 import pe.edu.pucp.softcit.model.TipoDocumento;
 import pe.edu.pucp.softcit.model.TurnoDTO;
 import pe.edu.pucp.softcit.model.UsuarioDTO;
@@ -128,6 +129,18 @@ public class CargaTablas {
         return diagnostico;
     }
     
-    
+    public HistoriaClinicaDTO cargarHistoriaClinica(ResultSet rs) throws SQLException {
+    HistoriaClinicaDTO historia = new HistoriaClinicaDTO();
+    historia.setIdHistoriaClinica(rs.getInt("id_historia_historia_clinica"));
+    historia.setEstadoGeneral(EstadoGeneral.valueOfCodigo(rs.getInt("estado_historia_clinica")));
+    historia.setUsuarioCreacion(rs.getInt("usuario_creacion_historia_clinica"));
+    historia.setFechaCreacion(rs.getTimestamp("fecha_creacion_historia_clinica").toString());
+    historia.setUsuarioModificacion(rs.getInt("usuario_modificacion_historia_clinica"));
+    if (rs.getTimestamp("fecha_modificacion_historia_clinica") != null) {
+        historia.setFechaModificacion(rs.getTimestamp("fecha_modificacion_historia_clinica").toString());
+    }
+    return historia;
+}
+
 
 }
