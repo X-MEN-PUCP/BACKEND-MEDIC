@@ -20,4 +20,5 @@ public interface CitaDAO {
     public ArrayList<CitaDTO> buscarCitas(Integer idEspecialidad, Integer idMedico, String fecha, String hora_inicio, EstadoCita estado);
     public CitaDTO obtenerPorId(Integer id);
     public ArrayList<CitaDTO> buscarCitasDisponiblesSoloCalenario(Integer idEspecialidad, Integer idMedico, String fecha, String hora_inicio, EstadoCita estado);
+    public ArrayList<CitaDTO> buscarCitasDisponibles(Integer idEspecialidad, Integer idMedico, String fecha, String hora_inicio, EstadoCita estado);
 }

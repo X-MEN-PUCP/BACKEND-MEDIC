@@ -22,6 +22,7 @@ pe\edu\pucp\softcit\dao\EspecialidadDAO.class
 pe\edu\pucp\softcit\daoImp\EspecialidadDAOImpl.class
 pe\edu\pucp\softcit\daoImp\HistoriaClinicaPorCitaDAOImpl.class
 pe\edu\pucp\softcit\daoImp\TurnoDAOImpl.class
+pe\edu\pucp\softcit\daoImp\util\NuevoBuscarCitasBorrador.class
 pe\edu\pucp\softcit\daoImp\EspecialidadXUsuarioDAOImpl.class
 pe\edu\pucp\softcit\daoImp\ExamenPorCitaDAOImpl.class
 pe\edu\pucp\softcit\daoImp\DAOImplBase.class
