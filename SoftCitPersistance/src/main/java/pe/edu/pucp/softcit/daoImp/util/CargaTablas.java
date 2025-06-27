@@ -13,9 +13,12 @@ import pe.edu.pucp.softcit.model.EspecialidadDTO;
 import pe.edu.pucp.softcit.model.EstadoCita;
 import pe.edu.pucp.softcit.model.EstadoGeneral;
 import pe.edu.pucp.softcit.model.EstadoLogico;
+import pe.edu.pucp.softcit.model.ExamenDTO;
 import pe.edu.pucp.softcit.model.Genero;
 import pe.edu.pucp.softcit.model.HistoriaClinicaDTO;
+import pe.edu.pucp.softcit.model.HistoriaClinicaPorCitaDTO;
 import pe.edu.pucp.softcit.model.TipoDocumento;
+import pe.edu.pucp.softcit.model.TipoExamenDTO;
 import pe.edu.pucp.softcit.model.TurnoDTO;
 import pe.edu.pucp.softcit.model.UsuarioDTO;
 
@@ -125,22 +128,75 @@ public class CargaTablas {
         diagnostico.setCapitulo(rs.getString("capitulo_diagnostico"));
         diagnostico.setGrupo(rs.getString("grupo_diagnostico"));
         diagnostico.setNivel(rs.getInt("nivel_diagnostico"));
-        
+
         return diagnostico;
     }
-    
-    public HistoriaClinicaDTO cargarHistoriaClinica(ResultSet rs) throws SQLException {
-    HistoriaClinicaDTO historia = new HistoriaClinicaDTO();
-    historia.setIdHistoriaClinica(rs.getInt("id_historia_historia_clinica"));
-    historia.setEstadoGeneral(EstadoGeneral.valueOfCodigo(rs.getInt("estado_historia_clinica")));
-    historia.setUsuarioCreacion(rs.getInt("usuario_creacion_historia_clinica"));
-    historia.setFechaCreacion(rs.getTimestamp("fecha_creacion_historia_clinica").toString());
-    historia.setUsuarioModificacion(rs.getInt("usuario_modificacion_historia_clinica"));
-    if (rs.getTimestamp("fecha_modificacion_historia_clinica") != null) {
-        historia.setFechaModificacion(rs.getTimestamp("fecha_modificacion_historia_clinica").toString());
-    }
-    return historia;
-}
 
+    public HistoriaClinicaDTO cargarHistoriaClinica(ResultSet rs) throws SQLException {
+        HistoriaClinicaDTO historia = new HistoriaClinicaDTO();
+        historia.setIdHistoriaClinica(rs.getInt("id_historia_historia_clinica"));
+        historia.setEstadoGeneral(EstadoGeneral.valueOfCodigo(rs.getInt("estado_historia_clinica")));
+        historia.setUsuarioCreacion(rs.getInt("usuario_creacion_historia_clinica"));
+        historia.setFechaCreacion(rs.getDate("fecha_creacion_historia_clinica").toString());
+        historia.setUsuarioModificacion(rs.getInt("usuario_modificacion_historia_clinica"));
+        if (rs.getDate("fecha_modificacion_historia_clinica") != null) {
+            historia.setFechaModificacion(rs.getDate("fecha_modificacion_historia_clinica").toString());
+        }
+        return historia;
+    }
+
+    public HistoriaClinicaPorCitaDTO cargarHistoriaClinicaPorCita(ResultSet rs) throws SQLException {
+        HistoriaClinicaPorCitaDTO historiaPorCita = new HistoriaClinicaPorCitaDTO();
+
+        historiaPorCita.setPeso(rs.getDouble("peso_historia_clinica_por_cita"));
+        historiaPorCita.setTalla(rs.getDouble("talla_historia_clinica_por_cita"));
+        historiaPorCita.setPresionArterial(rs.getString("presion_arterial_historia_clinica_por_cita"));
+        historiaPorCita.setTemperatura(rs.getDouble("temperatura_historia_clinica_por_cita"));
+        historiaPorCita.setFrecuenciaCardiaca(rs.getInt("frecuencia_cardiaca_historia_clinica_por_cita"));
+        historiaPorCita.setMotivoConsulta(rs.getString("motivo_consulta_historia_clinica_por_cita"));
+        historiaPorCita.setTratamiento(rs.getString("tratamiento_historia_clinica_por_cita"));
+        historiaPorCita.setEvolucion(rs.getString("evolucion_historia_clinica_por_cita"));
+        historiaPorCita.setRecomendacion(rs.getString("recomendacion_historia_clinica_por_cita"));
+        historiaPorCita.setReceta(rs.getString("receta_historia_clinica_por_cita"));
+        historiaPorCita.setEstadoGeneral(EstadoGeneral.valueOfCodigo(rs.getInt("estado_historia_clinica_por_cita")));
+
+        historiaPorCita.setUsuarioCreacion(rs.getInt("usuario_creacion_historia_clinica_por_cita"));
+        historiaPorCita.setFechaCreacion(rs.getDate("fecha_creacion_historia_clinica_por_cita").toString());
+        historiaPorCita.setUsuarioModificacion(rs.getInt("usuario_modificacion_historia_clinica_por_cita"));
+
+        if (rs.getDate("fecha_modificacion_historia_clinica_por_cita") != null) {
+            historiaPorCita.setFechaModificacion(rs.getDate("fecha_modificacion_historia_clinica_por_cita").toString());
+        }
+
+        return historiaPorCita;
+    }
+
+    public TipoExamenDTO cargarTipoDeExamen(ResultSet rs) throws SQLException {
+        TipoExamenDTO tipo = new TipoExamenDTO();
+        tipo.setIdTipoExamen(rs.getInt("id_tipo_de_examen_tipo_de_examen"));
+        tipo.setNombreTipoExamen(rs.getString("nombre_examen_tipo_de_examen"));
+        tipo.setIndicacion(rs.getString("indicacion_tipo_de_examen"));
+        return tipo;
+    }
+
+    public ExamenDTO cargarExamen(ResultSet rs) throws SQLException {
+        ExamenDTO examen = new ExamenDTO();
+
+        examen.setIdExamen(rs.getInt("id_examen_examen"));
+        examen.setNombreExamen(rs.getString("nombre_examen_examen"));
+        examen.setEstadoGeneral(EstadoGeneral.valueOfCodigo(rs.getInt("estado_examen")));
+        examen.setUsuarioCreacion(rs.getInt("usuario_creacion_examen"));
+        examen.setFechaCreacion(rs.getDate("fecha_creacion_examen").toString());
+        examen.setUsuarioModificacion(rs.getInt("usuario_modificacion_examen"));
+
+        if (rs.getDate("fecha_modificacion_examen") != null) {
+            examen.setFechaModificacion(rs.getDate("fecha_modificacion_examen").toString());
+        }
+
+        // Modular: usar método cargarTipoDeExamen()
+        examen.setTipoExamen(cargarTipoDeExamen(rs));
+
+        return examen;
+    }
 
 }
