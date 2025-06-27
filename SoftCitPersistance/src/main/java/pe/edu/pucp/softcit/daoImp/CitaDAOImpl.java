@@ -28,12 +28,13 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
 
     private CitaDTO cita;
     private final CargaTablas cargaTablas;
+
     public CitaDAOImpl() {
         super("cita");
         this.retornarLlavePrimaria = true;
         this.cita = null;
         this.cargaTablas = new CargaTablas();
-        
+
     }
 
     @Override
@@ -78,7 +79,7 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
         this.cita.setTurno(this.cargaTablas.cargarTurno(resultSet));
         this.cita.setConsultorio(this.cargaTablas.cargarConsultorio(resultSet));
     }
-    
+
     @Override
     protected void limpiarObjetoDelResultSet() {
         this.cita = null;
@@ -86,6 +87,7 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
 
     @Override
     protected void agregarObjetoALaLista(List lista) throws SQLException {
+        this.instanciarObjetoDelResultSet();
         lista.add(this.cita);
     }
 
@@ -97,7 +99,18 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
 
     @Override
     public ArrayList<CitaDTO> listarTodos() {
-        return (ArrayList<CitaDTO>) super.listarTodos();
+        try {
+            Integer idCita = null;
+            Integer idEspecialidad = null;
+            String fecha = null;
+            String hora_inicio = null;
+            Integer idMedico = null;
+            EstadoCita estado = null;
+            return (ArrayList<CitaDTO>) this.BuscaCitasMaestro(idCita, idEspecialidad, idMedico, fecha, hora_inicio, estado);
+        } catch (SQLException ex) {
+            Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     @Override
@@ -107,7 +120,7 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
             String fecha = null;
             String hora_inicio = null;
             Integer idCita = null;
-            return this.BuscaCitasMaestro(idCita,idEspecialidad, idMedico, fecha, hora_inicio, estado);
+            return this.BuscaCitasMaestro(idCita, idEspecialidad, idMedico, fecha, hora_inicio, estado);
         } catch (SQLException ex) {
             Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -135,7 +148,7 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
             Integer idMedico = null;
             EstadoCita estado = null;
             lista = BuscaCitasMaestro(id, idEspecialidad, idMedico, fecha, hora_inicio, estado);
-            if (!lista.isEmpty()){
+            if (!lista.isEmpty()) {
                 this.cita = lista.getFirst();
             }
         } catch (SQLException ex) {
@@ -144,20 +157,20 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
         return this.cita;
     }
 
-   
-    private ArrayList<CitaDTO> BuscaCitasMaestro(Integer idCita, Integer idEspecialidad, Integer idMedico, String fecha, String hora_inicio, EstadoCita estado) throws SQLException{
+    private ArrayList<CitaDTO> BuscaCitasMaestro(Integer idCita, Integer idEspecialidad, Integer idMedico, String fecha, String hora_inicio, EstadoCita estado) throws SQLException {
         String sql = "{CALL universidad.sp_listar_citas_completas(?, ?, ?, ?, ?, ?)}";
         Object parametros = new CitaBuilder()
-                                .conEstado(estado)
-                                .conFecha(fecha)
-                                .conHoraInicio(hora_inicio)
-                                .conIdCita(idCita)
-                                .conIdEspecialidad(idEspecialidad)
-                                .conIdMedico(idMedico);
+                .conEstado(estado)
+                .conFecha(fecha)
+                .conHoraInicio(hora_inicio)
+                .conIdCita(idCita)
+                .conIdEspecialidad(idEspecialidad)
+                .conIdMedico(idMedico)
+                .CitaBuild();
         return (ArrayList<CitaDTO>) super.listarTodos(sql, this::incluirValorDeParametrosParaBuscarCitas, parametros);
     }
 
-    private void incluirValorDeParametrosParaBuscarCitas(Object parametros){
+    private void incluirValorDeParametrosParaBuscarCitas(Object parametros) {
         CitaParametrosBusqueda paramatrosCita = (CitaParametrosBusqueda) parametros;
         // Parámetro 1: idCita
         try {
