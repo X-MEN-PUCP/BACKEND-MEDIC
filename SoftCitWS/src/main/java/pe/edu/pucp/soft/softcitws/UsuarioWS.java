@@ -64,4 +64,11 @@ public class UsuarioWS {
     public UsuarioDTO completarRolesUsuario(@WebParam(name = "usuario")UsuarioDTO usuario){
         return this.usuarioBO.completarRoles(usuario);
     }
+    
+    @WebMethod(operationName = "CambiarContrasenhaUsuario")
+    public Integer CambiarContrasenhaUsuario(@WebParam(name = "usuario")UsuarioDTO usuario,
+            @WebParam(name = "contrasenhaNueva")String contrasenhaNueva){
+        return this.usuarioBO.CambiarContrasenha(usuario,contrasenhaNueva);
+    }
+    
 }

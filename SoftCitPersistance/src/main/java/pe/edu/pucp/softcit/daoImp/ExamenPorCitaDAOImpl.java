@@ -9,7 +9,10 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import pe.edu.pucp.softcit.dao.ExamenPorCitaDAO;
+import pe.edu.pucp.softcit.daoImp.util.CargaTablas;
 import pe.edu.pucp.softcit.daoImp.util.Columna;
 import pe.edu.pucp.softcit.db.DBManager;
 import pe.edu.pucp.softcit.model.CitaDTO;
@@ -24,11 +27,13 @@ import pe.edu.pucp.softcit.model.ExamenPorCita;
 public class ExamenPorCitaDAOImpl extends DAOImplBase implements ExamenPorCitaDAO {
 
     private ExamenPorCita examenPorCita;
+    private final CargaTablas cargaTablas;
 
     public ExamenPorCitaDAOImpl() {
         super("examen_por_cita");
         this.retornarLlavePrimaria = true;
         this.examenPorCita = null;
+        this.cargaTablas = new CargaTablas();
     }
 
     @Override
@@ -52,34 +57,32 @@ public class ExamenPorCitaDAOImpl extends DAOImplBase implements ExamenPorCitaDA
         this.statement.setInt(5, this.examenPorCita.getUsuarioCreacion());
         this.statement.setDate(6, Date.valueOf(this.examenPorCita.getFechaCreacion()));
         this.statement.setNull(7, Types.INTEGER);
-        this.statement.setNull(8, Types.DATE);        
+        this.statement.setNull(8, Types.DATE);
     }
 
     @Override
     protected void instanciarObjetoDelResultSet() throws SQLException {
-        this.examenPorCita = new ExamenPorCita();
-        this.examenPorCita.setExamen(new ExamenDAOImpl().obtenerPorId(this.resultSet.getInt("id_examen")));
-        this.examenPorCita.setCita(new CitaDAOImpl().obtenerPorId(this.resultSet.getInt("id_cita")));
-        this.examenPorCita.setObservaciones(this.resultSet.getString("observacion"));
-        this.examenPorCita.setEstadoGeneral(EstadoGeneral.valueOfCodigo(this.resultSet.getInt("estado"))); //13
-        this.examenPorCita.setUsuarioCreacion(this.resultSet.getInt("usuario_creación"));
-        this.examenPorCita.setFechaCreacion(this.resultSet.getDate("fecha_creacion").toString());
-        this.examenPorCita.setUsuarioModificacion(this.resultSet.getInt("usuario_modificación"));
-        if(this.resultSet.getDate("fecha_modificacion") != null) 
-            this.examenPorCita.setFechaModificacion(this.resultSet.getDate("fecha_modificacion").toString());
+        this.examenPorCita = this.cargaTablas.cargarExamenPorCita(resultSet);
+        this.examenPorCita.setExamen(this.cargaTablas.cargarExamen(resultSet));
+        this.examenPorCita.setCita(this.cargaTablas.cargarCita(resultSet));
+        this.examenPorCita.getCita().setMedico(this.cargaTablas.cargarUsuario(resultSet));
+        this.examenPorCita.getCita().setTurno(this.cargaTablas.cargarTurno(resultSet));
+        this.examenPorCita.getCita().setConsultorio(this.cargaTablas.cargarConsultorio(resultSet));
+        this.examenPorCita.getCita().setEspecialidad(this.cargaTablas.cargarEspecialidad(resultSet));
+        
     }
-    
+
     @Override
     protected void limpiarObjetoDelResultSet() {
         this.examenPorCita = null;
     }
-    
+
     @Override
     protected void agregarObjetoALaLista(List lista) throws SQLException {
         this.instanciarObjetoDelResultSet();
         lista.add(this.examenPorCita);
     }
-    
+
     @Override
     public Integer insertar(ExamenPorCita examenPorCita) {
         this.examenPorCita = examenPorCita;
@@ -88,30 +91,50 @@ public class ExamenPorCitaDAOImpl extends DAOImplBase implements ExamenPorCitaDA
 
     @Override
     public ArrayList<ExamenPorCita> listarTodos() {
-        return (ArrayList<ExamenPorCita>) super.listarTodos();
+        return (ArrayList<ExamenPorCita>) this.listarExamenesPorCitaCompleto(null, null);
     }
 
     @Override
     public ArrayList<ExamenPorCita> listarPorIdCita(Integer idCita) {
-        try {
-            ArrayList<ExamenPorCita> lista;
-            lista = new ArrayList<>();
-            this.conexion = DBManager.getInstance().getConnection();
-            String sql = "SELECT * FROM examen_por_cita WHERE id_cita = ?";
-            this.statement = this.conexion.prepareCall(sql);
-            this.statement.setInt(1, idCita);
-            this.resultSet = this.statement.executeQuery();
-            while (this.resultSet.next()) {
-                ExamenPorCita examen_por_Cita = new ExamenPorCita();
-                examen_por_Cita.setExamen(new ExamenDAOImpl().obtenerPorId(this.resultSet.getInt("id_examen")));
-                examen_por_Cita.setCita(new CitaDAOImpl().obtenerPorId(this.resultSet.getInt("id_cita")));
-                examen_por_Cita.setObservaciones(this.resultSet.getString("observacion"));
-                lista.add(examen_por_Cita);
-            }
-            return lista;
-        } catch (SQLException ex) {
-            System.err.println("Error al listar por cita");
-        }
-        return null;
+        return this.listarExamenesPorCitaCompleto(null, idCita);
     }
+
+    private ArrayList<ExamenPorCita> listarExamenesPorCitaCompleto(Integer idExamen, Integer idCita) {
+        ArrayList<ExamenPorCita> lista = new ArrayList<>();
+
+        try {
+            String sql = "{CALL universidad.sp_listar_examenes_por_cita_completo(?, ?)}";
+
+            this.abrirConexion();
+            this.colocarSQLenStatement(sql);
+
+            setParametrosFiltroExamenPorCita(idExamen, idCita);
+
+            this.ejecutarConsultaEnBD();
+
+            while (this.resultSet.next()) {
+                this.agregarObjetoALaLista(lista);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ExamenPorCitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return lista;
+    }
+
+    private void setParametrosFiltroExamenPorCita(Integer idExamen, Integer idCita) throws SQLException {
+        if (idExamen != null) {
+            this.statement.setInt(1, idExamen);
+        } else {
+            this.statement.setNull(1, Types.INTEGER);
+        }
+
+        if (idCita != null) {
+            this.statement.setInt(2, idCita);
+        } else {
+            this.statement.setNull(2, Types.INTEGER);
+        }
+    }
+
 }

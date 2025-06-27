@@ -40,7 +40,7 @@ public class CitaBO {
     }
     
     public ArrayList<CitaDTO> buscarCitasParaCalendario(Integer idEspecialidad, Integer codMedico, String fecha, String hora_inicio, EstadoCita estado){
-        return this.citaDao.buscarCitasDisponiblesSoloCalenario(idEspecialidad, codMedico, fecha, hora_inicio, estado);
+        return this.citaDao.buscarCitas(idEspecialidad, codMedico, fecha, hora_inicio, estado);
     }
     
     public CitaDTO obtenerPorId(Integer id){

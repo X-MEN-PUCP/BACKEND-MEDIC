@@ -5,6 +5,7 @@
 package pe.edu.pucp.softcitbo.BO;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import pe.edu.pucp.softcit.dao.RolesXUsuarioDAO;
 import pe.edu.pucp.softcit.daoImp.RolesXUsuarioDAOImpl;
 import pe.edu.pucp.softcit.model.EspecialidadDTO;
@@ -65,4 +66,11 @@ public class AdminBO {
         return insertUsuario;
     }
     
+    public ArrayList<UsuarioDTO> listarMedicos(){
+        return this.usuarioBo.listarMedicos();
+    }
+    
+    public ArrayList<UsuarioDTO> listarTodosUsuarios(){
+        return this.usuarioBo.listarTodos();
+    }
 }

@@ -4,6 +4,7 @@
  */
 package pe.edu.pucp.softcitbo.BO;
 
+import java.util.ArrayList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -58,4 +59,12 @@ public class AdminBOTest {
         System.out.println("Rol eliminado: "+result);
     }
     
+    @Test
+    @Disabled
+    public void listarMedicos(){
+        System.out.println("listarMedicos");
+        AdminBO adminBO = new AdminBO();
+        ArrayList<UsuarioDTO> medicos = adminBO.listarMedicos();
+        System.out.println("Size: "+ medicos.size());
+    }
 }

@@ -7,6 +7,7 @@ package pe.edu.pucp.soft.softcitws;
 import jakarta.jws.WebService;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
+import java.util.ArrayList;
 import pe.edu.pucp.softcit.model.EspecialidadDTO;
 import pe.edu.pucp.softcit.model.UsuarioDTO;
 import pe.edu.pucp.softcit.model.UsuarioPorRolDTO;
@@ -43,5 +44,15 @@ public class AdminWS {
     @WebMethod(operationName = "insertarNuevoMedico")
     public Integer insertarNuevoMedico(@WebParam(name="medico") UsuarioDTO medico, @WebParam(name="especialidad") EspecialidadDTO especialidad){
         return this.adminBO.insertarNuevoMedico(medico, especialidad);
+    }
+    
+    @WebMethod(operationName = "listarMedicos")
+    public ArrayList<UsuarioDTO> listarMedicos(){
+        return this.adminBO.listarMedicos();
+    }
+    
+    @WebMethod(operationName = "listarTodosUsuarios")
+    public ArrayList<UsuarioDTO> listarTodosUsuarios(){
+        return this.adminBO.listarTodosUsuarios();
     }
 }

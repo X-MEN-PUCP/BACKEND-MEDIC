@@ -31,6 +31,10 @@ public class ReporteCitaBO {
             String fechaHasta,
             Integer idEspecialidad,
             Integer idDoctor){
+        
+        if(idEspecialidad==0)idEspecialidad=null;
+        if(idDoctor==0)idDoctor=null;
+
 
         return reporteCitaDAO.obtenerReporteCitas(fechaDesde, fechaHasta, idEspecialidad, idDoctor);
     }

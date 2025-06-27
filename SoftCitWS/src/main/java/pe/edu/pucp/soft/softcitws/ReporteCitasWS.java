@@ -29,7 +29,9 @@ public class ReporteCitasWS {
             @WebParam(name = "codMedico")Integer codMedico,
             @WebParam(name = "fecha_inicio")String fecha_inicio, 
             @WebParam(name= "fecha_fini") String fecha_fin){
-        return this.reporteCitaBO.obtenerReporteCitas(fecha_fin, fecha_fin, idEspecialidad, codMedico);
+        
+
+        return this.reporteCitaBO.obtenerReporteCitas(fecha_inicio, fecha_fin, idEspecialidad, codMedico);
     }
     
 }

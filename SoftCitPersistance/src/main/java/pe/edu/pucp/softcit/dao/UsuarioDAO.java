@@ -4,6 +4,7 @@
  */
 package pe.edu.pucp.softcit.dao;
 
+import java.util.ArrayList;
 import pe.edu.pucp.softcit.model.UsuarioDTO;
 
 /**
@@ -19,6 +20,6 @@ public interface UsuarioDAO {
     public Integer cambiarEstadoGeneral(UsuarioDTO usuario);
     public Integer cambiarEstadoLogico(UsuarioDTO usuario);
     public UsuarioDTO completarRoles(UsuarioDTO usuario);
-    
-    
+    public ArrayList<UsuarioDTO> listarMedicos();
+    public ArrayList<UsuarioDTO> listarTodos();
 }

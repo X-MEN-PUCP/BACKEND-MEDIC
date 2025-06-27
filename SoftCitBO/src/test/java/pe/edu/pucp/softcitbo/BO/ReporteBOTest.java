@@ -5,6 +5,7 @@
 package pe.edu.pucp.softcitbo.BO;
 
 import java.util.ArrayList;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import pe.edu.pucp.softcit.model.ReporteCitaDTO;
 
@@ -20,8 +21,8 @@ public class ReporteBOTest {
     public void testListarCitas() {
         System.out.println("ReportelistarCitas ======================");
         ReporteCitaBO instance = new ReporteCitaBO();
-        Integer id_espcialidad = null;
-        Integer id_medico = null;
+        Integer id_espcialidad = 0;
+        Integer id_medico = 0;
         String Fecha_Inico = null;
         String Fecha_Fin = null;
         
