@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import pe.edu.pucp.softcit.daoImp.util.CargaTablas;
 import pe.edu.pucp.softcit.daoImp.util.Columna;
 import pe.edu.pucp.softcit.daoImp.util.Tipo_Operacion;
 import pe.edu.pucp.softcit.db.DBManager;
@@ -22,11 +23,13 @@ public abstract class DAOImplBase {
     protected Connection conexion;
     protected CallableStatement statement;
     protected ResultSet resultSet;
+    protected CargaTablas cargaTabla;
 
     public DAOImplBase(String nombre_tabla) {
         this.nombre_tabla = nombre_tabla;
         this.retornarLlavePrimaria = false;
         this.mostrarSentenciaSQL = true;
+        this.cargaTabla = new CargaTablas();
         this.incluirListaDeColumnas();
     }
 

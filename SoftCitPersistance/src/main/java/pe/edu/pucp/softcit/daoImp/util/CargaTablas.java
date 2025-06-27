@@ -203,7 +203,6 @@ public class CargaTablas {
     public ExamenPorCita cargarExamenPorCita(ResultSet rs) throws SQLException {
         ExamenPorCita epc = new ExamenPorCita();
 
-        
         epc.setObservaciones(rs.getString("observacion_examen_por_cita"));
         epc.setEstadoGeneral(EstadoGeneral.valueOfCodigo(rs.getInt("estado_examen_por_cita")));
         epc.setUsuarioCreacion(rs.getInt("usuario_creacion_examen_por_cita"));
@@ -215,6 +214,22 @@ public class CargaTablas {
         }
 
         return epc;
+    }
+
+    public EspecialidadDTO cargarEspecialidadInterconsulta(ResultSet rs) throws SQLException {
+        EspecialidadDTO especialidad = new EspecialidadDTO();
+        especialidad.setIdEspecialidad(rs.getInt("id_especialidad_especialidad_interconsulta"));
+        especialidad.setNombreEspecialidad(rs.getString("nombre_especialidad_interconsulta"));
+        especialidad.setPrecioConsulta(rs.getDouble("precio_consulta_interconsulta"));
+        especialidad.setEstadoGeneral(EstadoGeneral.valueOfCodigo(rs.getInt("estado_interconsulta")));
+        especialidad.setUsuarioCreacion(rs.getInt("usuario_creacion_interconsulta"));
+        especialidad.setFechaCreacion(rs.getDate("fecha_creacion_interconsulta").toString());
+        especialidad.setUsuarioModificacion(rs.getInt("usuario_modificacion_interconsulta"));
+        if (rs.getDate("fecha_modificacion_interconsulta") != null) {
+            especialidad.setFechaModificacion(rs.getDate("fecha_modificacion_interconsulta").toString());
+        }
+
+        return especialidad;
     }
 
 }
