@@ -79,6 +79,8 @@ public class PacienteBO {
         //actualizar cita (Estado: disponible)
         CitaDTO cita = historia_por_cita.getCita();
         cita.setEstado(EstadoCita.DISPONIBLE);
+        cita.setUsuarioModificacion(cita.getUsuarioModificacion());
+        cita.setFechaModificacion(LocalDate.now().toString());
         this.citaBO.modificar(cita);
         return this.historiaClinicaPorCitaBO.eliminar(historia_por_cita);
     }
