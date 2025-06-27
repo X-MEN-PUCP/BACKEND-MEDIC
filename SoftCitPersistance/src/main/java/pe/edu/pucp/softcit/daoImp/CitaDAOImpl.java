@@ -17,6 +17,8 @@ import pe.edu.pucp.softcit.daoImp.util.CargaTablas;
 import pe.edu.pucp.softcit.model.CitaDTO;
 import pe.edu.pucp.softcit.model.EstadoCita;
 import pe.edu.pucp.softcit.dao.CitaDAO;
+import pe.edu.pucp.softcit.daoImp.util.CitaBuilder;
+import pe.edu.pucp.softcit.daoImp.util.CitaParametrosBusqueda;
 
 /**
  *
@@ -68,9 +70,15 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
         this.statement.setInt(13, this.cita.getIdCita());
     }
 
+    @Override
+    protected void instanciarObjetoDelResultSet() throws SQLException {
+        this.cita = this.cargaTablas.cargarCita(resultSet);
+        this.cita.setMedico(this.cargaTablas.cargarUsuario(resultSet));
+        this.cita.setEspecialidad(this.cargaTablas.cargarEspecialidad(resultSet));
+        this.cita.setTurno(this.cargaTablas.cargarTurno(resultSet));
+        this.cita.setConsultorio(this.cargaTablas.cargarConsultorio(resultSet));
+    }
     
-    
-
     @Override
     protected void limpiarObjetoDelResultSet() {
         this.cita = null;
@@ -78,7 +86,6 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
 
     @Override
     protected void agregarObjetoALaLista(List lista) throws SQLException {
-        this.instanciarObjetoDelResultSetEficaz();
         lista.add(this.cita);
     }
 
@@ -90,127 +97,114 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
 
     @Override
     public ArrayList<CitaDTO> listarTodos() {
-        return (ArrayList<CitaDTO>) this.BuscaCitasMaestro(null, null,null, null, null, null);
+        return (ArrayList<CitaDTO>) super.listarTodos();
     }
 
-    @Override //
+    @Override
     public ArrayList<CitaDTO> listarCitasMedico(Integer idMedico, EstadoCita estado) {
-        Integer idEspecialidad = null;
-        String fecha = null;
-        String hora_inicio = null;
-        return this.BuscaCitasMaestro(null,idEspecialidad, idMedico, fecha, hora_inicio, estado);
+        try {
+            Integer idEspecialidad = null;
+            String fecha = null;
+            String hora_inicio = null;
+            Integer idCita = null;
+            return this.BuscaCitasMaestro(idCita,idEspecialidad, idMedico, fecha, hora_inicio, estado);
+        } catch (SQLException ex) {
+            Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return new ArrayList<>();
     }
 
     @Override //
     public ArrayList<CitaDTO> buscarCitas(Integer idEspecialidad, Integer idMedico, String fecha, String hora_inicio, EstadoCita estado) {
-        return (ArrayList<CitaDTO>) this.BuscaCitasMaestro(null, idEspecialidad, idMedico, fecha, hora_inicio, estado);
-    }
-
-    
-
-    @Override
-    public ArrayList<CitaDTO> buscarCitasDisponiblesSoloCalenario(Integer idEspecialidad, Integer idMedico, String fecha, String hora_inicio, EstadoCita estado) {
-        ArrayList<CitaDTO> lista = new ArrayList<>();
-        this.limpiarObjetoDelResultSet();
-        return this.BuscaCitasMaestro(null, idEspecialidad, idMedico, fecha, hora_inicio, estado);
-    }
-
-    @Override
-    public CitaDTO obtenerPorId(Integer id) {
-        ArrayList<CitaDTO> lista = new ArrayList<>();
-
-        lista = BuscaCitasMaestro(id, null, null, null, null, null);
-        if (lista.size() > 0) {
-            this.cita = new CitaDTO();
-            this.cita = lista.getFirst();
-            return this.cita;
-        }
-        return null;
-    }
-
-    @Override
-    public ArrayList<CitaDTO> BuscaCitasMaestro(Integer idCita, Integer idEspecialidad, Integer idMedico, String fecha, String hora_inicio, EstadoCita estado) {
-        ArrayList<CitaDTO> lista = new ArrayList<>();
-
         try {
+            Integer idCita = null;
+            return this.BuscaCitasMaestro(idCita, idEspecialidad, idMedico, fecha, hora_inicio, estado);
+        } catch (SQLException ex) {
+            Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return new ArrayList<>();
+    }
 
-            boolean conTransaccion = true;
+    @Override //ver como podemos hacer esto
+    public CitaDTO obtenerPorId(Integer id) {
+        try {
+            ArrayList<CitaDTO> lista;
+            Integer idEspecialidad = null;
+            String fecha = null;
+            String hora_inicio = null;
+            Integer idMedico = null;
+            EstadoCita estado = null;
+            lista = BuscaCitasMaestro(id, idEspecialidad, idMedico, fecha, hora_inicio, estado);
+            if (!lista.isEmpty()){
+                this.cita = lista.getFirst();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return this.cita;
+    }
 
-            String sql = "{CALL universidad.sp_listar_citas_completas(?, ?, ?, ?, ?, ?)}";
+   
+    private ArrayList<CitaDTO> BuscaCitasMaestro(Integer idCita, Integer idEspecialidad, Integer idMedico, String fecha, String hora_inicio, EstadoCita estado) throws SQLException{
+        String sql = "{CALL universidad.sp_listar_citas_completas(?, ?, ?, ?, ?, ?)}";
+        Object parametros = new CitaBuilder()
+                                .conEstado(estado)
+                                .conFecha(fecha)
+                                .conHoraInicio(hora_inicio)
+                                .conIdCita(idCita)
+                                .conIdEspecialidad(idEspecialidad)
+                                .conIdMedico(idMedico);
+        return (ArrayList<CitaDTO>) super.listarTodos(sql, this::incluirValorDeParametrosParaBuscarCitas, parametros);
+    }
 
-            this.abrirConexion();
-
-            this.colocarSQLenStatement(sql);
-
-            setParametrosFiltroCita(idCita, idEspecialidad, idMedico, fecha, hora_inicio, estado);
-
-            this.ejecutarConsultaEnBD();// asegúrate que esto realmente hace un SELECT
-
-            while (this.resultSet.next()) {
-                this.agregarObjetoALaLista(lista);
+    private void incluirValorDeParametrosParaBuscarCitas(Object parametros){
+        CitaParametrosBusqueda paramatrosCita = (CitaParametrosBusqueda) parametros;
+        // Parámetro 1: idCita
+        try {
+            if (paramatrosCita.getIdCita() != null) {
+                this.statement.setInt(1, paramatrosCita.getIdCita());
+            } else {
+                this.statement.setNull(1, Types.INTEGER);
             }
 
+            // Parámetro 2: idEspecialidad
+            if (paramatrosCita.getIdEspecialidad() != null) {
+                this.statement.setInt(2, paramatrosCita.getIdEspecialidad());
+            } else {
+                this.statement.setNull(2, Types.INTEGER);
+            }
+
+            // Parámetro 3: idMedico
+            if (paramatrosCita.getIdMedico() != null) {
+                this.statement.setInt(3, paramatrosCita.getIdMedico());
+            } else {
+                this.statement.setNull(3, Types.INTEGER);
+            }
+
+            // Parámetro 4: fecha (DATE)
+            if (paramatrosCita.getFecha() != null) {
+                java.sql.Date sqlFecha = java.sql.Date.valueOf(paramatrosCita.getFecha()); // formato esperado: yyyy-MM-dd
+                this.statement.setDate(4, sqlFecha);
+            } else {
+                this.statement.setNull(4, Types.DATE);
+            }
+
+            // Parámetro 5: hora_inicio (TIME)
+            if (paramatrosCita.getHora_inicio() != null) {
+                java.sql.Time sqlHora = java.sql.Time.valueOf(paramatrosCita.getHora_inicio()); // formato esperado: HH:mm:ss
+                this.statement.setTime(5, sqlHora);
+            } else {
+                this.statement.setNull(5, Types.TIME);
+            }
+
+            // Parámetro 6: estado_cita (TINYINT)
+            if (paramatrosCita.getEstado() != null) {
+                this.statement.setInt(6, paramatrosCita.getEstado().getCodigo()); // Asegúrate de que EstadoCita tenga getCodigo()
+            } else {
+                this.statement.setNull(6, Types.TINYINT);
+            }
         } catch (SQLException ex) {
-            Logger.getLogger(ReporteCitasDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return lista;
-    }
-
-    protected void instanciarObjetoDelResultSetEficaz() throws SQLException {
-        this.cita = this.cargaTablas.cargarCita(resultSet);
-        this.cita.setMedico(this.cargaTablas.cargarUsuario(resultSet));
-        this.cita.setEspecialidad(this.cargaTablas.cargarEspecialidad(resultSet));
-        this.cita.setTurno(this.cargaTablas.cargarTurno(resultSet));
-        this.cita.setConsultorio(this.cargaTablas.cargarConsultorio(resultSet));
-    }
-
-    
-
-    private void setParametrosFiltroCita(Integer idCita, Integer idEspecialidad, Integer idMedico,
-            String fecha, String horaInicio, EstadoCita estado) throws SQLException {
-        // Parámetro 1: idCita
-        if (idCita != null) {
-            this.statement.setInt(1, idCita);
-        } else {
-            this.statement.setNull(1, Types.INTEGER);
-        }
-
-        // Parámetro 2: idEspecialidad
-        if (idEspecialidad != null) {
-            this.statement.setInt(2, idEspecialidad);
-        } else {
-            this.statement.setNull(2, Types.INTEGER);
-        }
-
-        // Parámetro 3: idMedico
-        if (idMedico != null) {
-            this.statement.setInt(3, idMedico);
-        } else {
-            this.statement.setNull(3, Types.INTEGER);
-        }
-
-        // Parámetro 4: fecha (DATE)
-        if (fecha != null && !fecha.isEmpty()) {
-            java.sql.Date sqlFecha = java.sql.Date.valueOf(fecha); // formato esperado: yyyy-MM-dd
-            this.statement.setDate(4, sqlFecha);
-        } else {
-            this.statement.setNull(4, Types.DATE);
-        }
-
-        // Parámetro 5: hora_inicio (TIME)
-        if (horaInicio != null && !horaInicio.isEmpty()) {
-            java.sql.Time sqlHora = java.sql.Time.valueOf(horaInicio); // formato esperado: HH:mm:ss
-            this.statement.setTime(5, sqlHora);
-        } else {
-            this.statement.setNull(5, Types.TIME);
-        }
-
-        // Parámetro 6: estado_cita (TINYINT)
-        if (estado != null) {
-            this.statement.setInt(6, estado.getCodigo()); // Asegúrate de que EstadoCita tenga getCodigo()
-        } else {
-            this.statement.setNull(6, Types.TINYINT);
+            Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -19,6 +19,5 @@ public interface CitaDAO {
     public ArrayList<CitaDTO> listarCitasMedico(Integer idMedico, EstadoCita estado);
     public ArrayList<CitaDTO> buscarCitas(Integer idEspecialidad, Integer idMedico, String fecha, String hora_inicio, EstadoCita estado);
     public CitaDTO obtenerPorId(Integer id);
-    public ArrayList<CitaDTO> buscarCitasDisponiblesSoloCalenario(Integer idEspecialidad, Integer idMedico, String fecha, String hora_inicio, EstadoCita estado);
-    public ArrayList<CitaDTO> BuscaCitasMaestro(Integer idCita,Integer idEspecialidad, Integer idMedico, String fecha, String hora_inicio, EstadoCita estado);
+//    public ArrayList<CitaDTO> BuscaCitasMaestro(Integer idCita,Integer idEspecialidad, Integer idMedico, String fecha, String hora_inicio, EstadoCita estado);
 }
