@@ -12,16 +12,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import pe.edu.pucp.softcit.dao.HistoriaClinicaPorCitaDAO;
-import pe.edu.pucp.softcit.daoImp.util.CargaTablas;
 import pe.edu.pucp.softcit.daoImp.util.Columna;
-import pe.edu.pucp.softcit.model.CitaDTO;
-import pe.edu.pucp.softcit.model.ConsultorioDTO;
-import pe.edu.pucp.softcit.model.EspecialidadDTO;
+import pe.edu.pucp.softcit.daoImp.util.HistoriaClinicaParametrosBusqueda;
+import pe.edu.pucp.softcit.daoImp.util.HistoriaClinicaParametrosBusquedaBuilder;
 import pe.edu.pucp.softcit.model.EstadoGeneral;
-import pe.edu.pucp.softcit.model.HistoriaClinicaDTO;
 import pe.edu.pucp.softcit.model.HistoriaClinicaPorCitaDTO;
-import pe.edu.pucp.softcit.model.TurnoDTO;
-import pe.edu.pucp.softcit.model.UsuarioDTO;
 
 /**
  *
@@ -30,13 +25,11 @@ import pe.edu.pucp.softcit.model.UsuarioDTO;
 public class HistoriaClinicaPorCitaDAOImpl extends DAOImplBase implements HistoriaClinicaPorCitaDAO {
 
     private HistoriaClinicaPorCitaDTO historiaPorCita;
-    private final CargaTablas cargaTablas;
 
     public HistoriaClinicaPorCitaDAOImpl() {
         super("historia_clinica_por_cita");
         this.retornarLlavePrimaria = true;
         this.historiaPorCita = null;
-        this.cargaTablas = new CargaTablas();
     }
 
     @Override
@@ -160,25 +153,31 @@ public class HistoriaClinicaPorCitaDAOImpl extends DAOImplBase implements Histor
 
     @Override
     protected void instanciarObjetoDelResultSet() throws SQLException {
-
-        this.historiaPorCita = this.cargaTablas.cargarHistoriaClinicaPorCita(resultSet);
-
+        
+        this.historiaPorCita = new HistoriaClinicaPorCitaDTO();
         // Cargar objetos anidados
-        HistoriaClinicaDTO historiaClinica = this.cargaTablas.cargarHistoriaClinica(resultSet);
-        CitaDTO cita = this.cargaTablas.cargarCita(resultSet);
-        UsuarioDTO medico = this.cargaTablas.cargarUsuario(resultSet);
-        TurnoDTO turno = this.cargaTablas.cargarTurno(resultSet);
-        ConsultorioDTO consultorio = this.cargaTablas.cargarConsultorio(resultSet);
-        EspecialidadDTO especialidad = this.cargaTablas.cargarEspecialidad(resultSet);
+        this.historiaPorCita.setHistoriaClinica(this.cargaTabla.cargarHistoriaClinica(resultSet));
+        this.historiaPorCita.setCita(this.cargaTabla.cargarCita(resultSet));
+        
+        this.historiaPorCita.setPeso(this.resultSet.getDouble("peso_historia_clinica_por_cita"));
+        this.historiaPorCita.setTalla(this.resultSet.getDouble("talla_historia_clinica_por_cita"));
+        this.historiaPorCita.setPresionArterial(this.resultSet.getString("presion_arterial_historia_clinica_por_cita"));
+        this.historiaPorCita.setTemperatura(this.resultSet.getDouble("temperatura_historia_clinica_por_cita"));
+        this.historiaPorCita.setFrecuenciaCardiaca(this.resultSet.getInt("frecuencia_cardiaca_historia_clinica_por_cita"));
+        this.historiaPorCita.setMotivoConsulta(this.resultSet.getString("motivo_consulta_historia_clinica_por_cita"));
+        this.historiaPorCita.setTratamiento(this.resultSet.getString("tratamiento_historia_clinica_por_cita"));
+        this.historiaPorCita.setEvolucion(this.resultSet.getString("evolucion_historia_clinica_por_cita"));
+        this.historiaPorCita.setRecomendacion(this.resultSet.getString("recomendacion_historia_clinica_por_cita"));
+        this.historiaPorCita.setReceta(this.resultSet.getString("receta_historia_clinica_por_cita"));
+        this.historiaPorCita.setEstadoGeneral(EstadoGeneral.valueOfCodigo(this.resultSet.getInt("estado_historia_clinica_por_cita")));
 
-        // Asignar objetos a la estructura
-        cita.setMedico(medico);
-        cita.setTurno(turno);
-        cita.setConsultorio(consultorio);
-        cita.setEspecialidad(especialidad);
+        this.historiaPorCita.setUsuarioCreacion(this.resultSet.getInt("usuario_creacion_historia_clinica_por_cita"));
+        this.historiaPorCita.setFechaCreacion(this.resultSet.getDate("fecha_creacion_historia_clinica_por_cita").toString());
+        this.historiaPorCita.setUsuarioModificacion(this.resultSet.getInt("usuario_modificacion_historia_clinica_por_cita"));
 
-        this.historiaPorCita.setHistoriaClinica(historiaClinica);
-        this.historiaPorCita.setCita(cita);
+        if (this.resultSet.getDate("fecha_modificacion_historia_clinica_por_cita") != null) {
+            historiaPorCita.setFechaModificacion(this.resultSet.getDate("fecha_modificacion_historia_clinica_por_cita").toString());
+        }
 
     }
 
@@ -213,64 +212,54 @@ public class HistoriaClinicaPorCitaDAOImpl extends DAOImplBase implements Histor
 
     @Override
     public ArrayList<HistoriaClinicaPorCitaDTO> listarTodos() {
-        return (ArrayList<HistoriaClinicaPorCitaDTO>) this.buscarHistoriaClinicaPorCita(null, null);
+        Integer idHistoria = null;
+        Integer idCita = null;
+        return this.listarHistoriaClinicaPorFiltros(idHistoria, idCita);
     }
 
-    //refactorizar
+    
     @Override
     public ArrayList<HistoriaClinicaPorCitaDTO> listarPorIdHistoria(Integer idHistoria) {
-
-        return this.buscarHistoriaClinicaPorCita(idHistoria, null);
+        Integer idCita = null;
+        return this.listarHistoriaClinicaPorFiltros(idHistoria, idCita);
     }
 
     @Override
     public HistoriaClinicaPorCitaDTO ObtenerPorIdCita(Integer idCita) {
-        ArrayList<HistoriaClinicaPorCitaDTO> lista = new ArrayList<>();
-
-        lista = this.buscarHistoriaClinicaPorCita(null, idCita);
-        if (lista.size() > 0) {
-            this.historiaPorCita = new HistoriaClinicaPorCitaDTO();
+        ArrayList<HistoriaClinicaPorCitaDTO> lista;
+        Integer idHistoria = null;
+        lista = this.listarHistoriaClinicaPorFiltros(idHistoria, idCita);
+        if (!lista.isEmpty()) {
             this.historiaPorCita = lista.getFirst();
-            return this.historiaPorCita;
         }
-        return null;
+        return this.historiaPorCita;
     }
 
-    private ArrayList<HistoriaClinicaPorCitaDTO> buscarHistoriaClinicaPorCita(Integer idHistoria, Integer idCita) {
-        ArrayList<HistoriaClinicaPorCitaDTO> lista = new ArrayList<>();
+    private ArrayList<HistoriaClinicaPorCitaDTO> listarHistoriaClinicaPorFiltros(Integer idHistoria, Integer idCita) {
+        String sql = "{CALL universidad.sp_listar_historia_clinica_por_cita(?, ?)}";
+        Object parametros = new HistoriaClinicaParametrosBusquedaBuilder()
+                                .conIdCita(idCita)
+                                .conIdHistoria(idHistoria)
+                                .BuildHistoriaClinicaParametrosBusqueda();
+        return (ArrayList<HistoriaClinicaPorCitaDTO>) super.listarTodos(sql, this::incluirValorDeParametrosParaListarHistoria, parametros);
+    }
 
-        try {
-            String sql = "{CALL universidad.sp_listar_historia_clinica_por_cita(?, ?)}";
-
-            this.abrirConexion();
-            this.colocarSQLenStatement(sql);
-
-            setParametrosFiltroHistoriaClinicaPorCita(idHistoria, idCita);
-
-            this.ejecutarConsultaEnBD();
-
-            while (this.resultSet.next()) {
-                this.agregarObjetoALaLista(lista);
+    private void incluirValorDeParametrosParaListarHistoria(Object parametros){
+        HistoriaClinicaParametrosBusqueda historiaParametros = (HistoriaClinicaParametrosBusqueda) parametros;
+        try{
+            if (historiaParametros.getIdHistoria() != null) {
+                this.statement.setInt(1, historiaParametros.getIdHistoria());
+            } else {
+                this.statement.setNull(1, Types.INTEGER);
             }
 
-        } catch (SQLException ex) {
+            if (historiaParametros.getIdCita() != null) {
+                this.statement.setInt(2, historiaParametros.getIdCita());
+            } else {
+                this.statement.setNull(2, Types.INTEGER);
+            }
+        }catch (SQLException ex){
             Logger.getLogger(HistoriaClinicaPorCitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return lista;
-    }
-
-    private void setParametrosFiltroHistoriaClinicaPorCita(Integer idHistoria, Integer idCita) throws SQLException {
-        if (idHistoria != null) {
-            this.statement.setInt(1, idHistoria);
-        } else {
-            this.statement.setNull(1, Types.INTEGER);
-        }
-
-        if (idCita != null) {
-            this.statement.setInt(2, idCita);
-        } else {
-            this.statement.setNull(2, Types.INTEGER);
         }
     }
 

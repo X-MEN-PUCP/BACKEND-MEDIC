@@ -10,7 +10,7 @@ import pe.edu.pucp.softcit.model.EstadoCita;
  *
  * @author Mcerv
  */
-public class CitaBuilder {
+public class CitaParametrosBusquedaBuilder {
     private Integer idCita;
     private Integer idEspecialidad;
     private Integer idMedico;
@@ -18,7 +18,7 @@ public class CitaBuilder {
     private String horaInicio; 
     private EstadoCita estado;
     
-    public CitaBuilder(){
+    public CitaParametrosBusquedaBuilder(){
         this.idCita = null;
         this.idEspecialidad = null;
         this.idMedico = null;
@@ -27,37 +27,37 @@ public class CitaBuilder {
         this.estado = null;
     }
     
-    public CitaBuilder conIdCita(Integer idCita){
+    public CitaParametrosBusquedaBuilder conIdCita(Integer idCita){
         this.idCita = idCita;
         return this;
     }
     
-    public CitaBuilder conIdEspecialidad(Integer idEspecialidad){
+    public CitaParametrosBusquedaBuilder conIdEspecialidad(Integer idEspecialidad){
         this.idEspecialidad = idEspecialidad;
         return this;
     }
     
-    public CitaBuilder conIdMedico(Integer idMedico){
+    public CitaParametrosBusquedaBuilder conIdMedico(Integer idMedico){
         this.idMedico = idMedico;
         return this;
     }
     
-    public CitaBuilder conFecha(String fecha){
+    public CitaParametrosBusquedaBuilder conFecha(String fecha){
         this.fecha = fecha;
         return this;
     }
     
-    public CitaBuilder conHoraInicio(String horaInicio){
+    public CitaParametrosBusquedaBuilder conHoraInicio(String horaInicio){
         this.horaInicio = horaInicio;
         return this;
     }
     
-    public CitaBuilder conEstado(EstadoCita estado){
+    public CitaParametrosBusquedaBuilder conEstado(EstadoCita estado){
         this.estado = estado;
         return this;
     }
     
-    public CitaParametrosBusqueda CitaBuild(){
+    public CitaParametrosBusqueda BuildCitaParametrosBusqueda(){
         CitaParametrosBusqueda parametros = new CitaParametrosBusqueda();
         parametros.setEstado(this.getEstado());
         parametros.setFecha(this.getFecha());

@@ -17,7 +17,7 @@ import pe.edu.pucp.softcit.daoImp.util.CargaTablas;
 import pe.edu.pucp.softcit.model.CitaDTO;
 import pe.edu.pucp.softcit.model.EstadoCita;
 import pe.edu.pucp.softcit.dao.CitaDAO;
-import pe.edu.pucp.softcit.daoImp.util.CitaBuilder;
+import pe.edu.pucp.softcit.daoImp.util.CitaParametrosBusquedaBuilder;
 import pe.edu.pucp.softcit.daoImp.util.CitaParametrosBusqueda;
 
 /**
@@ -74,10 +74,6 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
     @Override
     protected void instanciarObjetoDelResultSet() throws SQLException {
         this.cita = this.cargaTablas.cargarCita(resultSet);
-        this.cita.setMedico(this.cargaTablas.cargarUsuario(resultSet));
-        this.cita.setEspecialidad(this.cargaTablas.cargarEspecialidad(resultSet));
-        this.cita.setTurno(this.cargaTablas.cargarTurno(resultSet));
-        this.cita.setConsultorio(this.cargaTablas.cargarConsultorio(resultSet));
     }
 
     @Override
@@ -99,74 +95,55 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
 
     @Override
     public ArrayList<CitaDTO> listarTodos() {
-        try {
-            Integer idCita = null;
-            Integer idEspecialidad = null;
-            String fecha = null;
-            String hora_inicio = null;
-            Integer idMedico = null;
-            EstadoCita estado = null;
-            return (ArrayList<CitaDTO>) this.BuscaCitasMaestro(idCita, idEspecialidad, idMedico, fecha, hora_inicio, estado);
-        } catch (SQLException ex) {
-            Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        Integer idCita = null;
+        Integer idEspecialidad = null;
+        String fecha = null;
+        String hora_inicio = null;
+        Integer idMedico = null;
+        EstadoCita estado = null;
+        return this.listarCitasConFiltros(idCita, idEspecialidad, idMedico, fecha, hora_inicio, estado);
     }
 
     @Override
     public ArrayList<CitaDTO> listarCitasMedico(Integer idMedico, EstadoCita estado) {
-        try {
-            Integer idEspecialidad = null;
-            String fecha = null;
-            String hora_inicio = null;
-            Integer idCita = null;
-            return this.BuscaCitasMaestro(idCita, idEspecialidad, idMedico, fecha, hora_inicio, estado);
-        } catch (SQLException ex) {
-            Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return new ArrayList<>();
+        Integer idEspecialidad = null;
+        String fecha = null;
+        String hora_inicio = null;
+        Integer idCita = null;
+        return this.listarCitasConFiltros(idCita, idEspecialidad, idMedico, fecha, hora_inicio, estado);
     }
 
-    @Override //
+    @Override 
     public ArrayList<CitaDTO> buscarCitas(Integer idEspecialidad, Integer idMedico, String fecha, String hora_inicio, EstadoCita estado) {
-        try {
-            Integer idCita = null;
-            return this.BuscaCitasMaestro(idCita, idEspecialidad, idMedico, fecha, hora_inicio, estado);
-        } catch (SQLException ex) {
-            Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return new ArrayList<>();
+        Integer idCita = null;
+        return this.listarCitasConFiltros(idCita, idEspecialidad, idMedico, fecha, hora_inicio, estado);
     }
 
     @Override //ver como podemos hacer esto
     public CitaDTO obtenerPorId(Integer id) {
-        try {
-            ArrayList<CitaDTO> lista;
-            Integer idEspecialidad = null;
-            String fecha = null;
-            String hora_inicio = null;
-            Integer idMedico = null;
-            EstadoCita estado = null;
-            lista = BuscaCitasMaestro(id, idEspecialidad, idMedico, fecha, hora_inicio, estado);
-            if (!lista.isEmpty()) {
-                this.cita = lista.getFirst();
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        ArrayList<CitaDTO> lista;
+        Integer idEspecialidad = null;
+        String fecha = null;
+        String hora_inicio = null;
+        Integer idMedico = null;
+        EstadoCita estado = null;
+        lista = this.listarCitasConFiltros(id, idEspecialidad, idMedico, fecha, hora_inicio, estado);
+        if (!lista.isEmpty()) {
+            this.cita = lista.getFirst();
         }
         return this.cita;
     }
 
-    private ArrayList<CitaDTO> BuscaCitasMaestro(Integer idCita, Integer idEspecialidad, Integer idMedico, String fecha, String hora_inicio, EstadoCita estado) throws SQLException {
+    private ArrayList<CitaDTO> listarCitasConFiltros(Integer idCita, Integer idEspecialidad, Integer idMedico, String fecha, String hora_inicio, EstadoCita estado){
         String sql = "{CALL universidad.sp_listar_citas_completas(?, ?, ?, ?, ?, ?)}";
-        Object parametros = new CitaBuilder()
+        Object parametros = new CitaParametrosBusquedaBuilder()
                 .conEstado(estado)
                 .conFecha(fecha)
                 .conHoraInicio(hora_inicio)
                 .conIdCita(idCita)
                 .conIdEspecialidad(idEspecialidad)
                 .conIdMedico(idMedico)
-                .CitaBuild();
+                .BuildCitaParametrosBusqueda();
         return (ArrayList<CitaDTO>) super.listarTodos(sql, this::incluirValorDeParametrosParaBuscarCitas, parametros);
     }
 
