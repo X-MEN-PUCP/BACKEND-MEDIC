@@ -12,14 +12,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import pe.edu.pucp.softcit.dao.EspecialidadXUsuarioDAO;
-import pe.edu.pucp.softcit.dao.UsuarioDAO;
-import pe.edu.pucp.softcit.dao.EspecialidadDAO;
 import pe.edu.pucp.softcit.daoImp.util.Columna;
 import pe.edu.pucp.softcit.daoImp.util.UsuarioPorEspecialidadParametrosBusqueda;
 import pe.edu.pucp.softcit.daoImp.util.UsuarioPorEspecialidadParametrosBusquedaBuilder;
-import pe.edu.pucp.softcit.model.EspecialidadDTO;
 import pe.edu.pucp.softcit.model.EstadoGeneral;
-import pe.edu.pucp.softcit.model.UsuarioDTO;
 import pe.edu.pucp.softcit.model.UsuarioPorEspecialidadDTO;
 
 /**
@@ -63,40 +59,22 @@ public class EspecialidadXUsuarioDAOImpl extends DAOImplBase implements Especial
     protected void instanciarObjetoDelResultSet() throws SQLException {
         this.usuarioPorEspecialidad = new UsuarioPorEspecialidadDTO();
 
-        UsuarioPorEspecialidadDTO usuarioPorEspecialidad = new UsuarioPorEspecialidadDTO();
-
-        usuarioPorEspecialidad.setEstadoGeneral(EstadoGeneral.valueOfCodigo(this.resultSet.getInt("estado_usuario_por_especialidad")));
-        usuarioPorEspecialidad.setUsuarioCreacion(this.resultSet.getInt("usuario_creacion_usuario_por_especialidad"));
-        usuarioPorEspecialidad.setFechaCreacion(this.resultSet.getDate("fecha_creacion_usuario_por_especialidad").toString());
-        usuarioPorEspecialidad.setUsuarioModificacion(this.resultSet.getInt("usuario_modificacion_usuario_por_especialidad"));
+        this.usuarioPorEspecialidad.setEstadoGeneral(EstadoGeneral.valueOfCodigo(this.resultSet.getInt("estado_usuario_por_especialidad")));
+        this.usuarioPorEspecialidad.setUsuarioCreacion(this.resultSet.getInt("usuario_creacion_usuario_por_especialidad"));
+        this.usuarioPorEspecialidad.setFechaCreacion(this.resultSet.getDate("fecha_creacion_usuario_por_especialidad").toString());
+        this.usuarioPorEspecialidad.setUsuarioModificacion(this.resultSet.getInt("usuario_modificacion_usuario_por_especialidad"));
         if (this.resultSet.getDate("fecha_modificacion_usuario_por_especialidad") != null) {
             usuarioPorEspecialidad.setFechaModificacion(this.resultSet.getDate("fecha_modificacion_usuario_por_especialidad").toString());
         }
 
-        usuarioPorEspecialidad.setUsuario(this.cargaTabla.cargarUsuario(this.resultSet));
-        usuarioPorEspecialidad.setEspecialidad(this.cargaTabla.cargarEspecialidad(this.resultSet));
+        this.usuarioPorEspecialidad.setUsuario(this.cargaTabla.cargarUsuario(this.resultSet));
+        this.usuarioPorEspecialidad.setEspecialidad(this.cargaTabla.cargarEspecialidad(this.resultSet));
 
     }
 
-//    protected UsuarioDTO obtenerUsuario(Integer id) {
-//        if (this.usuario == null || !id.equals(this.usuario.getIdUsuario())) {
-//            UsuarioDAO usuarioDao = new UsuarioDAOImpl();
-//            this.usuario = usuarioDao.obtenerPorId(id);
-//        }
-//        return this.usuario;
-//    }
-//
-//    protected EspecialidadDTO obtenerEspecialidad(Integer id) {
-//        if (this.especialidad == null || !id.equals(this.especialidad.getIdEspecialidad())) {
-//            EspecialidadDAO especialidadDAO = new EspecialidadDAOImpl();
-//            this.especialidad = especialidadDAO.obtenerPorId(id);
-//        }
-//        return this.especialidad;
-//    }
     @Override
     protected void limpiarObjetoDelResultSet() {
         this.usuarioPorEspecialidad = null;
-
     }
 
     @Override
@@ -104,48 +82,26 @@ public class EspecialidadXUsuarioDAOImpl extends DAOImplBase implements Especial
         this.instanciarObjetoDelResultSet();
         lista.add(this.usuarioPorEspecialidad);
     }
+    
+    @Override
+    public Integer insertar(UsuarioPorEspecialidadDTO usuarioXespecialidad) {
+        this.usuarioPorEspecialidad = usuarioXespecialidad;
+        return super.insertar();
+    }
 
     @Override
     public ArrayList<UsuarioPorEspecialidadDTO> listarPorUsuario(Integer id) {
         Integer idEspecialidad = null;
-        return listarUsuariosPorEspecialidad(id, idEspecialidad);
+        return listarUsuariosPorEspecialidadConFiltro(id, idEspecialidad);
     }
 
     @Override
     public ArrayList<UsuarioPorEspecialidadDTO> listarPorEspecialidad(Integer idEspecialidad) {
         Integer idUsuario = null;
-        return listarUsuariosPorEspecialidad(idEspecialidad, idUsuario);
+        return listarUsuariosPorEspecialidadConFiltro(idEspecialidad, idUsuario);
     }
 
-//    private ArrayList<UsuarioPorEspecialidadDTO> listarPorCampo(String nombreCampo, Integer valor) {
-//        ArrayList<UsuarioPorEspecialidadDTO> lista = new ArrayList<>();
-//        this.limpiarObjetoDelResultSet();
-//        try {
-//            this.abrirConexion();
-//
-//            String sql = "SELECT * FROM usuario_por_especialidad WHERE " + nombreCampo + " = ?";
-//            this.colocarSQLenStatement(sql);
-//
-//            this.statement.setInt(1, valor);
-//
-//            this.ejecutarConsultaEnBD();
-//            while (this.resultSet.next()) {
-//                agregarObjetoALaLista(lista);
-//            }
-//        } catch (SQLException ex) {
-//            System.err.println("Error al intentar listar por campo '" + nombreCampo + "' - " + ex);
-//        } finally {
-//            try {
-//                this.cerrarConexion();
-//            } catch (SQLException ex) {
-//                System.err.println("Error al cerrar la conexión - " + ex);
-//            }
-//        }
-//        return lista;
-//    }
-    public ArrayList<UsuarioPorEspecialidadDTO> listarUsuariosPorEspecialidad(Integer idUsuario, Integer idEspecialidad) {
-        
-
+    public ArrayList<UsuarioPorEspecialidadDTO> listarUsuariosPorEspecialidadConFiltro(Integer idUsuario, Integer idEspecialidad) {
         String sql = "{CALL universidad.sp_listar_usuarios_por_especialidad_completo(?, ?)}";
 
         Object parametros = new UsuarioPorEspecialidadParametrosBusquedaBuilder()
@@ -154,13 +110,6 @@ public class EspecialidadXUsuarioDAOImpl extends DAOImplBase implements Especial
                 .build();
 
         return (ArrayList<UsuarioPorEspecialidadDTO>) super.listarTodos(sql, this::incluirValorDeParametrosUsuarioPorEspecialidad, parametros);
-
-    }
-
-    @Override
-    public Integer insertar(UsuarioPorEspecialidadDTO usuarioXespecialidad) {
-        this.usuarioPorEspecialidad = usuarioXespecialidad;
-        return super.insertar();
     }
 
     private void incluirValorDeParametrosUsuarioPorEspecialidad(Object parametros) {
