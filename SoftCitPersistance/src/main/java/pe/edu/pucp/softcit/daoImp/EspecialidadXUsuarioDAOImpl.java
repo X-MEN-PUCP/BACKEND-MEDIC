@@ -9,10 +9,14 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import pe.edu.pucp.softcit.dao.EspecialidadXUsuarioDAO;
 import pe.edu.pucp.softcit.dao.UsuarioDAO;
 import pe.edu.pucp.softcit.dao.EspecialidadDAO;
 import pe.edu.pucp.softcit.daoImp.util.Columna;
+import pe.edu.pucp.softcit.daoImp.util.UsuarioPorEspecialidadParametrosBusqueda;
+import pe.edu.pucp.softcit.daoImp.util.UsuarioPorEspecialidadParametrosBusquedaBuilder;
 import pe.edu.pucp.softcit.model.EspecialidadDTO;
 import pe.edu.pucp.softcit.model.EstadoGeneral;
 import pe.edu.pucp.softcit.model.UsuarioDTO;
@@ -59,43 +63,40 @@ public class EspecialidadXUsuarioDAOImpl extends DAOImplBase implements Especial
     protected void instanciarObjetoDelResultSet() throws SQLException {
         this.usuarioPorEspecialidad = new UsuarioPorEspecialidadDTO();
 
-        Integer id_usuario = this.resultSet.getInt("id_usuario");
-        UsuarioDTO usuario = obtenerUsuario(id_usuario);
-        this.usuarioPorEspecialidad.setUsuario(usuario);
+        UsuarioPorEspecialidadDTO usuarioPorEspecialidad = new UsuarioPorEspecialidadDTO();
 
-        Integer id_especialidad = this.resultSet.getInt("id_especialidad");
-        EspecialidadDTO especialidad = obtenerEspecialidad(id_especialidad);
-        this.usuarioPorEspecialidad.setEspecialidad(especialidad);
-        
-        this.usuarioPorEspecialidad.setEstadoGeneral(EstadoGeneral.valueOfCodigo(this.resultSet.getInt("estado"))); //13
-        this.usuarioPorEspecialidad.setUsuarioCreacion(this.resultSet.getInt("usuario_creación"));
-        this.usuarioPorEspecialidad.setFechaCreacion(this.resultSet.getDate("fecha_creacion").toString());
-        this.usuarioPorEspecialidad.setUsuarioModificacion(this.resultSet.getInt("usuario_modificación"));
-        if(this.resultSet.getDate("fecha_modificacion") != null) 
-            this.usuarioPorEspecialidad.setFechaModificacion(this.resultSet.getDate("fecha_modificacion").toString());
-    }
-
-    protected UsuarioDTO obtenerUsuario(Integer id) {
-        if (this.usuario == null || !id.equals(this.usuario.getIdUsuario())) {
-            UsuarioDAO usuarioDao = new UsuarioDAOImpl();
-            this.usuario = usuarioDao.obtenerPorId(id);
+        usuarioPorEspecialidad.setEstadoGeneral(EstadoGeneral.valueOfCodigo(this.resultSet.getInt("estado_usuario_por_especialidad")));
+        usuarioPorEspecialidad.setUsuarioCreacion(this.resultSet.getInt("usuario_creacion_usuario_por_especialidad"));
+        usuarioPorEspecialidad.setFechaCreacion(this.resultSet.getDate("fecha_creacion_usuario_por_especialidad").toString());
+        usuarioPorEspecialidad.setUsuarioModificacion(this.resultSet.getInt("usuario_modificacion_usuario_por_especialidad"));
+        if (this.resultSet.getDate("fecha_modificacion_usuario_por_especialidad") != null) {
+            usuarioPorEspecialidad.setFechaModificacion(this.resultSet.getDate("fecha_modificacion_usuario_por_especialidad").toString());
         }
-        return this.usuario;
+
+        usuarioPorEspecialidad.setUsuario(this.cargaTabla.cargarUsuario(this.resultSet));
+        usuarioPorEspecialidad.setEspecialidad(this.cargaTabla.cargarEspecialidad(this.resultSet));
+
     }
 
-    protected EspecialidadDTO obtenerEspecialidad(Integer id) {
-        if (this.especialidad == null || !id.equals(this.especialidad.getIdEspecialidad())) {
-            EspecialidadDAO especialidadDAO = new EspecialidadDAOImpl();
-            this.especialidad = especialidadDAO.obtenerPorId(id);
-        }
-        return this.especialidad;
-    }
-
+//    protected UsuarioDTO obtenerUsuario(Integer id) {
+//        if (this.usuario == null || !id.equals(this.usuario.getIdUsuario())) {
+//            UsuarioDAO usuarioDao = new UsuarioDAOImpl();
+//            this.usuario = usuarioDao.obtenerPorId(id);
+//        }
+//        return this.usuario;
+//    }
+//
+//    protected EspecialidadDTO obtenerEspecialidad(Integer id) {
+//        if (this.especialidad == null || !id.equals(this.especialidad.getIdEspecialidad())) {
+//            EspecialidadDAO especialidadDAO = new EspecialidadDAOImpl();
+//            this.especialidad = especialidadDAO.obtenerPorId(id);
+//        }
+//        return this.especialidad;
+//    }
     @Override
     protected void limpiarObjetoDelResultSet() {
         this.usuarioPorEspecialidad = null;
-        this.usuario = null;
-        this.especialidad = null;
+
     }
 
     @Override
@@ -106,45 +107,81 @@ public class EspecialidadXUsuarioDAOImpl extends DAOImplBase implements Especial
 
     @Override
     public ArrayList<UsuarioPorEspecialidadDTO> listarPorUsuario(Integer id) {
-        return listarPorCampo("id_usuario", id);
+        Integer idEspecialidad = null;
+        return listarUsuariosPorEspecialidad(id, idEspecialidad);
     }
 
     @Override
     public ArrayList<UsuarioPorEspecialidadDTO> listarPorEspecialidad(Integer idEspecialidad) {
-        return listarPorCampo("id_especialidad", idEspecialidad);
+        Integer idUsuario = null;
+        return listarUsuariosPorEspecialidad(idEspecialidad, idUsuario);
     }
 
-    private ArrayList<UsuarioPorEspecialidadDTO> listarPorCampo(String nombreCampo, Integer valor) {
-        ArrayList<UsuarioPorEspecialidadDTO> lista = new ArrayList<>();
-        this.limpiarObjetoDelResultSet();
-        try {
-            this.abrirConexion();
+//    private ArrayList<UsuarioPorEspecialidadDTO> listarPorCampo(String nombreCampo, Integer valor) {
+//        ArrayList<UsuarioPorEspecialidadDTO> lista = new ArrayList<>();
+//        this.limpiarObjetoDelResultSet();
+//        try {
+//            this.abrirConexion();
+//
+//            String sql = "SELECT * FROM usuario_por_especialidad WHERE " + nombreCampo + " = ?";
+//            this.colocarSQLenStatement(sql);
+//
+//            this.statement.setInt(1, valor);
+//
+//            this.ejecutarConsultaEnBD();
+//            while (this.resultSet.next()) {
+//                agregarObjetoALaLista(lista);
+//            }
+//        } catch (SQLException ex) {
+//            System.err.println("Error al intentar listar por campo '" + nombreCampo + "' - " + ex);
+//        } finally {
+//            try {
+//                this.cerrarConexion();
+//            } catch (SQLException ex) {
+//                System.err.println("Error al cerrar la conexión - " + ex);
+//            }
+//        }
+//        return lista;
+//    }
+    public ArrayList<UsuarioPorEspecialidadDTO> listarUsuariosPorEspecialidad(Integer idUsuario, Integer idEspecialidad) {
+        
 
-            String sql = "SELECT * FROM usuario_por_especialidad WHERE " + nombreCampo + " = ?";
-            this.colocarSQLenStatement(sql);
+        String sql = "{CALL universidad.sp_listar_usuarios_por_especialidad_completo(?, ?)}";
 
-            this.statement.setInt(1, valor);
+        Object parametros = new UsuarioPorEspecialidadParametrosBusquedaBuilder()
+                .conIdUsuario(idUsuario)
+                .conIdEspecialidad(idEspecialidad)
+                .build();
 
-            this.ejecutarConsultaEnBD();
-            while (this.resultSet.next()) {
-                agregarObjetoALaLista(lista);
-            }
-        } catch (SQLException ex) {
-            System.err.println("Error al intentar listar por campo '" + nombreCampo + "' - " + ex);
-        } finally {
-            try {
-                this.cerrarConexion();
-            } catch (SQLException ex) {
-                System.err.println("Error al cerrar la conexión - " + ex);
-            }
-        }
-        return lista;
+        return (ArrayList<UsuarioPorEspecialidadDTO>) super.listarTodos(sql, this::incluirValorDeParametrosUsuarioPorEspecialidad, parametros);
+
     }
 
     @Override
     public Integer insertar(UsuarioPorEspecialidadDTO usuarioXespecialidad) {
         this.usuarioPorEspecialidad = usuarioXespecialidad;
         return super.insertar();
+    }
+
+    private void incluirValorDeParametrosUsuarioPorEspecialidad(Object parametros) {
+        UsuarioPorEspecialidadParametrosBusqueda filtro = (UsuarioPorEspecialidadParametrosBusqueda) parametros;
+
+        try {
+            if (filtro.getIdUsuario() != null) {
+                this.statement.setInt(1, filtro.getIdUsuario());
+            } else {
+                this.statement.setNull(1, Types.INTEGER);
+            }
+
+            if (filtro.getIdEspecialidad() != null) {
+                this.statement.setInt(2, filtro.getIdEspecialidad());
+            } else {
+                this.statement.setNull(2, Types.INTEGER);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(EspecialidadXUsuarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }
