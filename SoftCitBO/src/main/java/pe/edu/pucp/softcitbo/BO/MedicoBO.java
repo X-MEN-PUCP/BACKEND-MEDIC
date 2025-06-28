@@ -98,6 +98,16 @@ public class MedicoBO {
         examenPorCita.setFechaCreacion(LocalDate.now().toString());
         return this.examenPorCitaDAO.insertar(examenPorCita);
     }
+    
     //falta modifica y eliminar
+    public Integer modificarExamenPorCita(ExamenPorCitaDTO examenPorCita){
+        return this.examenPorCitaDAO.modificar(examenPorCita);
+    }
+    
+    public Integer eliminarExamenPorCita(ExamenPorCitaDTO examenPorCita){
+        return this.examenPorCitaDAO.eliminar(examenPorCita);
+    }
+    
     //falta diagnostico
+    
 }
