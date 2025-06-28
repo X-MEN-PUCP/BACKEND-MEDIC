@@ -98,7 +98,7 @@ public class EspecialidadPorUsuarioDAOImpl extends DAOImplBase implements Especi
     @Override
     public ArrayList<UsuarioPorEspecialidadDTO> listarPorEspecialidad(Integer idEspecialidad) {
         Integer idUsuario = null;
-        return listarUsuariosPorEspecialidadConFiltro(idEspecialidad, idUsuario);
+        return listarUsuariosPorEspecialidadConFiltro(idUsuario,idEspecialidad );
     }
 
     public ArrayList<UsuarioPorEspecialidadDTO> listarUsuariosPorEspecialidadConFiltro(Integer idUsuario, Integer idEspecialidad) {

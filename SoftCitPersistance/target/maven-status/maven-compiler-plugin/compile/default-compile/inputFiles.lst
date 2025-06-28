@@ -37,8 +37,14 @@ C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersist
 C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersistance\src\main\java\pe\edu\pucp\softcit\daoImp\util\Columna.java
 C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersistance\src\main\java\pe\edu\pucp\softcit\daoImp\util\DiagnosticoParametrosBusqueda.java
 C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersistance\src\main\java\pe\edu\pucp\softcit\daoImp\util\DiagnosticoParametrosBusquedaBuilder.java
+C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersistance\src\main\java\pe\edu\pucp\softcit\daoImp\util\ExamenParametrosBusqueda.java
+C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersistance\src\main\java\pe\edu\pucp\softcit\daoImp\util\ExamenParametrosBusquedaBuilder.java
+C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersistance\src\main\java\pe\edu\pucp\softcit\daoImp\util\ExamenPorCitaParametrosBusqueda.java
+C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersistance\src\main\java\pe\edu\pucp\softcit\daoImp\util\ExamenPorCitaParametrosBusquedaBuilder.java
 C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersistance\src\main\java\pe\edu\pucp\softcit\daoImp\util\HistoriaClinicaParametrosBusqueda.java
 C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersistance\src\main\java\pe\edu\pucp\softcit\daoImp\util\HistoriaClinicaParametrosBusquedaBuilder.java
+C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersistance\src\main\java\pe\edu\pucp\softcit\daoImp\util\HistoriaClinicaPorCitaParametrosBusqueda.java
+C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersistance\src\main\java\pe\edu\pucp\softcit\daoImp\util\HistoriaClinicaPorCitaParametrosBusquedaBuilder.java
 C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersistance\src\main\java\pe\edu\pucp\softcit\daoImp\util\InterconsultaParametrosBusqueda.java
 C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersistance\src\main\java\pe\edu\pucp\softcit\daoImp\util\InterconsultaParametrosBusquedaBuilder.java
 C:\Users\salva\Desktop\Miscaleunus\Prog3\APP-MEDIC\BACKKEND-MEDIC\SoftCitPersistance\src\main\java\pe\edu\pucp\softcit\daoImp\util\NuevoBuscarCitasBorrador.java

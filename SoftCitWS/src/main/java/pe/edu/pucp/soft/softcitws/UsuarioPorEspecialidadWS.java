@@ -42,4 +42,9 @@ public class UsuarioPorEspecialidadWS {
                     UsuarioPorEspecialidadDTO usuarioXespecialidad){
         return this.usuarioPorEspecialidadBO.insertar(usuarioXespecialidad);
     }
+    
+    @WebMethod(operationName = "listarTodosPerfilesMedicos")
+    public ArrayList<UsuarioPorEspecialidadDTO> listarTodosPerfilesMedicos(){
+        return this.usuarioPorEspecialidadBO.listarPorEspecialidad(null);
+    }
 }
