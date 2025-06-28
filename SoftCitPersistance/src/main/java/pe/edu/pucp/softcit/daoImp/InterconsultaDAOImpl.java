@@ -57,6 +57,7 @@ public class InterconsultaDAOImpl extends DAOImplBase implements InterconsultaDA
         this.interconsulta = new InterconsultaDTO();
         this.interconsulta.setEspecialidadInterconsulta(this.cargaTabla.cargarEspecialidad(this.resultSet));
         this.interconsulta.setCita(this.cargaTabla.cargarCita(this.resultSet));
+        this.interconsulta.setRazonInterconsulta(this.resultSet.getString("razon_interconsulta_interconsulta"));
     }
 
     @Override

@@ -25,14 +25,10 @@ import pe.edu.pucp.softcit.model.UsuarioPorEspecialidadDTO;
 public class EspecialidadXUsuarioDAOImpl extends DAOImplBase implements EspecialidadXUsuarioDAO {
 
     private UsuarioPorEspecialidadDTO usuarioPorEspecialidad;
-    private UsuarioDTO usuario;
-    private EspecialidadDTO especialidad;
 
     public EspecialidadXUsuarioDAOImpl() {
         super("usuario_por_especialidad");
         this.usuarioPorEspecialidad = null;
-        this.usuario = null;
-        this.especialidad = null;
     }
 
     @Override
