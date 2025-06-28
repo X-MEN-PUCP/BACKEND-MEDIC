@@ -45,6 +45,19 @@ public class DiagnosticoPorCitaDAOImpl extends DAOImplBase implements Diagnositc
     }
     
     @Override
+    protected void incluirValorDeParametrosParaModificacion() throws SQLException {
+        this.statement.setString(1, this.diagnosticoPorCita.getObservacion());
+        this.statement.setInt(2, this.diagnosticoPorCita.getCita().getIdCita());
+        this.statement.setInt(3, this.diagnosticoPorCita.getDiagnostico().getIdDiagnostico());
+    }
+    
+    @Override
+    protected void incluirValorDeParametrosParaEliminacion() throws SQLException {
+        this.statement.setString(1, this.diagnosticoPorCita.getObservacion());
+        this.statement.setInt(2, this.diagnosticoPorCita.getCita().getIdCita());
+    }
+    
+    @Override
     protected void instanciarObjetoDelResultSet() throws SQLException {
         this.diagnosticoPorCita = new DiagnosticoPorCita();
         this.diagnosticoPorCita.setDiagnostico(this.cargaTabla.cargarDiagnostico(this.resultSet));
@@ -67,6 +80,18 @@ public class DiagnosticoPorCitaDAOImpl extends DAOImplBase implements Diagnositc
     public Integer insertar(DiagnosticoPorCita diagnositcoPorCita) {
         this.diagnosticoPorCita = diagnositcoPorCita;
         return super.insertar();
+    }
+    
+    @Override
+    public Integer modificar(DiagnosticoPorCita diagnosticoPorCita) {
+        this.diagnosticoPorCita = diagnosticoPorCita;
+        return super.modificar();
+    }
+    
+    @Override
+    public Integer eliminar(DiagnosticoPorCita diagnosticoPorCita) {
+        this.diagnosticoPorCita = diagnosticoPorCita;
+        return super.eliminar();
     }
 
     @Override

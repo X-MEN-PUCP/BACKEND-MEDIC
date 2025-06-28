@@ -15,6 +15,8 @@ import pe.edu.pucp.softcit.model.DiagnosticoPorCita;
  */
 public interface DiagnositcoPorCitaDAO {
     public Integer insertar(DiagnosticoPorCita diagnositcoPorCita);
+    public Integer modificar(DiagnosticoPorCita diagnosticoPorCita);
+    public Integer eliminar(DiagnosticoPorCita diagnosticoPorCita);
     public ArrayList<DiagnosticoPorCita> listarPorIdCita(Integer idCita);
     public ArrayList<DiagnosticoPorCita> listarTodos();
 }

@@ -7,6 +7,8 @@ package pe.edu.pucp.softcitbo.BO;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import pe.edu.pucp.softcit.dao.CitaDAO;
+import pe.edu.pucp.softcit.dao.DiagnositcoPorCitaDAO;
+import pe.edu.pucp.softcit.dao.DiagnosticoDAO;
 import pe.edu.pucp.softcit.dao.EspecialidadDAO;
 import pe.edu.pucp.softcit.dao.ExamenDAO;
 import pe.edu.pucp.softcit.dao.ExamenPorCitaDAO;
@@ -14,6 +16,8 @@ import pe.edu.pucp.softcit.dao.HistoriaClinicaPorCitaDAO;
 import pe.edu.pucp.softcit.dao.InterconsultaDAO;
 import pe.edu.pucp.softcit.dao.TipoExamenDAO;
 import pe.edu.pucp.softcit.daoImp.CitaDAOImpl;
+import pe.edu.pucp.softcit.daoImp.DiagnosticoDAOImpl;
+import pe.edu.pucp.softcit.daoImp.DiagnosticoPorCitaDAOImpl;
 import pe.edu.pucp.softcit.daoImp.EspecialidadDAOImpl;
 import pe.edu.pucp.softcit.daoImp.ExamenDAOImpl;
 import pe.edu.pucp.softcit.daoImp.ExamenPorCitaDAOImpl;
@@ -21,6 +25,8 @@ import pe.edu.pucp.softcit.daoImp.HistoriaClinicaPorCitaDAOImpl;
 import pe.edu.pucp.softcit.daoImp.InterconsultaDAOImpl;
 import pe.edu.pucp.softcit.daoImp.TipoExamenDAOImpl;
 import pe.edu.pucp.softcit.model.CitaDTO;
+import pe.edu.pucp.softcit.model.DiagnosticoDTO;
+import pe.edu.pucp.softcit.model.DiagnosticoPorCita;
 import pe.edu.pucp.softcit.model.EspecialidadDTO;
 import pe.edu.pucp.softcit.model.EstadoCita;
 import pe.edu.pucp.softcit.model.EstadoGeneral;
@@ -43,6 +49,8 @@ public class MedicoBO {
     private final TipoExamenDAO tipoExamenDAO;
     private final ExamenDAO examenDAO;
     private final ExamenPorCitaDAO examenPorCitaDAO;
+    private final DiagnosticoDAO diagnosticoDAO;
+    private final DiagnositcoPorCitaDAO diagnosticoPorCitaDAO;
 
     public MedicoBO() {
         this.citaDao = new CitaDAOImpl();
@@ -52,6 +60,8 @@ public class MedicoBO {
         this.tipoExamenDAO = new TipoExamenDAOImpl();
         this.examenDAO = new ExamenDAOImpl();
         this.examenPorCitaDAO = new ExamenPorCitaDAOImpl();
+        this.diagnosticoDAO=new DiagnosticoDAOImpl();
+        this.diagnosticoPorCitaDAO=new DiagnosticoPorCitaDAOImpl();
     }
 
     public ArrayList<CitaDTO> listarCitasMedico(Integer idMedico, EstadoCita estado) {
@@ -99,7 +109,6 @@ public class MedicoBO {
         return this.examenPorCitaDAO.insertar(examenPorCita);
     }
     
-    //falta modifica y eliminar
     public Integer modificarExamenPorCita(ExamenPorCitaDTO examenPorCita){
         return this.examenPorCitaDAO.modificar(examenPorCita);
     }
@@ -108,6 +117,19 @@ public class MedicoBO {
         return this.examenPorCitaDAO.eliminar(examenPorCita);
     }
     
-    //falta diagnostico
+    public ArrayList<DiagnosticoDTO> listarDiagnosticos(){
+        return this.diagnosticoDAO.listarTodos();
+    }
     
+    public Integer agregarDiagnosticoPorCita(DiagnosticoPorCita diagnosticoPorCita){
+        return this.diagnosticoPorCitaDAO.insertar(diagnosticoPorCita);
+    }
+    
+    public Integer modificarDiagnosticoPorCita(DiagnosticoPorCita diagnosticoPorCita){
+        return this.diagnosticoPorCitaDAO.modificar(diagnosticoPorCita);
+    }
+    
+    public Integer eliminarDiagnosticoPorCita(DiagnosticoPorCita diagnosticoPorCita){
+        return this.diagnosticoPorCitaDAO.eliminar(diagnosticoPorCita);
+    }
 }
