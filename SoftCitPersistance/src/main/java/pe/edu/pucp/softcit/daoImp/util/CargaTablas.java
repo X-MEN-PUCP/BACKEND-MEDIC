@@ -68,7 +68,16 @@ public class CargaTablas {
         if (rs.getDate("fecha_modificacion_cita") != null) {
             cita.setFechaModificacion(rs.getDate("fecha_modificacion_cita").toString());
         }
-
+        
+        UsuarioDTO medico = this.cargarUsuario(rs);
+        EspecialidadDTO especialidad = this.cargarEspecialidad(rs);
+        TurnoDTO turno = this.cargarTurno(rs);
+        ConsultorioDTO consultorio = this.cargarConsultorio(rs);
+        
+        cita.setMedico(medico);
+        cita.setEspecialidad(especialidad);
+        cita.setTurno(turno);
+        cita.setConsultorio(consultorio);
         return cita;
     }
 
@@ -84,7 +93,6 @@ public class CargaTablas {
         if (rs.getDate("fecha_modificacion_especialidad") != null) {
             especialidad.setFechaModificacion(rs.getDate("fecha_modificacion_especialidad").toString());
         }
-
         return especialidad;
     }
 
@@ -146,31 +154,31 @@ public class CargaTablas {
         return historia;
     }
 
-    public HistoriaClinicaPorCitaDTO cargarHistoriaClinicaPorCita(ResultSet rs) throws SQLException {
-        HistoriaClinicaPorCitaDTO historiaPorCita = new HistoriaClinicaPorCitaDTO();
-
-        historiaPorCita.setPeso(rs.getDouble("peso_historia_clinica_por_cita"));
-        historiaPorCita.setTalla(rs.getDouble("talla_historia_clinica_por_cita"));
-        historiaPorCita.setPresionArterial(rs.getString("presion_arterial_historia_clinica_por_cita"));
-        historiaPorCita.setTemperatura(rs.getDouble("temperatura_historia_clinica_por_cita"));
-        historiaPorCita.setFrecuenciaCardiaca(rs.getInt("frecuencia_cardiaca_historia_clinica_por_cita"));
-        historiaPorCita.setMotivoConsulta(rs.getString("motivo_consulta_historia_clinica_por_cita"));
-        historiaPorCita.setTratamiento(rs.getString("tratamiento_historia_clinica_por_cita"));
-        historiaPorCita.setEvolucion(rs.getString("evolucion_historia_clinica_por_cita"));
-        historiaPorCita.setRecomendacion(rs.getString("recomendacion_historia_clinica_por_cita"));
-        historiaPorCita.setReceta(rs.getString("receta_historia_clinica_por_cita"));
-        historiaPorCita.setEstadoGeneral(EstadoGeneral.valueOfCodigo(rs.getInt("estado_historia_clinica_por_cita")));
-
-        historiaPorCita.setUsuarioCreacion(rs.getInt("usuario_creacion_historia_clinica_por_cita"));
-        historiaPorCita.setFechaCreacion(rs.getDate("fecha_creacion_historia_clinica_por_cita").toString());
-        historiaPorCita.setUsuarioModificacion(rs.getInt("usuario_modificacion_historia_clinica_por_cita"));
-
-        if (rs.getDate("fecha_modificacion_historia_clinica_por_cita") != null) {
-            historiaPorCita.setFechaModificacion(rs.getDate("fecha_modificacion_historia_clinica_por_cita").toString());
-        }
-
-        return historiaPorCita;
-    }
+//    public HistoriaClinicaPorCitaDTO cargarHistoriaClinicaPorCita(ResultSet rs) throws SQLException {
+//        HistoriaClinicaPorCitaDTO historiaPorCita = new HistoriaClinicaPorCitaDTO();
+//
+//        historiaPorCita.setPeso(rs.getDouble("peso_historia_clinica_por_cita"));
+//        historiaPorCita.setTalla(rs.getDouble("talla_historia_clinica_por_cita"));
+//        historiaPorCita.setPresionArterial(rs.getString("presion_arterial_historia_clinica_por_cita"));
+//        historiaPorCita.setTemperatura(rs.getDouble("temperatura_historia_clinica_por_cita"));
+//        historiaPorCita.setFrecuenciaCardiaca(rs.getInt("frecuencia_cardiaca_historia_clinica_por_cita"));
+//        historiaPorCita.setMotivoConsulta(rs.getString("motivo_consulta_historia_clinica_por_cita"));
+//        historiaPorCita.setTratamiento(rs.getString("tratamiento_historia_clinica_por_cita"));
+//        historiaPorCita.setEvolucion(rs.getString("evolucion_historia_clinica_por_cita"));
+//        historiaPorCita.setRecomendacion(rs.getString("recomendacion_historia_clinica_por_cita"));
+//        historiaPorCita.setReceta(rs.getString("receta_historia_clinica_por_cita"));
+//        historiaPorCita.setEstadoGeneral(EstadoGeneral.valueOfCodigo(rs.getInt("estado_historia_clinica_por_cita")));
+//
+//        historiaPorCita.setUsuarioCreacion(rs.getInt("usuario_creacion_historia_clinica_por_cita"));
+//        historiaPorCita.setFechaCreacion(rs.getDate("fecha_creacion_historia_clinica_por_cita").toString());
+//        historiaPorCita.setUsuarioModificacion(rs.getInt("usuario_modificacion_historia_clinica_por_cita"));
+//
+//        if (rs.getDate("fecha_modificacion_historia_clinica_por_cita") != null) {
+//            historiaPorCita.setFechaModificacion(rs.getDate("fecha_modificacion_historia_clinica_por_cita").toString());
+//        }
+//
+//        return historiaPorCita;
+//    }
 
     public TipoExamenDTO cargarTipoDeExamen(ResultSet rs) throws SQLException {
         TipoExamenDTO tipo = new TipoExamenDTO();
@@ -200,36 +208,36 @@ public class CargaTablas {
         return examen;
     }
 
-    public ExamenPorCita cargarExamenPorCita(ResultSet rs) throws SQLException {
-        ExamenPorCita epc = new ExamenPorCita();
+//    public ExamenPorCita cargarExamenPorCita(ResultSet rs) throws SQLException {
+//        ExamenPorCita epc = new ExamenPorCita();
+//
+//        epc.setObservaciones(rs.getString("observacion_examen_por_cita"));
+//        epc.setEstadoGeneral(EstadoGeneral.valueOfCodigo(rs.getInt("estado_examen_por_cita")));
+//        epc.setUsuarioCreacion(rs.getInt("usuario_creacion_examen_por_cita"));
+//        epc.setFechaCreacion(rs.getDate("fecha_creacion_examen_por_cita").toString());
+//        epc.setUsuarioModificacion(rs.getInt("usuario_modificacion_examen_por_cita"));
+//
+//        if (rs.getDate("fecha_modificacion_examen_por_cita") != null) {
+//            epc.setFechaModificacion(rs.getDate("fecha_modificacion_examen_por_cita").toString());
+//        }
+//
+//        return epc;
+//    }
 
-        epc.setObservaciones(rs.getString("observacion_examen_por_cita"));
-        epc.setEstadoGeneral(EstadoGeneral.valueOfCodigo(rs.getInt("estado_examen_por_cita")));
-        epc.setUsuarioCreacion(rs.getInt("usuario_creacion_examen_por_cita"));
-        epc.setFechaCreacion(rs.getDate("fecha_creacion_examen_por_cita").toString());
-        epc.setUsuarioModificacion(rs.getInt("usuario_modificacion_examen_por_cita"));
-
-        if (rs.getDate("fecha_modificacion_examen_por_cita") != null) {
-            epc.setFechaModificacion(rs.getDate("fecha_modificacion_examen_por_cita").toString());
-        }
-
-        return epc;
-    }
-
-    public EspecialidadDTO cargarEspecialidadInterconsulta(ResultSet rs) throws SQLException {
-        EspecialidadDTO especialidad = new EspecialidadDTO();
-        especialidad.setIdEspecialidad(rs.getInt("id_especialidad_especialidad_interconsulta"));
-        especialidad.setNombreEspecialidad(rs.getString("nombre_especialidad_interconsulta"));
-        especialidad.setPrecioConsulta(rs.getDouble("precio_consulta_interconsulta"));
-        especialidad.setEstadoGeneral(EstadoGeneral.valueOfCodigo(rs.getInt("estado_interconsulta")));
-        especialidad.setUsuarioCreacion(rs.getInt("usuario_creacion_interconsulta"));
-        especialidad.setFechaCreacion(rs.getDate("fecha_creacion_interconsulta").toString());
-        especialidad.setUsuarioModificacion(rs.getInt("usuario_modificacion_interconsulta"));
-        if (rs.getDate("fecha_modificacion_interconsulta") != null) {
-            especialidad.setFechaModificacion(rs.getDate("fecha_modificacion_interconsulta").toString());
-        }
-
-        return especialidad;
-    }
+//    public EspecialidadDTO cargarEspecialidadInterconsulta(ResultSet rs) throws SQLException {
+//        EspecialidadDTO especialidad = new EspecialidadDTO();
+//        especialidad.setIdEspecialidad(rs.getInt("id_especialidad_especialidad_interconsulta"));
+//        especialidad.setNombreEspecialidad(rs.getString("nombre_especialidad_interconsulta"));
+//        especialidad.setPrecioConsulta(rs.getDouble("precio_consulta_interconsulta"));
+//        especialidad.setEstadoGeneral(EstadoGeneral.valueOfCodigo(rs.getInt("estado_interconsulta")));
+//        especialidad.setUsuarioCreacion(rs.getInt("usuario_creacion_interconsulta"));
+//        especialidad.setFechaCreacion(rs.getDate("fecha_creacion_interconsulta").toString());
+//        especialidad.setUsuarioModificacion(rs.getInt("usuario_modificacion_interconsulta"));
+//        if (rs.getDate("fecha_modificacion_interconsulta") != null) {
+//            especialidad.setFechaModificacion(rs.getDate("fecha_modificacion_interconsulta").toString());
+//        }
+//
+//        return especialidad;
+//    }
 
 }

@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import pe.edu.pucp.softcit.dao.CitaDAO;
 import pe.edu.pucp.softcit.dao.InterconsultaDAO;
-import pe.edu.pucp.softcit.dao.EspecialidadDAO;
 import pe.edu.pucp.softcit.daoImp.util.Columna;
+import pe.edu.pucp.softcit.daoImp.util.InterconsultaParametrosBusqueda;
+import pe.edu.pucp.softcit.daoImp.util.InterconsultaParametrosBusquedaBuilder;
 import pe.edu.pucp.softcit.model.CitaDTO;
 import pe.edu.pucp.softcit.model.EspecialidadDTO;
 import pe.edu.pucp.softcit.model.InterconsultaDTO;
@@ -55,12 +55,8 @@ public class InterconsultaDAOImpl extends DAOImplBase implements InterconsultaDA
     @Override
     protected void instanciarObjetoDelResultSet() throws SQLException {
         this.interconsulta = new InterconsultaDTO();
-        this.interconsulta.setEspecialidadInterconsulta(this.cargaTabla.cargarEspecialidadInterconsulta(resultSet));
-        this.interconsulta.setCita(this.cargaTabla.cargarCita(resultSet));
-        this.interconsulta.getCita().setMedico(this.cargaTabla.cargarUsuario(resultSet));
-        this.interconsulta.getCita().setTurno(this.cargaTabla.cargarTurno(resultSet));
-        this.interconsulta.getCita().setConsultorio(this.cargaTabla.cargarConsultorio(resultSet));
-        this.interconsulta.getCita().setEspecialidad(this.cargaTabla.cargarEspecialidad(resultSet));
+        this.interconsulta.setEspecialidadInterconsulta(this.cargaTabla.cargarEspecialidad(this.resultSet));
+        this.interconsulta.setCita(this.cargaTabla.cargarCita(this.resultSet));
     }
 
     @Override
@@ -82,57 +78,51 @@ public class InterconsultaDAOImpl extends DAOImplBase implements InterconsultaDA
 
     @Override
     public InterconsultaDTO obtenerPorId(Integer idEspecialidad, Integer idCita) {
-        ArrayList<InterconsultaDTO> lista = new ArrayList<>();
-
-        lista = buscarInterconsultas(idEspecialidad, idCita);
-        if (lista.size() > 0) {
-            this.interconsulta = new InterconsultaDTO();
+        ArrayList<InterconsultaDTO> lista;
+        lista = listarInterconsultasPorFiltros(idEspecialidad, idCita);
+        if (!lista.isEmpty()) {
             this.interconsulta = lista.getFirst();
-            return this.interconsulta;
         }
-        return null;
+        return this.interconsulta;
     }
 
     @Override
     public ArrayList<InterconsultaDTO> listarTodos() {
-        return (ArrayList<InterconsultaDTO>) this.buscarInterconsultas(null,null);
+        Integer idEspecialidadInterconsulta = null;
+        Integer idCita = null;
+        return this.listarInterconsultasPorFiltros(idEspecialidadInterconsulta, idCita);
     }
 
-    public ArrayList<InterconsultaDTO> buscarInterconsultas(Integer idEspecialidadInterconsulta, Integer idCita) {
-        ArrayList<InterconsultaDTO> lista = new ArrayList<>();
+    public ArrayList<InterconsultaDTO> buscarInterconsultasPorCita(Integer idCita) {
+        Integer idEspecialidadInterconsulta = null;
+        return this.listarInterconsultasPorFiltros(idEspecialidadInterconsulta, idCita);
+    }
+    
+    private ArrayList<InterconsultaDTO> listarInterconsultasPorFiltros(Integer idEspecialidadInterconsulta, Integer idCita){
+        String sql = "{CALL universidad.sp_listar_interconsultas_completo(?, ?)}";
+        Object parametros = new InterconsultaParametrosBusquedaBuilder()
+                                .conIdCita(idCita)
+                                .conIdEspecialidadInterconsulta(idEspecialidadInterconsulta)
+                                .BuildInterconsultaParametrosBusqueda();
+        return (ArrayList<InterconsultaDTO>) super.listarTodos(sql, this::incluirValorDeParametrosParaBuscarInterconsulta, parametros);
+    }
 
-        try {
-            String sql = "{CALL universidad.sp_listar_interconsultas_completo(?, ?)}";
-
-            this.abrirConexion();
-            this.colocarSQLenStatement(sql);
-
-            setParametrosFiltroInterconsulta(idEspecialidadInterconsulta, idCita);
-
-            this.ejecutarConsultaEnBD();
-
-            while (this.resultSet.next()) {
-                this.agregarObjetoALaLista(lista);
+    private void incluirValorDeParametrosParaBuscarInterconsulta(Object parametros){
+        InterconsultaParametrosBusqueda interconsultaParametros = (InterconsultaParametrosBusqueda) parametros;
+        try{
+            if (interconsultaParametros.getIdEspecialidadInterconsulta() != null) {
+                this.statement.setInt(1, interconsultaParametros.getIdEspecialidadInterconsulta());
+            } else {
+                this.statement.setNull(1, Types.INTEGER);
             }
 
-        } catch (SQLException ex) {
+            if (interconsultaParametros.getIdCita() != null) {
+                this.statement.setInt(2, interconsultaParametros.getIdCita());
+            } else {
+                this.statement.setNull(2, Types.INTEGER);
+            }
+        }catch(SQLException ex){
             Logger.getLogger(InterconsultaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return lista;
-    }
-
-    private void setParametrosFiltroInterconsulta(Integer idEspecialidadInterconsulta, Integer idCita) throws SQLException {
-        if (idEspecialidadInterconsulta != null) {
-            this.statement.setInt(1, idEspecialidadInterconsulta);
-        } else {
-            this.statement.setNull(1, Types.INTEGER);
-        }
-
-        if (idCita != null) {
-            this.statement.setInt(2, idCita);
-        } else {
-            this.statement.setNull(2, Types.INTEGER);
         }
     }
 

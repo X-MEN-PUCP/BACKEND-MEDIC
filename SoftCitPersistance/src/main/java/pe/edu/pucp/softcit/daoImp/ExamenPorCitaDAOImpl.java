@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 import pe.edu.pucp.softcit.dao.ExamenPorCitaDAO;
 import pe.edu.pucp.softcit.daoImp.util.CargaTablas;
 import pe.edu.pucp.softcit.daoImp.util.Columna;
-import pe.edu.pucp.softcit.db.DBManager;
 import pe.edu.pucp.softcit.model.CitaDTO;
 import pe.edu.pucp.softcit.model.EstadoGeneral;
 import pe.edu.pucp.softcit.model.ExamenDTO;
@@ -27,13 +26,11 @@ import pe.edu.pucp.softcit.model.ExamenPorCita;
 public class ExamenPorCitaDAOImpl extends DAOImplBase implements ExamenPorCitaDAO {
 
     private ExamenPorCita examenPorCita;
-    private final CargaTablas cargaTablas;
 
     public ExamenPorCitaDAOImpl() {
         super("examen_por_cita");
         this.retornarLlavePrimaria = true;
         this.examenPorCita = null;
-        this.cargaTablas = new CargaTablas();
     }
 
     @Override
@@ -62,14 +59,19 @@ public class ExamenPorCitaDAOImpl extends DAOImplBase implements ExamenPorCitaDA
 
     @Override
     protected void instanciarObjetoDelResultSet() throws SQLException {
-        this.examenPorCita = this.cargaTablas.cargarExamenPorCita(resultSet);
-        this.examenPorCita.setExamen(this.cargaTablas.cargarExamen(resultSet));
-        this.examenPorCita.setCita(this.cargaTablas.cargarCita(resultSet));
-        this.examenPorCita.getCita().setMedico(this.cargaTablas.cargarUsuario(resultSet));
-        this.examenPorCita.getCita().setTurno(this.cargaTablas.cargarTurno(resultSet));
-        this.examenPorCita.getCita().setConsultorio(this.cargaTablas.cargarConsultorio(resultSet));
-        this.examenPorCita.getCita().setEspecialidad(this.cargaTablas.cargarEspecialidad(resultSet));
+//        this.examenPorCita = this.cargaTabla.cargarExamenPorCita(resultSet);
+        this.examenPorCita.setExamen(this.cargaTabla.cargarExamen(resultSet));
+        this.examenPorCita.setCita(this.cargaTabla.cargarCita(resultSet));
         
+        this.examenPorCita.setObservaciones(this.resultSet.getString("observacion_examen_por_cita"));
+        this.examenPorCita.setEstadoGeneral(EstadoGeneral.valueOfCodigo(this.resultSet.getInt("estado_examen_por_cita")));
+        this.examenPorCita.setUsuarioCreacion(this.resultSet.getInt("usuario_creacion_examen_por_cita"));
+        this.examenPorCita.setFechaCreacion(this.resultSet.getDate("fecha_creacion_examen_por_cita").toString());
+        this.examenPorCita.setUsuarioModificacion(this.resultSet.getInt("usuario_modificacion_examen_por_cita"));
+
+        if (this.resultSet.getDate("fecha_modificacion_examen_por_cita") != null) {
+            this.examenPorCita.setFechaModificacion(this.resultSet.getDate("fecha_modificacion_examen_por_cita").toString());
+        }
     }
 
     @Override
@@ -91,15 +93,18 @@ public class ExamenPorCitaDAOImpl extends DAOImplBase implements ExamenPorCitaDA
 
     @Override
     public ArrayList<ExamenPorCita> listarTodos() {
-        return (ArrayList<ExamenPorCita>) this.listarExamenesPorCitaCompleto(null, null);
+        Integer idExamen = null;
+        Integer idCita = null;
+        return this.listarExamenesPorFiltros(idExamen, idCita);
     }
 
     @Override
     public ArrayList<ExamenPorCita> listarPorIdCita(Integer idCita) {
-        return this.listarExamenesPorCitaCompleto(null, idCita);
+        Integer idExamen = null;
+        return this.listarExamenesPorFiltros(idExamen, idCita);
     }
 
-    private ArrayList<ExamenPorCita> listarExamenesPorCitaCompleto(Integer idExamen, Integer idCita) {
+    private ArrayList<ExamenPorCita> listarExamenesPorFiltros(Integer idExamen, Integer idCita) {
         ArrayList<ExamenPorCita> lista = new ArrayList<>();
 
         try {
