@@ -18,6 +18,7 @@ import pe.edu.pucp.softcit.model.ExamenPorCita;
 import pe.edu.pucp.softcit.model.Genero;
 import pe.edu.pucp.softcit.model.HistoriaClinicaDTO;
 import pe.edu.pucp.softcit.model.HistoriaClinicaPorCitaDTO;
+import pe.edu.pucp.softcit.model.RolDTO;
 import pe.edu.pucp.softcit.model.TipoDocumento;
 import pe.edu.pucp.softcit.model.TipoExamenDTO;
 import pe.edu.pucp.softcit.model.TurnoDTO;
@@ -68,12 +69,12 @@ public class CargaTablas {
         if (rs.getDate("fecha_modificacion_cita") != null) {
             cita.setFechaModificacion(rs.getDate("fecha_modificacion_cita").toString());
         }
-        
+
         UsuarioDTO medico = this.cargarUsuario(rs);
         EspecialidadDTO especialidad = this.cargarEspecialidad(rs);
         TurnoDTO turno = this.cargarTurno(rs);
         ConsultorioDTO consultorio = this.cargarConsultorio(rs);
-        
+
         cita.setMedico(medico);
         cita.setEspecialidad(especialidad);
         cita.setTurno(turno);
@@ -154,6 +155,20 @@ public class CargaTablas {
         return historia;
     }
 
+    public RolDTO cargarRol(ResultSet rs) throws SQLException {
+        RolDTO rol = new RolDTO();
+        rol.setIdRol(rs.getInt("id_rol_rol"));
+        rol.setNombreRol(rs.getString("nombre_rol"));
+        //rol.setEstado(EstadoGeneral.valueOfCodigo(rs.getInt("estado_rol")));
+        rol.setUsuarioCreacion(rs.getInt("usuario_creacion_rol"));
+        rol.setFechaCreacion(rs.getDate("fecha_creacion_rol").toString());
+        rol.setUsuarioModificacion(rs.getInt("usuario_modificacion_rol"));
+        if (rs.getDate("fecha_modificacion_rol") != null) {
+            rol.setFechaModificacion(rs.getDate("fecha_modificacion_rol").toString());
+        }
+        return rol;
+    }
+
 //    public HistoriaClinicaPorCitaDTO cargarHistoriaClinicaPorCita(ResultSet rs) throws SQLException {
 //        HistoriaClinicaPorCitaDTO historiaPorCita = new HistoriaClinicaPorCitaDTO();
 //
@@ -179,7 +194,6 @@ public class CargaTablas {
 //
 //        return historiaPorCita;
 //    }
-
     public TipoExamenDTO cargarTipoDeExamen(ResultSet rs) throws SQLException {
         TipoExamenDTO tipo = new TipoExamenDTO();
         tipo.setIdTipoExamen(rs.getInt("id_tipo_de_examen_tipo_de_examen"));
@@ -223,7 +237,6 @@ public class CargaTablas {
 //
 //        return epc;
 //    }
-
 //    public EspecialidadDTO cargarEspecialidadInterconsulta(ResultSet rs) throws SQLException {
 //        EspecialidadDTO especialidad = new EspecialidadDTO();
 //        especialidad.setIdEspecialidad(rs.getInt("id_especialidad_especialidad_interconsulta"));
@@ -239,5 +252,4 @@ public class CargaTablas {
 //
 //        return especialidad;
 //    }
-
 }
