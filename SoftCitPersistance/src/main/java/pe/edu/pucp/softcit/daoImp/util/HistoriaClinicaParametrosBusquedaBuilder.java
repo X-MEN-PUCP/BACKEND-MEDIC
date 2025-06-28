@@ -10,16 +10,11 @@ package pe.edu.pucp.softcit.daoImp.util;
  */
 public class HistoriaClinicaParametrosBusquedaBuilder {
     private Integer idHistoria;
-    private Integer idCita;
-
-    public HistoriaClinicaParametrosBusquedaBuilder() {
-        this.idHistoria = null;
-        this.idCita = null;
-    }
+    private Integer idPaciente;
     
-    public HistoriaClinicaParametrosBusquedaBuilder conIdCita(Integer idCita){
-        this.idCita = idCita;
-        return this;
+    public HistoriaClinicaParametrosBusquedaBuilder(){
+        this.idHistoria = null;
+        this.idPaciente = null;
     }
     
     public HistoriaClinicaParametrosBusquedaBuilder conIdHistoria(Integer idHistoria){
@@ -27,13 +22,18 @@ public class HistoriaClinicaParametrosBusquedaBuilder {
         return this;
     }
     
+    public HistoriaClinicaParametrosBusquedaBuilder conIdPaciente(Integer idPaciente){
+        this.idPaciente = idPaciente;
+        return this;
+    }
+    
     public HistoriaClinicaParametrosBusqueda BuildHistoriaClinicaParametrosBusqueda(){
         HistoriaClinicaParametrosBusqueda parametros = new HistoriaClinicaParametrosBusqueda();
-        parametros.setIdCita(this.getIdCita());
         parametros.setIdHistoria(this.getIdHistoria());
+        parametros.setIdPaciente(this.getIdPaciente());
         return parametros;
     }
-
+    
     public Integer getIdHistoria() {
         return idHistoria;
     }
@@ -42,12 +42,12 @@ public class HistoriaClinicaParametrosBusquedaBuilder {
         this.idHistoria = idHistoria;
     }
 
-    public Integer getIdCita() {
-        return idCita;
+    public Integer getIdPaciente() {
+        return idPaciente;
     }
 
-    public void setIdCita(Integer idCita) {
-        this.idCita = idCita;
+    public void setIdPaciente(Integer idPaciente) {
+        this.idPaciente = idPaciente;
     }
     
 }

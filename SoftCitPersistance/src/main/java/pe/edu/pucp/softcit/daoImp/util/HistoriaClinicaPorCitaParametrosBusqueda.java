@@ -8,13 +8,13 @@ package pe.edu.pucp.softcit.daoImp.util;
  *
  * @author Mcerv
  */
-public class HistoriaClinicaParametrosBusqueda {
+public class HistoriaClinicaPorCitaParametrosBusqueda {
     private Integer idHistoria;
-    private Integer idPaciente;
-    
-    public HistoriaClinicaParametrosBusqueda(){
+    private Integer idCita;
+
+    public HistoriaClinicaPorCitaParametrosBusqueda() {
         this.idHistoria = null;
-        this.idPaciente = null;
+        this.idCita = null;
     }
 
     public Integer getIdHistoria() {
@@ -25,12 +25,12 @@ public class HistoriaClinicaParametrosBusqueda {
         this.idHistoria = idHistoria;
     }
 
-    public Integer getIdPaciente() {
-        return idPaciente;
+    public Integer getIdCita() {
+        return idCita;
     }
 
-    public void setIdPaciente(Integer idPaciente) {
-        this.idPaciente = idPaciente;
+    public void setIdCita(Integer idCita) {
+        this.idCita = idCita;
     }
     
 }

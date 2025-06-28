@@ -11,16 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import pe.edu.pucp.softcit.dao.EspecialidadDAO;
 import pe.edu.pucp.softcit.dao.HistoriaDAO;
-import pe.edu.pucp.softcit.dao.UsuarioDAO;
 import pe.edu.pucp.softcit.daoImp.util.CargaTablas;
 import pe.edu.pucp.softcit.daoImp.util.Columna;
-import pe.edu.pucp.softcit.model.EspecialidadDTO;
+import pe.edu.pucp.softcit.daoImp.util.HistoriaClinicaParametrosBusqueda;
+import pe.edu.pucp.softcit.daoImp.util.HistoriaClinicaParametrosBusquedaBuilder;
 import pe.edu.pucp.softcit.model.EstadoGeneral;
 import pe.edu.pucp.softcit.model.HistoriaClinicaDTO;
-import pe.edu.pucp.softcit.model.UsuarioDTO;
-import pe.edu.pucp.softcit.model.UsuarioPorEspecialidadDTO;
 
 /**
  *
@@ -85,7 +82,7 @@ public class HistoriaDAOImpl extends DAOImplBase implements HistoriaDAO {
 
     @Override
     public ArrayList<HistoriaClinicaDTO> listar() {
-        return (ArrayList<HistoriaClinicaDTO>) this.listarHistoriasClinicas(null, null);
+        return (ArrayList<HistoriaClinicaDTO>) this.listarHistoriasClinicasConFiltro(null, null);
 
     }
 
@@ -96,63 +93,55 @@ public class HistoriaDAOImpl extends DAOImplBase implements HistoriaDAO {
     }
 
     @Override
-    public HistoriaClinicaDTO obtenerPorIdPaciente(Integer id) {
-        ArrayList<HistoriaClinicaDTO> lista = new ArrayList<>();
-
-        lista = listarHistoriasClinicas(null, id);
-        if (lista.size() > 0) {
-            this.historia = new HistoriaClinicaDTO();
+    public HistoriaClinicaDTO obtenerPorIdPaciente(Integer idPaciente) {
+        ArrayList<HistoriaClinicaDTO> lista;
+        Integer idHistoria = null;
+        lista = listarHistoriasClinicasConFiltro(idHistoria, idPaciente);
+        if (!lista.isEmpty()) {
             this.historia = lista.getFirst();
-            return this.historia;
         }
-        return null;
+        return this.historia;
         
     }
 
     @Override
-    public HistoriaClinicaDTO obtenerPorId(Integer id) {
-        ArrayList<HistoriaClinicaDTO> lista = new ArrayList<>();
-
-        lista = listarHistoriasClinicas(id, null);
-        if (lista.size() > 0) {
-            this.historia = new HistoriaClinicaDTO();
+    public HistoriaClinicaDTO obtenerPorId(Integer idHistoria) {
+        ArrayList<HistoriaClinicaDTO> lista;
+        Integer idPaciente = null;
+        lista = listarHistoriasClinicasConFiltro(idHistoria, idPaciente);
+        if (!lista.isEmpty()) {
             this.historia = lista.getFirst();
-            return this.historia;
         }
-        return null;
+        return this.historia;
     }
 
-    private ArrayList<HistoriaClinicaDTO> listarHistoriasClinicas(Integer idHistoria, Integer idPaciente) {
-        ArrayList<HistoriaClinicaDTO> lista = new ArrayList<>();
-        try {
-            String sql = "{CALL universidad.sp_listar_historia_clinica(?, ?)}";
-            this.abrirConexion();
-            this.colocarSQLenStatement(sql);
-            this.setParametrosFiltroHistoriaClinica(idHistoria, idPaciente);
-            this.ejecutarConsultaEnBD();
-            while (this.resultSet.next()) {
-                this.agregarObjetoALaLista(lista);
+    private ArrayList<HistoriaClinicaDTO> listarHistoriasClinicasConFiltro(Integer idHistoria, Integer idPaciente) {
+        String sql = "{CALL universidad.sp_listar_historia_clinica(?, ?)}";
+        Object parametros = new HistoriaClinicaParametrosBusquedaBuilder()
+                                .conIdHistoria(idHistoria)
+                                .conIdPaciente(idPaciente)
+                                .BuildHistoriaClinicaParametrosBusqueda();
+        return (ArrayList<HistoriaClinicaDTO>) super.listarTodos(sql, this::inluirValorDeParametrosParaBusquedaDeHistoriaClinica, parametros);
+    }
+
+    private void inluirValorDeParametrosParaBusquedaDeHistoriaClinica(Object parametros){
+        HistoriaClinicaParametrosBusqueda historiaParametros = (HistoriaClinicaParametrosBusqueda) parametros;
+        try{
+            // Parámetro 1: id_historia
+            if (historiaParametros.getIdHistoria() != null) {
+                this.statement.setInt(1, historiaParametros.getIdHistoria());
+            } else {
+                this.statement.setNull(1, Types.INTEGER);
             }
 
-        } catch (SQLException ex) {
+            // Parámetro 2: id_paciente
+            if (historiaParametros.getIdPaciente() != null) {
+                this.statement.setInt(2, historiaParametros.getIdPaciente());
+            } else {
+                this.statement.setNull(2, Types.INTEGER);
+            }
+        }catch(SQLException ex){
             Logger.getLogger(HistoriaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return lista;
-    }
-
-    private void setParametrosFiltroHistoriaClinica(Integer idHistoria, Integer idPaciente) throws SQLException {
-        // Parámetro 1: id_historia
-        if (idHistoria != null) {
-            this.statement.setInt(1, idHistoria);
-        } else {
-            this.statement.setNull(1, Types.INTEGER);
-        }
-
-        // Parámetro 2: id_paciente
-        if (idPaciente != null) {
-            this.statement.setInt(2, idPaciente);
-        } else {
-            this.statement.setNull(2, Types.INTEGER);
         }
     }
 

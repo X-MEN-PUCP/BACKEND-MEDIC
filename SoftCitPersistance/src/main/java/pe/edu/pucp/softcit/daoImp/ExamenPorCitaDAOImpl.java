@@ -12,8 +12,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import pe.edu.pucp.softcit.dao.ExamenPorCitaDAO;
-import pe.edu.pucp.softcit.daoImp.util.CargaTablas;
 import pe.edu.pucp.softcit.daoImp.util.Columna;
+import pe.edu.pucp.softcit.daoImp.util.ExamenParametrosBusqueda;
+import pe.edu.pucp.softcit.daoImp.util.ExamenPorCitaParametrosBusqueda;
+import pe.edu.pucp.softcit.daoImp.util.ExamenPorCitaParametrosBusquedaBuilder;
 import pe.edu.pucp.softcit.model.CitaDTO;
 import pe.edu.pucp.softcit.model.EstadoGeneral;
 import pe.edu.pucp.softcit.model.ExamenDTO;
@@ -59,7 +61,6 @@ public class ExamenPorCitaDAOImpl extends DAOImplBase implements ExamenPorCitaDA
 
     @Override
     protected void instanciarObjetoDelResultSet() throws SQLException {
-//        this.examenPorCita = this.cargaTabla.cargarExamenPorCita(resultSet);
         this.examenPorCita.setExamen(this.cargaTabla.cargarExamen(resultSet));
         this.examenPorCita.setCita(this.cargaTabla.cargarCita(resultSet));
         
@@ -95,50 +96,40 @@ public class ExamenPorCitaDAOImpl extends DAOImplBase implements ExamenPorCitaDA
     public ArrayList<ExamenPorCita> listarTodos() {
         Integer idExamen = null;
         Integer idCita = null;
-        return this.listarExamenesPorFiltros(idExamen, idCita);
+        return this.listarExamenesPorCitaConFiltros(idExamen, idCita);
     }
 
     @Override
     public ArrayList<ExamenPorCita> listarPorIdCita(Integer idCita) {
         Integer idExamen = null;
-        return this.listarExamenesPorFiltros(idExamen, idCita);
+        return this.listarExamenesPorCitaConFiltros(idExamen, idCita);
     }
 
-    private ArrayList<ExamenPorCita> listarExamenesPorFiltros(Integer idExamen, Integer idCita) {
-        ArrayList<ExamenPorCita> lista = new ArrayList<>();
+    private ArrayList<ExamenPorCita> listarExamenesPorCitaConFiltros(Integer idExamen, Integer idCita) {
+        String sql = "{CALL universidad.sp_listar_examenes_por_cita_completo(?, ?)}";
+        Object parametros = new ExamenPorCitaParametrosBusquedaBuilder()
+                                .conIdCita(idCita)
+                                .conIdExamen(idExamen)
+                                .BuildExamenPorCitaParametrosBusqueda();
+        return (ArrayList<ExamenPorCita>) super.listarTodos(sql, this::incluirParametrosParaBusquedaExamenPorCita, parametros);
+    }
 
-        try {
-            String sql = "{CALL universidad.sp_listar_examenes_por_cita_completo(?, ?)}";
-
-            this.abrirConexion();
-            this.colocarSQLenStatement(sql);
-
-            setParametrosFiltroExamenPorCita(idExamen, idCita);
-
-            this.ejecutarConsultaEnBD();
-
-            while (this.resultSet.next()) {
-                this.agregarObjetoALaLista(lista);
+    private void incluirParametrosParaBusquedaExamenPorCita(Object parametros){
+        ExamenPorCitaParametrosBusqueda examenPorCitaParametros = (ExamenPorCitaParametrosBusqueda) parametros;
+        try{
+            if (examenPorCitaParametros.getIdExamen() != null) {
+                this.statement.setInt(1, examenPorCitaParametros.getIdExamen());
+            } else {
+                this.statement.setNull(1, Types.INTEGER);
             }
 
-        } catch (SQLException ex) {
+            if (examenPorCitaParametros.getIdCita() != null) {
+                this.statement.setInt(2, examenPorCitaParametros.getIdCita());
+            } else {
+                this.statement.setNull(2, Types.INTEGER);
+            }
+        }catch(SQLException ex){
             Logger.getLogger(ExamenPorCitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return lista;
-    }
-
-    private void setParametrosFiltroExamenPorCita(Integer idExamen, Integer idCita) throws SQLException {
-        if (idExamen != null) {
-            this.statement.setInt(1, idExamen);
-        } else {
-            this.statement.setNull(1, Types.INTEGER);
-        }
-
-        if (idCita != null) {
-            this.statement.setInt(2, idCita);
-        } else {
-            this.statement.setNull(2, Types.INTEGER);
         }
     }
 

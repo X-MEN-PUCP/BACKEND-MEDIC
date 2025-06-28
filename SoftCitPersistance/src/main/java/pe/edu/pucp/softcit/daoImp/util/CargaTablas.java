@@ -203,7 +203,7 @@ public class CargaTablas {
         }
 
         // Modular: usar método cargarTipoDeExamen()
-        examen.setTipoExamen(cargarTipoDeExamen(rs));
+        examen.setTipoExamen(this.cargarTipoDeExamen(rs));
 
         return examen;
     }

@@ -43,11 +43,7 @@ public class EspecialidadDAOImpl extends DAOImplBase implements EspecialidadDAO 
     @Override
     protected void incluirValorDeParametrosParaInsercion() throws SQLException {
         this.statement.setString(1, this.especialidad.getNombreEspecialidad());
-        if (this.especialidad.getPrecioConsulta() != null) {
-            this.statement.setDouble(2, this.especialidad.getPrecioConsulta());
-        } else {
-            throw new IllegalArgumentException("precioConsulta no puede ser null porque la BD no lo permite");
-        }
+        this.statement.setDouble(2, this.especialidad.getPrecioConsulta());
         this.statement.setInt(3, EstadoGeneral.ACTIVO.getCodigo());
         this.statement.setInt(4, this.especialidad.getUsuarioCreacion());
         this.statement.setDate(5, Date.valueOf(this.especialidad.getFechaCreacion()));
@@ -59,11 +55,7 @@ public class EspecialidadDAOImpl extends DAOImplBase implements EspecialidadDAO 
     protected void incluirValorDeParametrosParaModificacion() throws SQLException {
         
         this.statement.setString(1, this.especialidad.getNombreEspecialidad());
-        if (this.especialidad.getPrecioConsulta() != null) {
-            this.statement.setDouble(2, this.especialidad.getPrecioConsulta());
-        } else {
-            throw new IllegalArgumentException("precioConsulta no puede ser null porque la BD no lo permite");
-        }
+        this.statement.setDouble(2, this.especialidad.getPrecioConsulta());
         this.statement.setInt(3, this.especialidad.getEstadoGeneral().getCodigo());
         this.statement.setInt(4, this.especialidad.getUsuarioCreacion());
         this.statement.setDate(5, Date.valueOf(this.especialidad.getFechaCreacion()));

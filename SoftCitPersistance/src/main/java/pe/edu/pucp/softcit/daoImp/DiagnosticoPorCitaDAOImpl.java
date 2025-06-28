@@ -11,12 +11,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import pe.edu.pucp.softcit.dao.DiagnositcoPorCitaDAO;
-import pe.edu.pucp.softcit.daoImp.util.CargaTablas;
 import pe.edu.pucp.softcit.daoImp.util.Columna;
 import pe.edu.pucp.softcit.daoImp.util.DiagnosticoParametrosBusqueda;
 import pe.edu.pucp.softcit.daoImp.util.DiagnosticoParametrosBusquedaBuilder;
-import pe.edu.pucp.softcit.db.DBManager;
-import pe.edu.pucp.softcit.model.CitaDTO;
 import pe.edu.pucp.softcit.model.DiagnosticoPorCita;
 
 /**
