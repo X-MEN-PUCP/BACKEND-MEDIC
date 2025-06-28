@@ -9,7 +9,7 @@ import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
 import java.util.ArrayList;
 import pe.edu.pucp.softcitbo.BO.ExamenPorCitaBO;
-import pe.edu.pucp.softcit.model.ExamenPorCita;
+import pe.edu.pucp.softcit.model.ExamenPorCitaDTO;
 
 @WebService(serviceName = "ExamenPorCitaWS")
 public class ExamenPorCitaWS {
@@ -22,18 +22,18 @@ public class ExamenPorCitaWS {
 
     @WebMethod(operationName = "InsertarExamenPorCita")
     public Integer insertarExamenPorCita(
-        @WebParam(name = "examenPorCita") ExamenPorCita examenPorCita) {
+        @WebParam(name = "examenPorCita") ExamenPorCitaDTO examenPorCita) {
         return this.examenBO.insertar(examenPorCita);
     }
 
     @WebMethod(operationName = "ListarExamenesPorIdCita")
-    public ArrayList<ExamenPorCita> listarExamenesPorIdCita(
+    public ArrayList<ExamenPorCitaDTO> listarExamenesPorIdCita(
         @WebParam(name = "idCita") Integer idCita) {
         return this.examenBO.listarPorIdCita(idCita);
     }
 
     @WebMethod(operationName = "ListarTodosLosExamenesPorCita")
-    public ArrayList<ExamenPorCita> listarTodosLosExamenesPorCita() {
+    public ArrayList<ExamenPorCitaDTO> listarTodosLosExamenesPorCita() {
         return this.examenBO.listarTodos();
     }
 }

@@ -11,22 +11,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import pe.edu.pucp.softcit.dao.RolesXUsuarioDAO;
 import pe.edu.pucp.softcit.daoImp.util.Columna;
 import pe.edu.pucp.softcit.model.UsuarioPorRolDTO;
 import pe.edu.pucp.softcit.daoImp.util.UsuarioRolParametrosBusqueda;
 import pe.edu.pucp.softcit.daoImp.util.UsuarioRolParametrosBusquedaBuilder;
 import pe.edu.pucp.softcit.model.EstadoGeneral;
+import pe.edu.pucp.softcit.dao.RolesPorUsuarioDAO;
 
 /**
  *
  * @author salva
  */
-public class RolesXUsuarioDAOImpl extends DAOImplBase implements RolesXUsuarioDAO {
+public class RolesPorUsuarioDAOImpl extends DAOImplBase implements RolesPorUsuarioDAO {
 
     private UsuarioPorRolDTO usarioPorRol;
 
-    public RolesXUsuarioDAOImpl() {
+    public RolesPorUsuarioDAOImpl() {
         super("usuario_por_rol");
         this.usarioPorRol = null;
     }
@@ -133,7 +133,7 @@ public class RolesXUsuarioDAOImpl extends DAOImplBase implements RolesXUsuarioDA
                 this.statement.setNull(2, Types.INTEGER);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(RolesXUsuarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RolesPorUsuarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

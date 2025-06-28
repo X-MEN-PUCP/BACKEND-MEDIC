@@ -95,6 +95,12 @@ public class ExamenDAOImpl extends DAOImplBase implements ExamenDAO{
     }
     
     @Override
+    public ArrayList<ExamenDTO> listarPorIdTipoExamen(Integer idTipoExamen){
+        Integer idExamen = null;
+        return this.listarExamenesPorFiltro(idExamen, idTipoExamen);
+    }
+    
+    @Override
     public ArrayList<ExamenDTO> listarTodos() {
         Integer idExamen = null;
         Integer idTipoDeExamen = null;

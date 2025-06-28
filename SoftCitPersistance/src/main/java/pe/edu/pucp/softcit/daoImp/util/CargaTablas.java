@@ -14,7 +14,7 @@ import pe.edu.pucp.softcit.model.EstadoCita;
 import pe.edu.pucp.softcit.model.EstadoGeneral;
 import pe.edu.pucp.softcit.model.EstadoLogico;
 import pe.edu.pucp.softcit.model.ExamenDTO;
-import pe.edu.pucp.softcit.model.ExamenPorCita;
+import pe.edu.pucp.softcit.model.ExamenPorCitaDTO;
 import pe.edu.pucp.softcit.model.Genero;
 import pe.edu.pucp.softcit.model.HistoriaClinicaDTO;
 import pe.edu.pucp.softcit.model.HistoriaClinicaPorCitaDTO;
@@ -222,8 +222,8 @@ public class CargaTablas {
         return examen;
     }
 
-//    public ExamenPorCita cargarExamenPorCita(ResultSet rs) throws SQLException {
-//        ExamenPorCita epc = new ExamenPorCita();
+//    public ExamenPorCitaDTO cargarExamenPorCita(ResultSet rs) throws SQLException {
+//        ExamenPorCitaDTO epc = new ExamenPorCitaDTO();
 //
 //        epc.setObservaciones(rs.getString("observacion_examen_por_cita"));
 //        epc.setEstadoGeneral(EstadoGeneral.valueOfCodigo(rs.getInt("estado_examen_por_cita")));

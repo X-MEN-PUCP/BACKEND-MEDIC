@@ -13,13 +13,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import pe.edu.pucp.softcit.dao.ExamenPorCitaDAO;
 import pe.edu.pucp.softcit.daoImp.util.Columna;
-import pe.edu.pucp.softcit.daoImp.util.ExamenParametrosBusqueda;
 import pe.edu.pucp.softcit.daoImp.util.ExamenPorCitaParametrosBusqueda;
 import pe.edu.pucp.softcit.daoImp.util.ExamenPorCitaParametrosBusquedaBuilder;
 import pe.edu.pucp.softcit.model.CitaDTO;
 import pe.edu.pucp.softcit.model.EstadoGeneral;
 import pe.edu.pucp.softcit.model.ExamenDTO;
-import pe.edu.pucp.softcit.model.ExamenPorCita;
+import pe.edu.pucp.softcit.model.ExamenPorCitaDTO;
 
 /**
  *
@@ -27,7 +26,7 @@ import pe.edu.pucp.softcit.model.ExamenPorCita;
  */
 public class ExamenPorCitaDAOImpl extends DAOImplBase implements ExamenPorCitaDAO {
 
-    private ExamenPorCita examenPorCita;
+    private ExamenPorCitaDTO examenPorCita;
 
     public ExamenPorCitaDAOImpl() {
         super("examen_por_cita");
@@ -87,31 +86,31 @@ public class ExamenPorCitaDAOImpl extends DAOImplBase implements ExamenPorCitaDA
     }
 
     @Override
-    public Integer insertar(ExamenPorCita examenPorCita) {
+    public Integer insertar(ExamenPorCitaDTO examenPorCita) {
         this.examenPorCita = examenPorCita;
         return super.insertar();
     }
 
     @Override
-    public ArrayList<ExamenPorCita> listarTodos() {
+    public ArrayList<ExamenPorCitaDTO> listarTodos() {
         Integer idExamen = null;
         Integer idCita = null;
         return this.listarExamenesPorCitaConFiltros(idExamen, idCita);
     }
 
     @Override
-    public ArrayList<ExamenPorCita> listarPorIdCita(Integer idCita) {
+    public ArrayList<ExamenPorCitaDTO> listarPorIdCita(Integer idCita) {
         Integer idExamen = null;
         return this.listarExamenesPorCitaConFiltros(idExamen, idCita);
     }
 
-    private ArrayList<ExamenPorCita> listarExamenesPorCitaConFiltros(Integer idExamen, Integer idCita) {
+    private ArrayList<ExamenPorCitaDTO> listarExamenesPorCitaConFiltros(Integer idExamen, Integer idCita) {
         String sql = "{CALL universidad.sp_listar_examenes_por_cita_completo(?, ?)}";
         Object parametros = new ExamenPorCitaParametrosBusquedaBuilder()
                                 .conIdCita(idCita)
                                 .conIdExamen(idExamen)
                                 .BuildExamenPorCitaParametrosBusqueda();
-        return (ArrayList<ExamenPorCita>) super.listarTodos(sql, this::incluirParametrosParaBusquedaExamenPorCita, parametros);
+        return (ArrayList<ExamenPorCitaDTO>) super.listarTodos(sql, this::incluirParametrosParaBusquedaExamenPorCita, parametros);
     }
 
     private void incluirParametrosParaBusquedaExamenPorCita(Object parametros){

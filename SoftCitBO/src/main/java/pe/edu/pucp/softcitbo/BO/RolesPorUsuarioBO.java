@@ -5,9 +5,9 @@
 package pe.edu.pucp.softcitbo.BO;
 
 import java.util.ArrayList;
-import pe.edu.pucp.softcit.dao.RolesXUsuarioDAO;
-import pe.edu.pucp.softcit.daoImp.RolesXUsuarioDAOImpl;
+import pe.edu.pucp.softcit.daoImp.RolesPorUsuarioDAOImpl;
 import pe.edu.pucp.softcit.model.UsuarioPorRolDTO;
+import pe.edu.pucp.softcit.dao.RolesPorUsuarioDAO;
 
 /**
  *
@@ -15,10 +15,10 @@ import pe.edu.pucp.softcit.model.UsuarioPorRolDTO;
  */
 public class RolesPorUsuarioBO {
     
-    private final RolesXUsuarioDAO rolesPorUsuarioDao;
+    private final RolesPorUsuarioDAO rolesPorUsuarioDao;
     
     public RolesPorUsuarioBO(){
-        this.rolesPorUsuarioDao = new RolesXUsuarioDAOImpl();
+        this.rolesPorUsuarioDao = new RolesPorUsuarioDAOImpl();
     } 
     
     public ArrayList<UsuarioPorRolDTO> listarPorUsuario(Integer id){

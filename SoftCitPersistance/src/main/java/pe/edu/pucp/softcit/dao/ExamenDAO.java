@@ -15,4 +15,5 @@ public interface ExamenDAO {
     public Integer insertar(ExamenDTO examen);
     public ExamenDTO obtenerPorId(Integer examenId);
     public ArrayList<ExamenDTO> listarTodos();
+    public ArrayList<ExamenDTO> listarPorIdTipoExamen(Integer idTipoExamen);
 }

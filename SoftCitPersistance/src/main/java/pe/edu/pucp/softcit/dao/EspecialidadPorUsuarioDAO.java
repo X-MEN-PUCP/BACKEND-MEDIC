@@ -11,7 +11,7 @@ import pe.edu.pucp.softcit.model.UsuarioPorEspecialidadDTO;
  *
  * @author salva
  */
-public interface EspecialidadXUsuarioDAO {
+public interface EspecialidadPorUsuarioDAO {
     
     public ArrayList<UsuarioPorEspecialidadDTO> listarPorUsuario(Integer id);
     public ArrayList<UsuarioPorEspecialidadDTO> listarPorEspecialidad(Integer idEspecialidad);

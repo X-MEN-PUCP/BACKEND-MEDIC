@@ -262,7 +262,7 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
 
     @Override
     public UsuarioDTO completarRoles(UsuarioDTO usuario) {
-        ArrayList<UsuarioPorRolDTO> lista = new RolesXUsuarioDAOImpl().listarPorUsuario(usuario.getIdUsuario());
+        ArrayList<UsuarioPorRolDTO> lista = new RolesPorUsuarioDAOImpl().listarPorUsuario(usuario.getIdUsuario());
 
         ArrayList<Integer> listaIds = new ArrayList<>();
         for (UsuarioPorRolDTO upr : lista) {

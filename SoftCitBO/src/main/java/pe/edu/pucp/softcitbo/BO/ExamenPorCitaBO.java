@@ -7,7 +7,7 @@ package pe.edu.pucp.softcitbo.BO;
 import java.util.ArrayList;
 import pe.edu.pucp.softcit.dao.ExamenPorCitaDAO;
 import pe.edu.pucp.softcit.daoImp.ExamenPorCitaDAOImpl;
-import pe.edu.pucp.softcit.model.ExamenPorCita;
+import pe.edu.pucp.softcit.model.ExamenPorCitaDTO;
 
 /**
  *
@@ -21,15 +21,15 @@ public class ExamenPorCitaBO {
         this.examenPorCitaDao = new ExamenPorCitaDAOImpl();
     }
     
-    public Integer insertar(ExamenPorCita examenPorCita){
+    public Integer insertar(ExamenPorCitaDTO examenPorCita){
         return this.examenPorCitaDao.insertar(examenPorCita);
     }
     
-    public ArrayList<ExamenPorCita> listarTodos(){
+    public ArrayList<ExamenPorCitaDTO> listarTodos(){
         return this.examenPorCitaDao.listarTodos();
     }
     
-    public ArrayList<ExamenPorCita> listarPorIdCita(Integer idCita){
+    public ArrayList<ExamenPorCitaDTO> listarPorIdCita(Integer idCita){
         return this.examenPorCitaDao.listarPorIdCita(idCita);
     }
     

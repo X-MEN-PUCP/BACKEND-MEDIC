@@ -11,22 +11,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import pe.edu.pucp.softcit.dao.EspecialidadXUsuarioDAO;
 import pe.edu.pucp.softcit.daoImp.util.Columna;
 import pe.edu.pucp.softcit.daoImp.util.UsuarioPorEspecialidadParametrosBusqueda;
 import pe.edu.pucp.softcit.daoImp.util.UsuarioPorEspecialidadParametrosBusquedaBuilder;
 import pe.edu.pucp.softcit.model.EstadoGeneral;
 import pe.edu.pucp.softcit.model.UsuarioPorEspecialidadDTO;
+import pe.edu.pucp.softcit.dao.EspecialidadPorUsuarioDAO;
 
 /**
  *
  * @author salva
  */
-public class EspecialidadXUsuarioDAOImpl extends DAOImplBase implements EspecialidadXUsuarioDAO {
+public class EspecialidadPorUsuarioDAOImpl extends DAOImplBase implements EspecialidadPorUsuarioDAO {
 
     private UsuarioPorEspecialidadDTO usuarioPorEspecialidad;
 
-    public EspecialidadXUsuarioDAOImpl() {
+    public EspecialidadPorUsuarioDAOImpl() {
         super("usuario_por_especialidad");
         this.usuarioPorEspecialidad = null;
     }
@@ -129,7 +129,7 @@ public class EspecialidadXUsuarioDAOImpl extends DAOImplBase implements Especial
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(EspecialidadXUsuarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EspecialidadPorUsuarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

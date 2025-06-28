@@ -11,7 +11,7 @@ import pe.edu.pucp.softcit.model.UsuarioPorRolDTO;
  *
  * @author salva
  */
-public interface RolesXUsuarioDAO {
+public interface RolesPorUsuarioDAO {
     public ArrayList<UsuarioPorRolDTO> listarPorUsuario(Integer id);
     public Integer insertar(UsuarioPorRolDTO usarioPorRol) ;
     public Integer eliminar(UsuarioPorRolDTO usuarioPorRol);
