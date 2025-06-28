@@ -13,13 +13,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import pe.edu.pucp.softcit.dao.RolesXUsuarioDAO;
 import pe.edu.pucp.softcit.daoImp.util.Columna;
-import pe.edu.pucp.softcit.model.UsuarioDTO;
 import pe.edu.pucp.softcit.model.UsuarioPorRolDTO;
-import pe.edu.pucp.softcit.dao.UsuarioDAO;
 import pe.edu.pucp.softcit.daoImp.util.UsuarioRolParametrosBusqueda;
 import pe.edu.pucp.softcit.daoImp.util.UsuarioRolParametrosBusquedaBuilder;
 import pe.edu.pucp.softcit.model.EstadoGeneral;
-import pe.edu.pucp.softcit.model.RolDTO;
 
 /**
  *
@@ -28,12 +25,10 @@ import pe.edu.pucp.softcit.model.RolDTO;
 public class RolesXUsuarioDAOImpl extends DAOImplBase implements RolesXUsuarioDAO {
 
     private UsuarioPorRolDTO usarioPorRol;
-    private UsuarioDTO usuario;
 
     public RolesXUsuarioDAOImpl() {
         super("usuario_por_rol");
         this.usarioPorRol = null;
-        this.usuario = null;
     }
 
     @Override
@@ -77,14 +72,6 @@ public class RolesXUsuarioDAOImpl extends DAOImplBase implements RolesXUsuarioDA
         }
         this.usarioPorRol.setUsuarioDTO(this.cargaTabla.cargarUsuario(this.resultSet));
         this.usarioPorRol.setRol(this.cargaTabla.cargarRol(this.resultSet));
-
-    }
-
-    protected void obtenerUsuario(Integer id) {
-        if (this.usuario == null || !id.equals(this.usuario.getIdUsuario())) {
-            UsuarioDAO usuarioDao = new UsuarioDAOImpl();
-            this.usuario = usuarioDao.obtenerPorId(id);
-        }
     }
 
     @Override
