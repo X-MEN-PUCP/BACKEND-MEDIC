@@ -6,6 +6,10 @@ package pe.edu.pucp.softcitbo.BO;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import pe.edu.pucp.softcit.dao.CitaDAO;
+import pe.edu.pucp.softcit.dao.HistoriaClinicaPorCitaDAO;
+import pe.edu.pucp.softcit.dao.HistoriaDAO;
+import pe.edu.pucp.softcit.daoImp.CitaDAOImpl;
 import pe.edu.pucp.softcit.daoImp.HistoriaClinicaPorCitaDAOImpl;
 import pe.edu.pucp.softcit.daoImp.HistoriaDAOImpl;
 import pe.edu.pucp.softcit.model.CitaDTO;
@@ -21,21 +25,21 @@ import pe.edu.pucp.softcit.model.UsuarioDTO;
  */
 public class PacienteBO {
     
-    private final CitaBO citaBO;
-    private final HistoriaClinicaPorCitaBO historiaClinicaPorCitaBO;
-    private final HistoriaBO historiaBO;
+    private final CitaDAO citaDAO;
+    private final HistoriaClinicaPorCitaDAO historiaClinicaPorCitaDAO;
+    private final HistoriaDAO historiaDAO;
     
     public PacienteBO(){
-        this.citaBO = new CitaBO();
-        this.historiaClinicaPorCitaBO = new HistoriaClinicaPorCitaBO();
-        this.historiaBO = new HistoriaBO();
+        this.citaDAO = new CitaDAOImpl();
+        this.historiaClinicaPorCitaDAO = new HistoriaClinicaPorCitaDAOImpl();
+        this.historiaDAO = new HistoriaDAOImpl();
     }
     
     
     public ArrayList<CitaDTO> listarCitas(Integer idEspecialidad, String fecha, Integer idMedico, String hora_inicio, EstadoCita estado){
         ArrayList<CitaDTO> citas = new ArrayList<>();
         if (idMedico != null || idEspecialidad != null) {
-           citas = this.citaBO.buscarCitas(idEspecialidad, idMedico, fecha, hora_inicio, estado);
+           citas = this.citaDAO.buscarCitas(idEspecialidad, idMedico, fecha, hora_inicio, estado);
         } else {
             System.out.println("Debe seleccionar una especialidad o un médico. Error listar Citas");
         }
@@ -45,7 +49,7 @@ public class PacienteBO {
     public ArrayList<CitaDTO> buscarCitasParaCalendario(Integer idEspecialidad, String fecha, Integer idMedico, String hora_inicio, EstadoCita estado){
         ArrayList<CitaDTO> citas = new ArrayList<>();
         if (idMedico != null || idEspecialidad != null) {
-           citas = this.citaBO.buscarCitasParaCalendario(idEspecialidad, idMedico, fecha, hora_inicio, estado);
+           citas = this.citaDAO.buscarCitas(idEspecialidad, idMedico, fecha, hora_inicio, estado);
         } else {
             System.out.println("Debe seleccionar una especialidad o un médico. Error listar Citas");
         }
@@ -61,18 +65,18 @@ public class PacienteBO {
         cita.setUsuarioModificacion(idPaciente);
         String fechaHoy = LocalDate.now().toString();
         cita.setFechaModificacion(fechaHoy);
-        this.citaBO.modificar(cita);
+        this.citaDAO.modificar(cita);
         
         
         HistoriaClinicaDTO historia;
-        historia = this.historiaBO.obtenerPorIdPaciente(idPaciente);
+        historia = this.historiaDAO.obtenerPorIdPaciente(idPaciente);
         
         HistoriaClinicaPorCitaDTO historia_por_cita = new HistoriaClinicaPorCitaDTO();
         historia_por_cita.setCita(cita);
         historia_por_cita.setHistoriaClinica(historia);
         historia_por_cita.setUsuarioCreacion(idPaciente);
         historia_por_cita.setFechaCreacion(fechaHoy);
-        return this.historiaClinicaPorCitaBO.insertar(historia_por_cita);
+        return this.historiaClinicaPorCitaDAO.insertar(historia_por_cita);
     }
      
     public int cancelarCita(HistoriaClinicaPorCitaDTO historia_por_cita) {
@@ -81,8 +85,8 @@ public class PacienteBO {
         cita.setEstado(EstadoCita.DISPONIBLE);
         cita.setUsuarioModificacion(historia_por_cita.getHistoriaClinica().getPaciente().getIdUsuario());
         cita.setFechaModificacion(LocalDate.now().toString());
-        this.citaBO.modificar(cita);
-        return this.historiaClinicaPorCitaBO.eliminar(historia_por_cita);
+        this.citaDAO.modificar(cita);
+        return this.historiaClinicaPorCitaDAO.eliminar(historia_por_cita);
     }
      
     public int reprogramar(CitaDTO citaNueva, HistoriaClinicaPorCitaDTO historia_por_cita) {
@@ -93,28 +97,29 @@ public class PacienteBO {
         citaAntigua.setEstado(EstadoCita.DISPONIBLE);
         citaAntigua.setUsuarioModificacion(idUsuarioModifcacion);
         citaAntigua.setFechaModificacion(fechaHoy);
-        this.citaBO.modificar(citaAntigua);
-        this.historiaClinicaPorCitaBO.eliminar(historia_por_cita);
+        this.citaDAO.modificar(citaAntigua);
+        this.historiaClinicaPorCitaDAO.eliminar(historia_por_cita);
         
         citaNueva.setEstado(EstadoCita.RESERVADO);
         citaNueva.setFechaModificacion(fechaHoy);
-        this.citaBO.modificar(citaNueva);
+        this.citaDAO.modificar(citaNueva);
         historia_por_cita.setCita(citaNueva);
         historia_por_cita.setUsuarioCreacion(idUsuarioModifcacion);
         historia_por_cita.setFechaCreacion(fechaHoy);
-        return this.historiaClinicaPorCitaBO.insertar(historia_por_cita);
+        return this.historiaClinicaPorCitaDAO.insertar(historia_por_cita);
     }
     
     public ArrayList<HistoriaClinicaPorCitaDTO> listarCitasPorPersona(UsuarioDTO paciente){
         Integer idPaciente = paciente.getIdUsuario();
-        HistoriaClinicaDTO historia = this.historiaBO.obtenerPorIdPaciente(idPaciente);
+        HistoriaClinicaDTO historia = this.historiaDAO.obtenerPorIdPaciente(idPaciente);
         Integer idHistoria = historia.getIdHistoriaClinica();
-        return this.historiaClinicaPorCitaBO.listarPorIdHistoria(idHistoria);
+        return this.historiaClinicaPorCitaDAO.listarPorIdHistoria(idHistoria);
     }
     
     public HistoriaClinicaDTO obtenerHistoriaDelPaciente(UsuarioDTO paciente){
         Integer idPaciente = paciente.getIdUsuario();
-        return this.historiaBO.obtenerPorIdPaciente(idPaciente);
+        return this.historiaDAO.obtenerPorIdPaciente(idPaciente);
     }
     
 }
+
