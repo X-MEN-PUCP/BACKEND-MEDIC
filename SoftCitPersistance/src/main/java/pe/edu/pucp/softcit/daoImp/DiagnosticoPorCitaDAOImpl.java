@@ -25,7 +25,7 @@ public class DiagnosticoPorCitaDAOImpl extends DAOImplBase implements Diagnositc
     DiagnosticoPorCita diagnosticoPorCita;
 
     public DiagnosticoPorCitaDAOImpl() {
-        super("diagnositco_por_cita");
+        super("diagnostico_por_cita");
         this.retornarLlavePrimaria = true;
         this.diagnosticoPorCita = null;
     }
