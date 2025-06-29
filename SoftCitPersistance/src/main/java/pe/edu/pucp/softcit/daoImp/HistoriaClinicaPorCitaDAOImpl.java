@@ -157,6 +157,7 @@ public class HistoriaClinicaPorCitaDAOImpl extends DAOImplBase implements Histor
         this.historiaPorCita = new HistoriaClinicaPorCitaDTO();
         // Cargar objetos anidados
         this.historiaPorCita.setHistoriaClinica(this.cargaTabla.cargarHistoriaClinica(resultSet));
+        this.historiaPorCita.getHistoriaClinica().setPaciente(this.cargaTabla.cargarPaciente(resultSet));
         this.historiaPorCita.setCita(this.cargaTabla.cargarCita(resultSet));
         
         this.historiaPorCita.setPeso(this.resultSet.getDouble("peso_historia_clinica_por_cita"));

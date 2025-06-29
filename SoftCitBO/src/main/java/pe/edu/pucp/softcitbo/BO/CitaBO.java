@@ -36,6 +36,7 @@ public class CitaBO {
     }
     
     public ArrayList<CitaDTO> buscarCitas(Integer idEspecialidad, Integer idMedico, String fecha, String hora_inicio, EstadoCita estado){
+        if(idMedico == 0)idMedico = null;
         return this.citaDao.buscarCitas(idEspecialidad, idMedico, fecha, hora_inicio, estado);
     }
     

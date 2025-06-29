@@ -78,6 +78,7 @@ public class ExamenPorCitaDAOImpl extends DAOImplBase implements ExamenPorCitaDA
 
     @Override
     protected void instanciarObjetoDelResultSet() throws SQLException {
+        this.examenPorCita = new ExamenPorCitaDTO();
         this.examenPorCita.setExamen(this.cargaTabla.cargarExamen(resultSet));
         this.examenPorCita.setCita(this.cargaTabla.cargarCita(resultSet));
         

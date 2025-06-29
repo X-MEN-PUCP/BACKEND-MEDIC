@@ -222,6 +222,34 @@ public class CargaTablas {
         return examen;
     }
 
+    public UsuarioDTO cargarPaciente(ResultSet rs) throws SQLException {
+        UsuarioDTO paciente = new UsuarioDTO();
+
+        paciente.setIdUsuario(rs.getInt("id_usuario_paciente"));
+        paciente.setTipoDocumento(TipoDocumento.valueOf(rs.getString("tipo_documento_paciente")));
+        paciente.setNumDocumento(rs.getString("nro_documento_paciente"));
+        paciente.setContrasenha(rs.getString("contrasenha_paciente"));
+        paciente.setNombres(rs.getString("nombre_paciente"));
+        paciente.setApellidoPaterno(rs.getString("apellido_paterno_paciente"));
+        paciente.setApellidoMaterno(rs.getString("apellido_materno_paciente"));
+        paciente.setFechaNacimiento(rs.getDate("fecha_nacimiento_paciente").toString());
+        paciente.setCorreoElectronico(rs.getString("correo_electronico_paciente"));
+        paciente.setNumCelular(rs.getString("num_celular_paciente"));
+        paciente.setCodMedico(rs.getString("cod_medico_paciente"));
+        paciente.setGenero(Genero.valueOf(rs.getString("genero_paciente")));
+        paciente.setEstadoGeneral(EstadoGeneral.valueOfCodigo(rs.getInt("estado_general_paciente")));
+        paciente.setEstadoLogico(EstadoLogico.valueOfCodigo(rs.getInt("estado_logico_paciente")));
+        paciente.setUsuarioCreacion(rs.getInt("usuario_creacion_paciente"));
+        paciente.setFechaCreacion(rs.getDate("fecha_creacion_paciente").toString());
+        paciente.setUsuarioModificacion(rs.getInt("usuario_modificacion_paciente"));
+
+        if (rs.getDate("fecha_modificacion_paciente") != null) {
+            paciente.setFechaModificacion(rs.getDate("fecha_modificacion_paciente").toString());
+        }
+
+        return paciente;
+    }
+
 //    public ExamenPorCitaDTO cargarExamenPorCita(ResultSet rs) throws SQLException {
 //        ExamenPorCitaDTO epc = new ExamenPorCitaDTO();
 //
