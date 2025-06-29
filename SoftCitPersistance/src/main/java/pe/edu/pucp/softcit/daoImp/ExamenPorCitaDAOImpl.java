@@ -57,6 +57,24 @@ public class ExamenPorCitaDAOImpl extends DAOImplBase implements ExamenPorCitaDA
         this.statement.setNull(7, Types.INTEGER);
         this.statement.setNull(8, Types.DATE);
     }
+    
+    @Override
+    protected void incluirValorDeParametrosParaModificacion() throws SQLException {
+        this.statement.setString(1, this.examenPorCita.getObservaciones());
+        this.statement.setInt(2, EstadoGeneral.ACTIVO.getCodigo());
+        this.statement.setInt(3, this.examenPorCita.getUsuarioCreacion());
+        this.statement.setDate(4, Date.valueOf(this.examenPorCita.getFechaCreacion()));
+        this.statement.setNull(5, Types.INTEGER);
+        this.statement.setNull(6, Types.DATE);
+        this.statement.setInt(7, new ExamenDTO(this.examenPorCita.getExamen()).getIdExamen());
+        this.statement.setInt(8, new CitaDTO(this.examenPorCita.getCita()).getIdCita());
+    }
+    
+    @Override
+    protected void incluirValorDeParametrosParaEliminacion() throws SQLException {
+        this.statement.setInt(1, new ExamenDTO(this.examenPorCita.getExamen()).getIdExamen());
+        this.statement.setInt(2, new CitaDTO(this.examenPorCita.getCita()).getIdCita());
+    }
 
     @Override
     protected void instanciarObjetoDelResultSet() throws SQLException {
@@ -89,6 +107,18 @@ public class ExamenPorCitaDAOImpl extends DAOImplBase implements ExamenPorCitaDA
     public Integer insertar(ExamenPorCitaDTO examenPorCita) {
         this.examenPorCita = examenPorCita;
         return super.insertar();
+    }
+    
+    @Override
+    public Integer modificar(ExamenPorCitaDTO examenPorCita) {
+        this.examenPorCita = examenPorCita;
+        return super.modificar();
+    }
+    
+    @Override
+    public Integer eliminar(ExamenPorCitaDTO examenPorCita) {
+        this.examenPorCita = examenPorCita;
+        return super.eliminar();
     }
 
     @Override

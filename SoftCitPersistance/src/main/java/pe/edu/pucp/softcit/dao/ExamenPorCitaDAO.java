@@ -13,6 +13,8 @@ import pe.edu.pucp.softcit.model.ExamenPorCitaDTO;
  */
 public interface ExamenPorCitaDAO {
     public Integer insertar(ExamenPorCitaDTO examenPorCita);
+    public Integer modificar(ExamenPorCitaDTO examenPorCita);
+    public Integer eliminar(ExamenPorCitaDTO examenPorCita);
     public ArrayList<ExamenPorCitaDTO> listarTodos();
     public ArrayList<ExamenPorCitaDTO> listarPorIdCita(Integer idCita);
 }
