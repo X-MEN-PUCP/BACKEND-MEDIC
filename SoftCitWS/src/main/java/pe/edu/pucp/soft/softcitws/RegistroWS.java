@@ -30,4 +30,14 @@ public class RegistroWS {
     public boolean registrarse(@WebParam(name = "usuario")UsuarioDTO usuario){
         return this.registroBO.registrarse(usuario);
     }
+    
+    @WebMethod(operationName = "verificarCodigo")
+    public boolean verificarCodigo(@WebParam(name="correo")String correo, @WebParam(name="codigo")String codigo){
+        return this.registroBO.verificarCodigo(correo, codigo);
+    }
+    
+    @WebMethod(operationName = "reenviarCodigo")
+    public boolean reenviarCodigo(@WebParam(name="correo")String correo){
+        return registroBO.reenviarCodigo(correo);
+    }
 }

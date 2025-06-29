@@ -5,12 +5,13 @@ pe\edu\pucp\softcit\daoImp\DiagnosticoPorCitaDAOImpl.class
 pe\edu\pucp\softcit\dao\DiagnosticoDAO.class
 pe\edu\pucp\softcit\dao\DiagnositcoPorCitaDAO.class
 pe\edu\pucp\softcit\daoImp\CitaDAOImpl.class
+pe\edu\pucp\softcit\daoImp\EspecialidadPorUsuarioDAOImpl.class
 pe\edu\pucp\softcit\daoImp\util\UsuarioRolParametrosBusquedaBuilder.class
 pe\edu\pucp\softcit\dao\TurnoDAO.class
 pe\edu\pucp\softcit\dao\TipoExamenDAO.class
 pe\edu\pucp\softcit\dao\CitaDAO.class
 pe\edu\pucp\softcit\daoImp\util\InterconsultaParametrosBusquedaBuilder.class
-pe\edu\pucp\softcit\dao\EspecialidadXUsuarioDAO.class
+pe\edu\pucp\softcit\dao\EspecialidadPorUsuarioDAO.class
 pe\edu\pucp\softcit\daoImp\util\HistoriaClinicaParametrosBusquedaBuilder.class
 pe\edu\pucp\softcit\dao\ExamenPorCitaDAO.class
 pe\edu\pucp\softcit\daoImp\util\DiagnosticoParametrosBusquedaBuilder.class
@@ -19,7 +20,6 @@ pe\edu\pucp\softcit\daoImp\TurnoDAOImpl.class
 pe\edu\pucp\softcit\daoImp\util\ExamenPorCitaParametrosBusquedaBuilder.class
 pe\edu\pucp\softcit\daoImp\util\InterconsultaParametrosBusqueda.class
 pe\edu\pucp\softcit\daoImp\util\HistoriaClinicaPorCitaParametrosBusqueda.class
-pe\edu\pucp\softcit\daoImp\EspecialidadXUsuarioDAOImpl.class
 pe\edu\pucp\softcit\daoImp\ExamenPorCitaDAOImpl.class
 pe\edu\pucp\softcit\daoImp\util\CargaTablas.class
 pe\edu\pucp\softcit\daoImp\DAOImplBase.class
@@ -33,7 +33,6 @@ pe\edu\pucp\softcit\daoImp\util\UsuarioRolParametrosBusqueda.class
 pe\edu\pucp\softcit\dao\ReporteCitasDAO.class
 pe\edu\pucp\softcit\daoImp\util\HistoriaClinicaPorCitaParametrosBusquedaBuilder.class
 pe\edu\pucp\softcit\daoImp\InterconsultaDAOImpl.class
-pe\edu\pucp\softcit\daoImp\RolesXUsuarioDAOImpl.class
 pe\edu\pucp\softcit\daoImp\HistoriaDAOImpl.class
 pe\edu\pucp\softcit\daoImp\util\HistoriaClinicaParametrosBusqueda.class
 pe\edu\pucp\softcit\daoImp\util\ExamenParametrosBusquedaBuilder.class
@@ -43,13 +42,14 @@ pe\edu\pucp\softcit\dao\ExamenDAO.class
 pe\edu\pucp\softcit\daoImp\util\DiagnosticoParametrosBusqueda.class
 pe\edu\pucp\softcit\dao\HistoriaDAO.class
 pe\edu\pucp\softcit\dao\UsuarioDAO.class
+pe\edu\pucp\softcit\daoImp\RolesPorUsuarioDAOImpl.class
 pe\edu\pucp\softcit\dao\EspecialidadDAO.class
 pe\edu\pucp\softcit\daoImp\EspecialidadDAOImpl.class
 pe\edu\pucp\softcit\daoImp\HistoriaClinicaPorCitaDAOImpl.class
 pe\edu\pucp\softcit\daoImp\util\NuevoBuscarCitasBorrador.class
+pe\edu\pucp\softcit\dao\RolesPorUsuarioDAO.class
 pe\edu\pucp\softcit\daoImp\util\Columna.class
 pe\edu\pucp\softcit\daoImp\UsuarioDAOImpl.class
-pe\edu\pucp\softcit\dao\RolesXUsuarioDAO.class
 pe\edu\pucp\softcit\daoImp\TipoExamenDAOImpl.class
 pe\edu\pucp\softcit\daoImp\ExamenDAOImpl.class
 pe\edu\pucp\softcit\daoImp\util\Tipo_Operacion.class
