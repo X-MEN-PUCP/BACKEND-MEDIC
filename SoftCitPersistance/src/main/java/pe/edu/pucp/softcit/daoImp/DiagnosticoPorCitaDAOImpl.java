@@ -53,8 +53,9 @@ public class DiagnosticoPorCitaDAOImpl extends DAOImplBase implements Diagnositc
     
     @Override
     protected void incluirValorDeParametrosParaEliminacion() throws SQLException {
-        this.statement.setString(1, this.diagnosticoPorCita.getObservacion());
-        this.statement.setInt(2, this.diagnosticoPorCita.getCita().getIdCita());
+        
+        this.statement.setInt(1, this.diagnosticoPorCita.getCita().getIdCita());
+        this.statement.setInt(2, this.diagnosticoPorCita.getDiagnostico().getIdDiagnostico());
     }
     
     @Override

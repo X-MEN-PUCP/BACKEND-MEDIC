@@ -98,6 +98,18 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
         this.statement.setDate(15, Date.valueOf(this.usuario.getFechaCreacion()));
         this.statement.setNull(16, Types.INTEGER);
         this.statement.setNull(17, Types.DATE);
+        
+        if (usuario.getCodigoVerificacion()!= null) {
+            statement.setString(18, usuario.getCodigoVerificacion());
+        } else {
+            statement.setNull(18, java.sql.Types.VARCHAR);
+        }
+
+        if (usuario.getFechaExpiracionCodigo()!= null) {
+            statement.setDate(19, Date.valueOf(this.usuario.getFechaExpiracionCodigo()));
+        } else {
+            statement.setNull(19, java.sql.Types.DATE);
+        }
     }
 
     @Override
@@ -137,6 +149,18 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
         this.statement.setInt(16, this.usuario.getUsuarioModificacion());
         this.statement.setDate(17, Date.valueOf(this.usuario.getFechaModificacion()));
         this.statement.setInt(18, this.usuario.getIdUsuario());
+        
+        if (usuario.getCodigoVerificacion()!= null) {
+            statement.setString(18, usuario.getCodigoVerificacion());
+        } else {
+            statement.setNull(18, java.sql.Types.VARCHAR);
+        }
+
+        if (usuario.getFechaExpiracionCodigo()!= null) {
+            statement.setDate(19, Date.valueOf(this.usuario.getFechaExpiracionCodigo()));
+        } else {
+            statement.setNull(19, java.sql.Types.DATE);
+        }
     }
 
     @Override
@@ -176,6 +200,10 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
         this.usuario.setUsuarioModificacion(this.resultSet.getInt("usuario_modificacion"));
         if(this.resultSet.getDate("fecha_modificacion") != null) 
             this.usuario.setFechaModificacion(this.resultSet.getDate("fecha_modificacion").toString());
+        this.usuario.setCodigoVerificacion(this.resultSet.getString("codigo_verificacion")); //11
+        if(this.resultSet.getDate("fecha_expiracion_codigo") != null) 
+            this.usuario.setFechaModificacion(this.resultSet.getDate("fecha_expiracion_codigo").toString());
+
 
     }
 
