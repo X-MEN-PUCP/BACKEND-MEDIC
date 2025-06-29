@@ -161,6 +161,7 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
         } else {
             statement.setNull(19, java.sql.Types.DATE);
         }
+        this.statement.setInt(20, this.usuario.getIdUsuario());
     }
 
     @Override
