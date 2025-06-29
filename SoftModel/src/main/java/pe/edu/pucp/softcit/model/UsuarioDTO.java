@@ -33,6 +33,8 @@ public class UsuarioDTO {
     private String fechaCreacion;
     private Integer usuarioModificacion;
     private String fechaModificacion;
+    private String codigoVerificacion;
+    private String fechaExpiracionCodigo;
 
     public UsuarioDTO() {
         this.idUsuario = null;
@@ -52,6 +54,8 @@ public class UsuarioDTO {
         this.fechaCreacion = null;
         this.usuarioModificacion = null;
         this.fechaModificacion = null;
+        this.codigoVerificacion = null;
+        this.fechaExpiracionCodigo = null;
     }
 
     public ArrayList<Integer> getRoles() {
@@ -206,5 +210,19 @@ public class UsuarioDTO {
         this.fechaModificacion = fechaModificacion;
     }
     
+    public String getCodigoVerificacion() {
+        return codigoVerificacion;
+    }
+
+    public void setCodigoVerificacion(String codigoVerificacion) {
+        this.codigoVerificacion = codigoVerificacion;
+    }
     
+    public String getFechaExpiracionCodigo() {
+        return fechaExpiracionCodigo;
+    }
+
+    public void setFechaExpiracionCodigo(String fechaExpiracionCodigo) {
+        this.fechaExpiracionCodigo = fechaExpiracionCodigo;
+    }
 }

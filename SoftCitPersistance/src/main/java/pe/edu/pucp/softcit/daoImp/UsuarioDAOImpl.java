@@ -6,7 +6,9 @@ package pe.edu.pucp.softcit.daoImp;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.sql.Types;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -57,7 +59,8 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
         this.listaColumnas.add(new Columna("fecha_creacion", false, false));//not null
         this.listaColumnas.add(new Columna("usuario_modificacion", false, false));
         this.listaColumnas.add(new Columna("fecha_modificacion", false, false));
-
+        this.listaColumnas.add(new Columna("codigo_verificacion",false, false));
+        this.listaColumnas.add(new Columna("fecha_expiracion_codigo",false, false));
     }
 
     @Override
@@ -89,12 +92,24 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
         }
 
         this.statement.setString(11, this.usuario.getGenero().toString());
-        this.statement.setInt(12, EstadoGeneral.ACTIVO.getCodigo());
+        this.statement.setInt(12, EstadoGeneral.PENDIENTE_VERIFICACION.getCodigo());
         this.statement.setInt(13, EstadoLogico.DISPONIBLE.getCodigo());
         this.statement.setInt(14, this.usuario.getUsuarioCreacion());
         this.statement.setDate(15, Date.valueOf(this.usuario.getFechaCreacion()));
         this.statement.setNull(16, Types.INTEGER);
         this.statement.setNull(17, Types.DATE);
+        
+        if (usuario.getCodigoVerificacion()!= null) {
+            statement.setString(18, usuario.getCodigoVerificacion());
+        } else {
+            statement.setNull(18, java.sql.Types.VARCHAR);
+        }
+
+        if (usuario.getFechaExpiracionCodigo()!= null) {
+            statement.setDate(19, Date.valueOf(this.usuario.getFechaExpiracionCodigo()));
+        } else {
+            statement.setNull(19, java.sql.Types.DATE);
+        }
     }
 
     @Override
@@ -134,6 +149,18 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
         this.statement.setInt(16, this.usuario.getUsuarioModificacion());
         this.statement.setDate(17, Date.valueOf(this.usuario.getFechaModificacion()));
         this.statement.setInt(18, this.usuario.getIdUsuario());
+        
+        if (usuario.getCodigoVerificacion()!= null) {
+            statement.setString(18, usuario.getCodigoVerificacion());
+        } else {
+            statement.setNull(18, java.sql.Types.VARCHAR);
+        }
+
+        if (usuario.getFechaExpiracionCodigo()!= null) {
+            statement.setDate(19, Date.valueOf(this.usuario.getFechaExpiracionCodigo()));
+        } else {
+            statement.setNull(19, java.sql.Types.DATE);
+        }
     }
 
     @Override
@@ -173,6 +200,10 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
         this.usuario.setUsuarioModificacion(this.resultSet.getInt("usuario_modificacion"));
         if(this.resultSet.getDate("fecha_modificacion") != null) 
             this.usuario.setFechaModificacion(this.resultSet.getDate("fecha_modificacion").toString());
+        this.usuario.setCodigoVerificacion(this.resultSet.getString("codigo_verificacion")); //11
+        if(this.resultSet.getDate("fecha_expiracion_codigo") != null) 
+            this.usuario.setFechaModificacion(this.resultSet.getDate("fecha_expiracion_codigo").toString());
+
 
     }
 
@@ -262,7 +293,7 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
 
     @Override
     public UsuarioDTO completarRoles(UsuarioDTO usuario) {
-        ArrayList<UsuarioPorRolDTO> lista = new RolesXUsuarioDAOImpl().listarPorUsuario(usuario.getIdUsuario());
+        ArrayList<UsuarioPorRolDTO> lista = new RolesPorUsuarioDAOImpl().listarPorUsuario(usuario.getIdUsuario());
 
         ArrayList<Integer> listaIds = new ArrayList<>();
         for (UsuarioPorRolDTO upr : lista) {
@@ -286,4 +317,74 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
         return (ArrayList<UsuarioDTO>) super.listarTodos(sql, incluirValorDeParametros, parametros);
     }
     
+    @Override
+    public UsuarioDTO buscarPorCorreo(String correo){
+        this.usuario = null;
+        try{
+            this.abrirConexion();
+            String sql = "{call universidad.sp_buscar_usuario_por_correo(?)}";
+            this.colocarSQLenStatement(sql);
+            this.statement.setString(1, correo);
+            this.ejecutarConsultaEnBD();
+            if(this.resultSet.next()){
+                this.instanciarObjetoDelResultSet();
+            }
+        }catch(SQLException ex){
+            Logger.getLogger(UsuarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            try{
+                this.cerrarConexion();
+            }catch(SQLException ex){
+                Logger.getLogger(UsuarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return this.usuario;
+    }
+    @Override
+    public int actualizarEstado(int idUsuario, EstadoGeneral nuevoEstado) {
+        int resultado = 0;
+        try {
+            this.abrirConexion();
+            String sql = "{call universidad.sp_actualizar_estado_usuario(?, ?)}";
+            this.colocarSQLenStatement(sql);
+            
+            this.statement.setInt(1, idUsuario);
+            this.statement.setInt(2, nuevoEstado.getCodigo());
+            resultado = this.statement.executeUpdate(); 
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try { 
+                this.cerrarConexion(); 
+            } catch (SQLException ex) {
+                Logger.getLogger(UsuarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex); 
+            }
+        }
+        return resultado;
+    }
+
+    @Override
+    public int actualizarCodigoVerificacion(int idUsuario, String nuevoCodigo, String nuevaFechaExpiracion) {
+        int resultado = 0;
+        try {
+            this.abrirConexion();
+            String sql = "{call universidad.sp_actualizar_codigo_verificacion_usuario(?, ?, ?)}";
+            this.colocarSQLenStatement(sql);
+
+            this.statement.setInt(1, idUsuario);
+            this.statement.setString(2, nuevoCodigo);
+            this.statement.setTimestamp(3, Timestamp.valueOf(LocalDateTime.parse(nuevaFechaExpiracion)));
+            
+            resultado = this.statement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try { 
+                this.cerrarConexion(); 
+            } catch (SQLException ex) {
+                Logger.getLogger(UsuarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex); 
+            }
+        }
+        return resultado;
+    }
 }

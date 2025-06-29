@@ -1,4 +1,4 @@
-# Created at 2025-06-23T18:33:02.587
+# Created at 2025-06-28T18:36:27.121
 Boot Manifest-JAR contains absolute paths in classpath 'E:\PROYECTOS_L446\GITHUB_MA\BACKEND-MEDIC\SoftDBManager\target\test-classes'
 Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
 'other' has different root

@@ -12,12 +12,12 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import pe.edu.pucp.softcit.dao.ExamenDAO;
-import pe.edu.pucp.softcit.dao.TipoExamenDAO;
 import pe.edu.pucp.softcit.daoImp.util.CargaTablas;
 import pe.edu.pucp.softcit.daoImp.util.Columna;
+import pe.edu.pucp.softcit.daoImp.util.ExamenParametrosBusqueda;
+import pe.edu.pucp.softcit.daoImp.util.ExamenParametrosBusquedaBuilder;
 import pe.edu.pucp.softcit.model.EstadoGeneral;
 import pe.edu.pucp.softcit.model.ExamenDTO;
-import pe.edu.pucp.softcit.model.TipoExamenDTO;
 
 /**
  *
@@ -61,15 +61,21 @@ public class ExamenDAOImpl extends DAOImplBase implements ExamenDAO{
         this.statement.setInt(1, this.examen.getIdExamen());
     }
     
-    
+    @Override
+    protected void instanciarObjetoDelResultSet() throws SQLException {
+        this.examen = this.cargaTablas.cargarExamen(this.resultSet);
+    }
 
     @Override
     protected void limpiarObjetoDelResultSet() {
         this.examen = null;
     }
     
-
-    
+    @Override
+    protected void agregarObjetoALaLista(List lista) throws SQLException{
+        this.instanciarObjetoDelResultSet();
+        lista.add(this.examen);
+    }
     
     @Override
     public Integer insertar(ExamenDTO examen) {
@@ -79,66 +85,56 @@ public class ExamenDAOImpl extends DAOImplBase implements ExamenDAO{
     
     @Override
     public ExamenDTO obtenerPorId(Integer examenId) {
-        ArrayList<ExamenDTO> lista = new ArrayList<>();
-
-        lista = this.buscarExamenes(examenId, null);
-        if (lista.size() > 0) {
-            this.examen = new ExamenDTO();
+        ArrayList<ExamenDTO> lista;
+        Integer idTipoDeExamen = null;
+        lista = this.listarExamenesPorFiltro(examenId, idTipoDeExamen);
+        if (!lista.isEmpty()) {
             this.examen = lista.getFirst();
-            return this.examen;
         }
-        return null;
+        return this.examen;
+    }
+    
+    @Override
+    public ArrayList<ExamenDTO> listarPorIdTipoExamen(Integer idTipoExamen){
+        Integer idExamen = null;
+        return this.listarExamenesPorFiltro(idExamen, idTipoExamen);
     }
     
     @Override
     public ArrayList<ExamenDTO> listarTodos() {
-        return (ArrayList<ExamenDTO>) this.buscarExamenes(null, null);
+        Integer idExamen = null;
+        Integer idTipoDeExamen = null;
+        return this.listarExamenesPorFiltro(idExamen, idTipoDeExamen);
     }
     
-    private ArrayList<ExamenDTO> buscarExamenes(Integer idExamen, Integer idTipoDeExamen) {
-        ArrayList<ExamenDTO> lista = new ArrayList<>();
-
-        try {
-            String sql = "{CALL universidad.sp_listar_examenes_completo(?, ?)}";
-            this.abrirConexion();
-            this.colocarSQLenStatement(sql);
-            setParametrosFiltroExamen(idExamen, idTipoDeExamen);
-            this.ejecutarConsultaEnBD();
-
-            while (this.resultSet.next()) {
-                this.agregarObjetoALaLista(lista);
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(ExamenDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return lista;
-    }
-
-    protected void instanciarObjetoDelResultSetEficaz() throws SQLException {
-        this.examen = this.cargaTablas.cargarExamen(this.resultSet);
+    private ArrayList<ExamenDTO> listarExamenesPorFiltro(Integer idExamen, Integer idTipoDeExamen) {
+        String sql = "{CALL universidad.sp_listar_examenes_completo(?, ?)}";
+        Object parametros = new ExamenParametrosBusquedaBuilder()
+                                .conIdExamen(idExamen)
+                                .conIdTipoDeExamen(idTipoDeExamen)
+                                .BuildExamenParametrosBusqueda();
         
+        return (ArrayList<ExamenDTO>) super.listarTodos(sql,this::incluirValorDeParametrosParaBuscarExamen, parametros);
     }
 
-    private void agregarObjetoALaLista(ArrayList<ExamenDTO> lista) throws SQLException {
-        instanciarObjetoDelResultSetEficaz();
-        lista.add(this.examen);
-    }
-
-    private void setParametrosFiltroExamen(Integer idExamen, Integer idTipoDeExamen) throws SQLException {
+    private void incluirValorDeParametrosParaBuscarExamen(Object parametros){
+        ExamenParametrosBusqueda examenParametro = (ExamenParametrosBusqueda) parametros;
+        try{
         // Parámetro 1: idExamen
-        if (idExamen != null) {
-            this.statement.setInt(1, idExamen);
+        if (examenParametro.getIdExamen() != null) {
+            this.statement.setInt(1, examenParametro.getIdExamen());
         } else {
             this.statement.setNull(1, Types.INTEGER);
         }
 
         // Parámetro 2: idTipoDeExamen
-        if (idTipoDeExamen != null) {
-            this.statement.setInt(2, idTipoDeExamen);
+        if (examenParametro.getIdTipoDeExamen() != null) {
+            this.statement.setInt(2, examenParametro.getIdTipoDeExamen());
         } else {
             this.statement.setNull(2, Types.INTEGER);
+        }
+        }catch(SQLException ex){
+            Logger.getLogger(ExamenPorCitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

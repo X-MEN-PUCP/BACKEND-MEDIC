@@ -7,11 +7,17 @@ package pe.edu.pucp.soft.softcitws;
 import jakarta.jws.WebService;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import pe.edu.pucp.softcit.daoImp.HistoriaClinicaPorCitaDAOImpl;
 import pe.edu.pucp.softcit.model.CitaDTO;
+import pe.edu.pucp.softcit.model.EspecialidadDTO;
 import pe.edu.pucp.softcit.model.EstadoCita;
+import pe.edu.pucp.softcit.model.EstadoGeneral;
+import pe.edu.pucp.softcit.model.ExamenDTO;
+import pe.edu.pucp.softcit.model.ExamenPorCitaDTO;
 import pe.edu.pucp.softcit.model.HistoriaClinicaPorCitaDTO;
+import pe.edu.pucp.softcit.model.InterconsultaDTO;
+import pe.edu.pucp.softcit.model.TipoExamenDTO;
 import pe.edu.pucp.softcitbo.BO.MedicoBO;
 
 /**
@@ -21,7 +27,7 @@ import pe.edu.pucp.softcitbo.BO.MedicoBO;
 @WebService(serviceName = "MedicoWS")
 public class MedicoWS {
 
-    private MedicoBO medicoBo;
+    private final MedicoBO medicoBo;
     
     public MedicoWS(){
         this.medicoBo = new MedicoBO();
@@ -38,5 +44,51 @@ public class MedicoWS {
     public Integer llenarEpicrisisMedico(
             @WebParam(name = "epiciris")HistoriaClinicaPorCitaDTO epiciris){
         return this.medicoBo.llenarEpicrisis(epiciris);
+    }
+    
+    @WebMethod(operationName = "obtenerHistoriaClinicaPorCita")/////////////////
+    public HistoriaClinicaPorCitaDTO obtenerHistoriaClinicaPorCita(
+            @WebParam(name = "idCita")Integer idCita){
+        return this.medicoBo.obtenerHistoriaClinicaPorCita(idCita);
+    }
+    
+    @WebMethod(operationName = "listarEspecialidadesParaInterconsulta")///////
+    public ArrayList<EspecialidadDTO> listarEspecialidadesParaInterconsulta(){
+        return this.medicoBo.listarEspecialidadesParaInterconsulta();
+    }
+    
+    @WebMethod(operationName = "insertarInterconsultasDeCita")////////
+    public Integer insertarInterconsultasDeCita(
+            @WebParam(name = "interconsulta") InterconsultaDTO interconsulta){
+        return this.medicoBo.insertarInterconsultasDeCita(interconsulta);
+    }
+    
+    @WebMethod(operationName = "modificarInteronsultaDeCita")////////
+    public Integer modificarInteronsultaDeCita(
+            @WebParam (name = "interconsulta")InterconsultaDTO interconsulta){
+        return this.medicoBo.modificarInteronsultaDeCita(interconsulta);
+    }
+    
+    @WebMethod(operationName = "eliminarInterconsultaDeCita")////////
+    public Integer eliminarInterconsultaDeCita(
+            @WebParam (name = "interconsulta")InterconsultaDTO interconsulta){
+        return this.medicoBo.eliminarInterconsultaDeCita(interconsulta);
+    }
+    
+    @WebMethod(operationName = "listarTiposDeExamen")////////
+    public ArrayList<TipoExamenDTO> listarTiposDeExamen(){
+        return this.medicoBo.listarTiposDeExamen();
+    }
+    
+    @WebMethod(operationName = "listarExamenesPorTipo")////////
+    public ArrayList<ExamenDTO> listarExamenesPorTipo(
+            @WebParam (name = "idTipoExamen")Integer idTipoExamen){
+        return this.medicoBo.listarExamenesPorTipo(idTipoExamen);
+    }
+    
+    @WebMethod(operationName = "agregarExamenPorCita")////////
+    public Integer agregarExamenPorCita(
+            @WebParam (name = "examenPorCita")ExamenPorCitaDTO examenPorCita){
+        return this.medicoBo.agregarExamenPorCita(examenPorCita);
     }
 }

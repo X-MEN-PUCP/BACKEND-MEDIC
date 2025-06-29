@@ -41,9 +41,9 @@ public class AdminWS {
         return this.adminBO.insertarNuevaEspecialidad(especialidad);
     }
     
-    @WebMethod(operationName = "insertarNuevoMedico")
-    public Integer insertarNuevoMedico(@WebParam(name="medico") UsuarioDTO medico, @WebParam(name="especialidad") EspecialidadDTO especialidad){
-        return this.adminBO.insertarNuevoMedico(medico, especialidad);
+    @WebMethod(operationName = "insertarNuevoMedico")////////////////
+    public Boolean insertarNuevoMedico(@WebParam(name="medico") UsuarioDTO medico, @WebParam(name="especialidades") ArrayList<EspecialidadDTO> especialidades){
+        return this.adminBO.insertarNuevoMedico(medico, especialidades);
     }
     
     @WebMethod(operationName = "listarMedicos")

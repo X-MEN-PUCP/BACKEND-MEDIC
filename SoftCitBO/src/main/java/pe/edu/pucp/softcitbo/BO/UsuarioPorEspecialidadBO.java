@@ -5,9 +5,9 @@
 package pe.edu.pucp.softcitbo.BO;
 
 import java.util.ArrayList;
-import pe.edu.pucp.softcit.dao.EspecialidadXUsuarioDAO;
-import pe.edu.pucp.softcit.daoImp.EspecialidadXUsuarioDAOImpl;
+import pe.edu.pucp.softcit.daoImp.EspecialidadPorUsuarioDAOImpl;
 import pe.edu.pucp.softcit.model.UsuarioPorEspecialidadDTO;
+import pe.edu.pucp.softcit.dao.EspecialidadPorUsuarioDAO;
 
 /**
  *
@@ -15,10 +15,10 @@ import pe.edu.pucp.softcit.model.UsuarioPorEspecialidadDTO;
  */
 public class UsuarioPorEspecialidadBO {
     
-    private final EspecialidadXUsuarioDAO usuarioPorEspecialidadDao;
+    private final EspecialidadPorUsuarioDAO usuarioPorEspecialidadDao;
     
     public UsuarioPorEspecialidadBO(){
-        this.usuarioPorEspecialidadDao = new EspecialidadXUsuarioDAOImpl();
+        this.usuarioPorEspecialidadDao = new EspecialidadPorUsuarioDAOImpl();
     }
     
     public ArrayList<UsuarioPorEspecialidadDTO> listarPorUsuario(Integer id){

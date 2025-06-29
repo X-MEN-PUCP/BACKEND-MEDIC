@@ -13,8 +13,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import pe.edu.pucp.softcit.dao.HistoriaClinicaPorCitaDAO;
 import pe.edu.pucp.softcit.daoImp.util.Columna;
-import pe.edu.pucp.softcit.daoImp.util.HistoriaClinicaParametrosBusqueda;
-import pe.edu.pucp.softcit.daoImp.util.HistoriaClinicaParametrosBusquedaBuilder;
+import pe.edu.pucp.softcit.daoImp.util.HistoriaClinicaPorCitaParametrosBusqueda;
+import pe.edu.pucp.softcit.daoImp.util.HistoriaClinicaPorCitaParametrosBusquedaBuilder;
 import pe.edu.pucp.softcit.model.EstadoGeneral;
 import pe.edu.pucp.softcit.model.HistoriaClinicaPorCitaDTO;
 
@@ -237,7 +237,7 @@ public class HistoriaClinicaPorCitaDAOImpl extends DAOImplBase implements Histor
 
     private ArrayList<HistoriaClinicaPorCitaDTO> listarHistoriaClinicaPorFiltros(Integer idHistoria, Integer idCita) {
         String sql = "{CALL universidad.sp_listar_historia_clinica_por_cita(?, ?)}";
-        Object parametros = new HistoriaClinicaParametrosBusquedaBuilder()
+        Object parametros = new HistoriaClinicaPorCitaParametrosBusquedaBuilder()
                                 .conIdCita(idCita)
                                 .conIdHistoria(idHistoria)
                                 .BuildHistoriaClinicaParametrosBusqueda();
@@ -245,7 +245,7 @@ public class HistoriaClinicaPorCitaDAOImpl extends DAOImplBase implements Histor
     }
 
     private void incluirValorDeParametrosParaListarHistoria(Object parametros){
-        HistoriaClinicaParametrosBusqueda historiaParametros = (HistoriaClinicaParametrosBusqueda) parametros;
+        HistoriaClinicaPorCitaParametrosBusqueda historiaParametros = (HistoriaClinicaPorCitaParametrosBusqueda) parametros;
         try{
             if (historiaParametros.getIdHistoria() != null) {
                 this.statement.setInt(1, historiaParametros.getIdHistoria());

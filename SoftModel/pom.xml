@@ -11,5 +11,6 @@
         <maven.compiler.target>21</maven.compiler.target>
         <exec.mainClass>pe.edu.pucp.softmodel.SoftModel</exec.mainClass>
     </properties>
+    
     <name>SoftCitModel</name>
 </project>

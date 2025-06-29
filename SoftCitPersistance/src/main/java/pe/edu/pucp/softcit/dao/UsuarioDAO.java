@@ -5,6 +5,7 @@
 package pe.edu.pucp.softcit.dao;
 
 import java.util.ArrayList;
+import pe.edu.pucp.softcit.model.EstadoGeneral;
 import pe.edu.pucp.softcit.model.UsuarioDTO;
 
 /**
@@ -22,4 +23,7 @@ public interface UsuarioDAO {
     public UsuarioDTO completarRoles(UsuarioDTO usuario);
     public ArrayList<UsuarioDTO> listarMedicos();
     public ArrayList<UsuarioDTO> listarTodos();
+    public UsuarioDTO buscarPorCorreo(String correo);
+    public int actualizarEstado(int idUsuario, EstadoGeneral nuevoEstado);
+    public int actualizarCodigoVerificacion(int idUsuario, String nuevoCodigo, String nuevaFechaExpiracion);
 }

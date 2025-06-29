@@ -10,7 +10,8 @@ package pe.edu.pucp.softcit.model;
  */
 public enum EstadoGeneral {
     INACTIVO(0),
-    ACTIVO(1);
+    ACTIVO(1),
+    PENDIENTE_VERIFICACION(2);
 
     private final int codigo;
 

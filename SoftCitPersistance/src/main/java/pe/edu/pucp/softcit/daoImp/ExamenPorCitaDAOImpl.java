@@ -12,12 +12,13 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import pe.edu.pucp.softcit.dao.ExamenPorCitaDAO;
-import pe.edu.pucp.softcit.daoImp.util.CargaTablas;
 import pe.edu.pucp.softcit.daoImp.util.Columna;
+import pe.edu.pucp.softcit.daoImp.util.ExamenPorCitaParametrosBusqueda;
+import pe.edu.pucp.softcit.daoImp.util.ExamenPorCitaParametrosBusquedaBuilder;
 import pe.edu.pucp.softcit.model.CitaDTO;
 import pe.edu.pucp.softcit.model.EstadoGeneral;
 import pe.edu.pucp.softcit.model.ExamenDTO;
-import pe.edu.pucp.softcit.model.ExamenPorCita;
+import pe.edu.pucp.softcit.model.ExamenPorCitaDTO;
 
 /**
  *
@@ -25,7 +26,7 @@ import pe.edu.pucp.softcit.model.ExamenPorCita;
  */
 public class ExamenPorCitaDAOImpl extends DAOImplBase implements ExamenPorCitaDAO {
 
-    private ExamenPorCita examenPorCita;
+    private ExamenPorCitaDTO examenPorCita;
 
     public ExamenPorCitaDAOImpl() {
         super("examen_por_cita");
@@ -56,10 +57,27 @@ public class ExamenPorCitaDAOImpl extends DAOImplBase implements ExamenPorCitaDA
         this.statement.setNull(7, Types.INTEGER);
         this.statement.setNull(8, Types.DATE);
     }
+    
+    @Override
+    protected void incluirValorDeParametrosParaModificacion() throws SQLException {
+        this.statement.setString(1, this.examenPorCita.getObservaciones());
+        this.statement.setInt(2, EstadoGeneral.ACTIVO.getCodigo());
+        this.statement.setInt(3, this.examenPorCita.getUsuarioCreacion());
+        this.statement.setDate(4, Date.valueOf(this.examenPorCita.getFechaCreacion()));
+        this.statement.setNull(5, Types.INTEGER);
+        this.statement.setNull(6, Types.DATE);
+        this.statement.setInt(7, new ExamenDTO(this.examenPorCita.getExamen()).getIdExamen());
+        this.statement.setInt(8, new CitaDTO(this.examenPorCita.getCita()).getIdCita());
+    }
+    
+    @Override
+    protected void incluirValorDeParametrosParaEliminacion() throws SQLException {
+        this.statement.setInt(1, new ExamenDTO(this.examenPorCita.getExamen()).getIdExamen());
+        this.statement.setInt(2, new CitaDTO(this.examenPorCita.getCita()).getIdCita());
+    }
 
     @Override
     protected void instanciarObjetoDelResultSet() throws SQLException {
-//        this.examenPorCita = this.cargaTabla.cargarExamenPorCita(resultSet);
         this.examenPorCita.setExamen(this.cargaTabla.cargarExamen(resultSet));
         this.examenPorCita.setCita(this.cargaTabla.cargarCita(resultSet));
         
@@ -86,59 +104,61 @@ public class ExamenPorCitaDAOImpl extends DAOImplBase implements ExamenPorCitaDA
     }
 
     @Override
-    public Integer insertar(ExamenPorCita examenPorCita) {
+    public Integer insertar(ExamenPorCitaDTO examenPorCita) {
         this.examenPorCita = examenPorCita;
         return super.insertar();
     }
+    
+    @Override
+    public Integer modificar(ExamenPorCitaDTO examenPorCita) {
+        this.examenPorCita = examenPorCita;
+        return super.modificar();
+    }
+    
+    @Override
+    public Integer eliminar(ExamenPorCitaDTO examenPorCita) {
+        this.examenPorCita = examenPorCita;
+        return super.eliminar();
+    }
 
     @Override
-    public ArrayList<ExamenPorCita> listarTodos() {
+    public ArrayList<ExamenPorCitaDTO> listarTodos() {
         Integer idExamen = null;
         Integer idCita = null;
-        return this.listarExamenesPorFiltros(idExamen, idCita);
+        return this.listarExamenesPorCitaConFiltros(idExamen, idCita);
     }
 
     @Override
-    public ArrayList<ExamenPorCita> listarPorIdCita(Integer idCita) {
+    public ArrayList<ExamenPorCitaDTO> listarPorIdCita(Integer idCita) {
         Integer idExamen = null;
-        return this.listarExamenesPorFiltros(idExamen, idCita);
+        return this.listarExamenesPorCitaConFiltros(idExamen, idCita);
     }
 
-    private ArrayList<ExamenPorCita> listarExamenesPorFiltros(Integer idExamen, Integer idCita) {
-        ArrayList<ExamenPorCita> lista = new ArrayList<>();
+    private ArrayList<ExamenPorCitaDTO> listarExamenesPorCitaConFiltros(Integer idExamen, Integer idCita) {
+        String sql = "{CALL universidad.sp_listar_examenes_por_cita_completo(?, ?)}";
+        Object parametros = new ExamenPorCitaParametrosBusquedaBuilder()
+                                .conIdCita(idCita)
+                                .conIdExamen(idExamen)
+                                .BuildExamenPorCitaParametrosBusqueda();
+        return (ArrayList<ExamenPorCitaDTO>) super.listarTodos(sql, this::incluirParametrosParaBusquedaExamenPorCita, parametros);
+    }
 
-        try {
-            String sql = "{CALL universidad.sp_listar_examenes_por_cita_completo(?, ?)}";
-
-            this.abrirConexion();
-            this.colocarSQLenStatement(sql);
-
-            setParametrosFiltroExamenPorCita(idExamen, idCita);
-
-            this.ejecutarConsultaEnBD();
-
-            while (this.resultSet.next()) {
-                this.agregarObjetoALaLista(lista);
+    private void incluirParametrosParaBusquedaExamenPorCita(Object parametros){
+        ExamenPorCitaParametrosBusqueda examenPorCitaParametros = (ExamenPorCitaParametrosBusqueda) parametros;
+        try{
+            if (examenPorCitaParametros.getIdExamen() != null) {
+                this.statement.setInt(1, examenPorCitaParametros.getIdExamen());
+            } else {
+                this.statement.setNull(1, Types.INTEGER);
             }
 
-        } catch (SQLException ex) {
+            if (examenPorCitaParametros.getIdCita() != null) {
+                this.statement.setInt(2, examenPorCitaParametros.getIdCita());
+            } else {
+                this.statement.setNull(2, Types.INTEGER);
+            }
+        }catch(SQLException ex){
             Logger.getLogger(ExamenPorCitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return lista;
-    }
-
-    private void setParametrosFiltroExamenPorCita(Integer idExamen, Integer idCita) throws SQLException {
-        if (idExamen != null) {
-            this.statement.setInt(1, idExamen);
-        } else {
-            this.statement.setNull(1, Types.INTEGER);
-        }
-
-        if (idCita != null) {
-            this.statement.setInt(2, idCita);
-        } else {
-            this.statement.setNull(2, Types.INTEGER);
         }
     }
 

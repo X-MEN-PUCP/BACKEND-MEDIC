@@ -8,7 +8,7 @@ package pe.edu.pucp.softcit.model;
  *
  * @author Mcerv
  */
-public class ExamenPorCita {
+public class ExamenPorCitaDTO {
     private ExamenDTO examen;
     private CitaDTO cita;
     private String observaciones;
@@ -19,7 +19,7 @@ public class ExamenPorCita {
     private String fechaModificacion;
     
     
-    public ExamenPorCita() {
+    public ExamenPorCitaDTO() {
         this.examen =  null;
         this.cita = null;
         this.observaciones = null;

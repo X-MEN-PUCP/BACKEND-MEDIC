@@ -45,6 +45,19 @@ public class InterconsultaDAOImpl extends DAOImplBase implements InterconsultaDA
         this.statement.setInt(2, new CitaDTO(this.interconsulta.getCita()).getIdCita());
         this.statement.setString(3, this.interconsulta.getRazonInterconsulta());
     }
+    
+    @Override
+    protected void incluirValorDeParametrosParaModificacion() throws SQLException {
+        this.statement.setString(1, this.interconsulta.getRazonInterconsulta());
+        this.statement.setInt(2, this.interconsulta.getEspecialidadInterconsulta().getIdEspecialidad());
+        this.statement.setInt(3, this.interconsulta.getCita().getIdCita());
+    }
+    
+    @Override
+    protected void incluirValorDeParametrosParaEliminacion() throws SQLException {
+        this.statement.setInt(1, this.interconsulta.getEspecialidadInterconsulta().getIdEspecialidad());
+        this.statement.setInt(2, this.interconsulta.getCita().getIdCita());
+    }
 
     @Override
     protected void incluirValorDeParametrosParaObtenerPorId() throws SQLException {
@@ -57,6 +70,7 @@ public class InterconsultaDAOImpl extends DAOImplBase implements InterconsultaDA
         this.interconsulta = new InterconsultaDTO();
         this.interconsulta.setEspecialidadInterconsulta(this.cargaTabla.cargarEspecialidad(this.resultSet));
         this.interconsulta.setCita(this.cargaTabla.cargarCita(this.resultSet));
+        this.interconsulta.setRazonInterconsulta(this.resultSet.getString("razon_interconsulta_interconsulta"));
     }
 
     @Override
@@ -74,6 +88,18 @@ public class InterconsultaDAOImpl extends DAOImplBase implements InterconsultaDA
     public Integer insertar(InterconsultaDTO interconsulta) {
         this.interconsulta = interconsulta;
         return super.insertar();
+    }
+    
+    @Override
+    public Integer modificar(InterconsultaDTO interconsulta) {
+        this.interconsulta = interconsulta;
+        return super.modificar();
+    }
+    
+    @Override
+    public Integer eliminar(InterconsultaDTO interconsulta) {
+        this.interconsulta = interconsulta;
+        return super.eliminar();
     }
 
     @Override

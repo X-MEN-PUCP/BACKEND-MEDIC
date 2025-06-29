@@ -5,14 +5,16 @@
 package pe.edu.pucp.softcit.dao;
 
 import java.util.ArrayList;
-import pe.edu.pucp.softcit.model.ExamenPorCita;
+import pe.edu.pucp.softcit.model.ExamenPorCitaDTO;
 
 /**
  *
  * @author Cesar
  */
 public interface ExamenPorCitaDAO {
-    public Integer insertar(ExamenPorCita examenPorCita);
-    public ArrayList<ExamenPorCita> listarTodos();
-    public ArrayList<ExamenPorCita> listarPorIdCita(Integer idCita);
+    public Integer insertar(ExamenPorCitaDTO examenPorCita);
+    public Integer modificar(ExamenPorCitaDTO examenPorCita);
+    public Integer eliminar(ExamenPorCitaDTO examenPorCita);
+    public ArrayList<ExamenPorCitaDTO> listarTodos();
+    public ArrayList<ExamenPorCitaDTO> listarPorIdCita(Integer idCita);
 }

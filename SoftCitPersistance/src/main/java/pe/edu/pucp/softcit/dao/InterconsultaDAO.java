@@ -13,6 +13,8 @@ import pe.edu.pucp.softcit.model.InterconsultaDTO;
  */
 public interface InterconsultaDAO {
     public Integer insertar(InterconsultaDTO turno);
+    public Integer modificar(InterconsultaDTO interconsulta);
+    public Integer eliminar(InterconsultaDTO interconsulta);
     public InterconsultaDTO obtenerPorId(Integer idEspecialidad, Integer idCita);
     public ArrayList<InterconsultaDTO> listarTodos();
 }
