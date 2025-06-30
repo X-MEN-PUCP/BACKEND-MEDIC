@@ -8,6 +8,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,8 +60,8 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
         this.listaColumnas.add(new Columna("fecha_creacion", false, false));//not null
         this.listaColumnas.add(new Columna("usuario_modificacion", false, false));
         this.listaColumnas.add(new Columna("fecha_modificacion", false, false));
-        this.listaColumnas.add(new Columna("codigo_verificacion",false, false));
-        this.listaColumnas.add(new Columna("fecha_expiracion_codigo",false, false));
+        this.listaColumnas.add(new Columna("codigo_verificacion", false, false));
+        this.listaColumnas.add(new Columna("fecha_expiracion_codigo", false, false));
     }
 
     @Override
@@ -98,14 +99,14 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
         this.statement.setDate(15, Date.valueOf(this.usuario.getFechaCreacion()));
         this.statement.setNull(16, Types.INTEGER);
         this.statement.setNull(17, Types.DATE);
-        
-        if (usuario.getCodigoVerificacion()!= null) {
+
+        if (usuario.getCodigoVerificacion() != null) {
             statement.setString(18, usuario.getCodigoVerificacion());
         } else {
             statement.setNull(18, java.sql.Types.VARCHAR);
         }
 
-        if (usuario.getFechaExpiracionCodigo()!= null) {
+        if (usuario.getFechaExpiracionCodigo() != null) {
             LocalDateTime fechaAux = LocalDateTime.parse(this.usuario.getFechaExpiracionCodigo());
             statement.setTimestamp(19, Timestamp.valueOf(fechaAux));
         } else {
@@ -115,13 +116,14 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
 
     @Override
     protected void incluirValorDeParametrosParaModificacion() throws SQLException {
-        this.statement.setString(1, this.usuario.getTipoDocumento().toString());
-        this.statement.setString(2, this.usuario.getNumDocumento());
-        this.statement.setString(3, this.usuario.getContrasenha());
-        this.statement.setString(4, this.usuario.getNombres());
-        this.statement.setString(5, this.usuario.getApellidoPaterno());
-        this.statement.setString(6, this.usuario.getApellidoMaterno());
-        this.statement.setDate(7, Date.valueOf(this.usuario.getFechaNacimiento()));
+
+        statement.setString(1, usuario.getTipoDocumento().toString());
+        statement.setString(2, usuario.getNumDocumento());
+        statement.setString(3, usuario.getContrasenha());
+        statement.setString(4, usuario.getNombres());
+        statement.setString(5, usuario.getApellidoPaterno());
+        statement.setString(6, usuario.getApellidoMaterno());
+        statement.setDate(7, Date.valueOf(usuario.getFechaNacimiento()));
 
         if (usuario.getCorreoElectronico() != null) {
             statement.setString(8, usuario.getCorreoElectronico());
@@ -141,29 +143,38 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
             statement.setNull(10, java.sql.Types.VARCHAR);
         }
 
-        this.statement.setString(11, this.usuario.getGenero().toString());
+        statement.setString(11, usuario.getGenero().toString());
+        statement.setInt(12, usuario.getEstadoGeneral().getCodigo());
+        statement.setInt(13, usuario.getEstadoLogico().getCodigo());
+        statement.setInt(14, usuario.getUsuarioCreacion());
+        statement.setDate(15, Date.valueOf(usuario.getFechaCreacion()));
+        if (usuario.getUsuarioModificacion() != null) {
+            statement.setInt(16, usuario.getUsuarioModificacion());
+        } else {
+            statement.setInt(16, usuario.getIdUsuario());
+        }
 
-        this.statement.setInt(12, this.usuario.getEstadoGeneral().getCodigo());
-        this.statement.setInt(13, this.usuario.getEstadoLogico().getCodigo());
-        this.statement.setInt(14, this.usuario.getUsuarioCreacion());
-        this.statement.setDate(15, Date.valueOf(this.usuario.getFechaCreacion()));
-        this.statement.setInt(16, this.usuario.getUsuarioModificacion());
-        this.statement.setDate(17, Date.valueOf(this.usuario.getFechaModificacion()));
-        this.statement.setInt(18, this.usuario.getIdUsuario());
-        
-        if (usuario.getCodigoVerificacion()!= null) {
+        if (usuario.getFechaModificacion() != null && !usuario.getFechaModificacion().isBlank()) {
+            statement.setDate(17, Date.valueOf(usuario.getFechaModificacion()));
+        } else {
+            statement.setDate(17, Date.valueOf(LocalDate.now()));
+        }
+
+        if (usuario.getCodigoVerificacion() != null) {
             statement.setString(18, usuario.getCodigoVerificacion());
         } else {
             statement.setNull(18, java.sql.Types.VARCHAR);
         }
 
-        if (usuario.getFechaExpiracionCodigo()!= null) {
-            LocalDateTime fechaAux = LocalDateTime.parse(this.usuario.getFechaExpiracionCodigo());
+        if (usuario.getFechaExpiracionCodigo() != null) {
+            LocalDateTime fechaAux = LocalDateTime.parse(usuario.getFechaExpiracionCodigo());
             statement.setTimestamp(19, Timestamp.valueOf(fechaAux));
         } else {
             statement.setNull(19, java.sql.Types.TIMESTAMP);
         }
-        this.statement.setInt(20, this.usuario.getIdUsuario());
+
+        statement.setInt(20, usuario.getIdUsuario());
+
     }
 
     @Override
@@ -201,12 +212,13 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
         this.usuario.setUsuarioCreacion(this.resultSet.getInt("usuario_creacion"));
         this.usuario.setFechaCreacion(this.resultSet.getDate("fecha_creacion").toString());
         this.usuario.setUsuarioModificacion(this.resultSet.getInt("usuario_modificacion"));
-        if(this.resultSet.getDate("fecha_modificacion") != null) 
+        if (this.resultSet.getDate("fecha_modificacion") != null) {
             this.usuario.setFechaModificacion(this.resultSet.getDate("fecha_modificacion").toString());
+        }
         this.usuario.setCodigoVerificacion(this.resultSet.getString("codigo_verificacion")); //11
-        if(this.resultSet.getTimestamp("fecha_expiracion_codigo") != null) 
+        if (this.resultSet.getTimestamp("fecha_expiracion_codigo") != null) {
             this.usuario.setFechaExpiracionCodigo(this.resultSet.getTimestamp("fecha_expiracion_codigo").toLocalDateTime().toString());
-
+        }
 
     }
 
@@ -306,43 +318,44 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
         usuario.setRoles(listaIds);
         return usuario;
     }
-    
+
     @Override
     public ArrayList<UsuarioDTO> listarTodos() {
         return (ArrayList<UsuarioDTO>) super.listarTodos();
     }
-    
+
     @Override
-    public ArrayList<UsuarioDTO> listarMedicos(){
+    public ArrayList<UsuarioDTO> listarMedicos() {
         String sql = "{call SP_CIT_LISTAR_MEDICOS()}";
         Object parametros = null;
         Consumer incluirValorDeParametros = null;
         return (ArrayList<UsuarioDTO>) super.listarTodos(sql, incluirValorDeParametros, parametros);
     }
-    
+
     @Override
-    public UsuarioDTO buscarPorCorreo(String correo){
+    public UsuarioDTO buscarPorCorreo(String correo) {
         this.usuario = null;
-        try{
+        try {
             this.abrirConexion();
             String sql = "{call universidad.sp_buscar_usuario_por_correo(?)}";
             this.colocarSQLenStatement(sql);
             this.statement.setString(1, correo);
             this.ejecutarConsultaEnBD();
-            if(this.resultSet.next()){
+            if (this.resultSet.next()) {
                 this.instanciarObjetoDelResultSet();
             }
-        }catch(SQLException ex){
+        } catch (SQLException ex) {
             Logger.getLogger(UsuarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
-            try{
+        } finally {
+            try {
                 this.cerrarConexion();
-            }catch(SQLException ex){
+            } catch (SQLException ex) {
                 Logger.getLogger(UsuarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return this.usuario;
     }
+
     @Override
     public int actualizarEstado(int idUsuario, EstadoGeneral nuevoEstado) {
         int resultado = 0;
@@ -350,17 +363,17 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
             this.abrirConexion();
             String sql = "{call universidad.sp_actualizar_estado_usuario(?, ?)}";
             this.colocarSQLenStatement(sql);
-            
+
             this.statement.setInt(1, idUsuario);
             this.statement.setInt(2, nuevoEstado.getCodigo());
-            resultado = this.statement.executeUpdate(); 
+            resultado = this.statement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            try { 
-                this.cerrarConexion(); 
+            try {
+                this.cerrarConexion();
             } catch (SQLException ex) {
-                Logger.getLogger(UsuarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex); 
+                Logger.getLogger(UsuarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return resultado;
@@ -377,25 +390,25 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
             this.statement.setInt(1, idUsuario);
             this.statement.setString(2, nuevoCodigo);
             this.statement.setTimestamp(3, Timestamp.valueOf(LocalDateTime.parse(nuevaFechaExpiracion)));
-            
+
             resultado = this.statement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            try { 
-                this.cerrarConexion(); 
+            try {
+                this.cerrarConexion();
             } catch (SQLException ex) {
-                Logger.getLogger(UsuarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex); 
+                Logger.getLogger(UsuarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return resultado;
     }
-    
+
     @Override
-    public void actualizarUsuarioPostRegistro(UsuarioDTO usuario){
+    public void actualizarUsuarioPostRegistro(UsuarioDTO usuario) {
         String sql = "UPDATE usuario SET usuario_creacion = ?, usuario_modificacion = ?, "
                 + "fecha_modificacion = ? WHERE id_usuario = ?";
-        try{
+        try {
             this.abrirConexion();
             this.colocarSQLenStatement(sql);
             this.statement.setInt(1, usuario.getUsuarioCreacion());
@@ -403,9 +416,9 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
             this.statement.setDate(3, Date.valueOf(this.usuario.getFechaModificacion()));
             this.statement.setInt(4, usuario.getIdUsuario());
             this.statement.executeUpdate();
-        }catch(SQLException ex){
+        } catch (SQLException ex) {
             Logger.getLogger(UsuarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
+        } finally {
             try {
                 this.cerrarConexion();
             } catch (SQLException ex) {
