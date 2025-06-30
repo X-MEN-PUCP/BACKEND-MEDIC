@@ -67,12 +67,12 @@ public class RegistroBO {
         Integer idUsuario = this.usuarioDao.insertar(usuario);
         
         if(idUsuario!=0){
-            usuario.setIdUsuario(idUsuario);
             if(!creacionAdmin){
+                usuario.setIdUsuario(idUsuario);
                 usuario.setUsuarioCreacion(idUsuario);
                 usuario.setUsuarioModificacion(idUsuario);
                 usuario.setFechaModificacion(usuario.getFechaCreacion());
-                this.usuarioDao.modificar(usuario);
+                this.usuarioDao.actualizarUsuarioPostRegistro(usuario);
             }
             boolean correoEnviado = servicioCorreo.enviarCorreoVerificacion(usuario.getCorreoElectronico(), codigoVerificacion);
             return true;
@@ -117,6 +117,11 @@ public class RegistroBO {
     public boolean reenviarCodigo(String correo){
         UsuarioDTO usuario = usuarioDao.buscarPorCorreo(correo);
         if(usuario == null || usuario.getEstadoGeneral() != EstadoGeneral.PENDIENTE_VERIFICACION){
+            if (usuario != null) {
+                System.err.println("Intento de reenviar código para usuario con estado: " + usuario.getEstadoGeneral());
+            } else {
+                System.err.println("Intento de reenviar código para un correo que no existe.");
+            }
             return false;
         }
         String nuevoCodigo = generarCodigoAleatorio(6);

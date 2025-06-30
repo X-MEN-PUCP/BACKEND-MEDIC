@@ -106,9 +106,10 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
         }
 
         if (usuario.getFechaExpiracionCodigo()!= null) {
-            statement.setDate(19, Date.valueOf(this.usuario.getFechaExpiracionCodigo()));
+            LocalDateTime fechaAux = LocalDateTime.parse(this.usuario.getFechaExpiracionCodigo());
+            statement.setTimestamp(19, Timestamp.valueOf(fechaAux));
         } else {
-            statement.setNull(19, java.sql.Types.DATE);
+            statement.setNull(19, java.sql.Types.TIMESTAMP);
         }
     }
 
@@ -157,9 +158,10 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
         }
 
         if (usuario.getFechaExpiracionCodigo()!= null) {
-            statement.setDate(19, Date.valueOf(this.usuario.getFechaExpiracionCodigo()));
+            LocalDateTime fechaAux = LocalDateTime.parse(this.usuario.getFechaExpiracionCodigo());
+            statement.setTimestamp(19, Timestamp.valueOf(fechaAux));
         } else {
-            statement.setNull(19, java.sql.Types.DATE);
+            statement.setNull(19, java.sql.Types.TIMESTAMP);
         }
         this.statement.setInt(20, this.usuario.getIdUsuario());
     }
@@ -387,5 +389,28 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
             }
         }
         return resultado;
+    }
+    
+    @Override
+    public void actualizarUsuarioPostRegistro(UsuarioDTO usuario){
+        String sql = "UPDATE usuario SET usuario_creacion = ?, usuario_modificacion = ?, "
+                + "fecha_modificacion = ? WHERE id_usuario = ?";
+        try{
+            this.abrirConexion();
+            this.colocarSQLenStatement(sql);
+            this.statement.setInt(1, usuario.getUsuarioCreacion());
+            this.statement.setInt(2, usuario.getUsuarioModificacion());
+            this.statement.setDate(3, Date.valueOf(this.usuario.getFechaModificacion()));
+            this.statement.setInt(4, usuario.getIdUsuario());
+            this.statement.executeUpdate();
+        }catch(SQLException ex){
+            Logger.getLogger(UsuarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            try {
+                this.cerrarConexion();
+            } catch (SQLException ex) {
+                Logger.getLogger(UsuarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 }
