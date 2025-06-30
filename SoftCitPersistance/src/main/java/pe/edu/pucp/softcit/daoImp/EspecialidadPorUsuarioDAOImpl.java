@@ -52,7 +52,12 @@ public class EspecialidadPorUsuarioDAOImpl extends DAOImplBase implements Especi
         this.statement.setDate(5, Date.valueOf(this.usuarioPorEspecialidad.getFechaCreacion()));
         this.statement.setNull(6, Types.INTEGER);
         this.statement.setNull(7, Types.DATE);
-
+    }
+    
+    @Override
+    protected void incluirValorDeParametrosParaEliminacion() throws SQLException {
+        this.statement.setInt(1, this.usuarioPorEspecialidad.getEspecialidad().getIdEspecialidad());
+        this.statement.setInt(2, this.usuarioPorEspecialidad.getUsuario().getIdUsuario());
     }
 
     @Override
@@ -87,6 +92,12 @@ public class EspecialidadPorUsuarioDAOImpl extends DAOImplBase implements Especi
     public Integer insertar(UsuarioPorEspecialidadDTO usuarioXespecialidad) {
         this.usuarioPorEspecialidad = usuarioXespecialidad;
         return super.insertar();
+    }
+    
+    @Override
+    public Integer eliminar(UsuarioPorEspecialidadDTO usuarioXespecialidad) {
+        this.usuarioPorEspecialidad = usuarioXespecialidad;
+        return super.eliminar();
     }
 
     @Override

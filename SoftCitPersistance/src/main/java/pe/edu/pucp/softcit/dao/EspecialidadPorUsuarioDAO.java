@@ -16,5 +16,5 @@ public interface EspecialidadPorUsuarioDAO {
     public ArrayList<UsuarioPorEspecialidadDTO> listarPorUsuario(Integer id);
     public ArrayList<UsuarioPorEspecialidadDTO> listarPorEspecialidad(Integer idEspecialidad);
     public Integer insertar(UsuarioPorEspecialidadDTO usuarioXespecialidad);
-    
+    public Integer eliminar(UsuarioPorEspecialidadDTO usuarioXespecialidad);
 }

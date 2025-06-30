@@ -35,10 +35,10 @@ public class EspecialidadWS {
         return this.especialidadBO.insertar(especialidad);
     }
 
-    @WebMethod(operationName = "modificarEspecialidad")
-    public Integer modificarEspecialidad(@WebParam(name = "especialidad")EspecialidadDTO especialidad){
-        return this.especialidadBO.modificar(especialidad);
-    }
+//    @WebMethod(operationName = "modificarEspecialidad")
+//    public Integer modificarEspecialidad(@WebParam(name = "especialidad")EspecialidadDTO especialidad){
+//        return this.especialidadBO.modificar(especialidad);
+//    }
 
     @WebMethod(operationName = "cambiarEstadoEspecialidad")
     public Integer cambiarEstadoEspecialidad(

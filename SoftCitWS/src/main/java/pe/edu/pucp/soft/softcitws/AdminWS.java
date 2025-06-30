@@ -44,7 +44,7 @@ public class AdminWS {
     
     //////////////////////////////////////////////////
     @WebMethod(operationName = "insertarNuevoMedico")
-    public Boolean insertarNuevoMedico(@WebParam(name="medico") UsuarioDTO medico, @WebParam(name="especialidades") ArrayList<EspecialidadDTO> especialidades){
+    public Integer insertarNuevoMedico(@WebParam(name="medico") UsuarioDTO medico, @WebParam(name="especialidades") ArrayList<EspecialidadDTO> especialidades){
         return this.adminBO.insertarNuevoMedico(medico, especialidades);
     }
     
@@ -69,7 +69,7 @@ public class AdminWS {
         return this.adminBO.obtenerEspecialidadPorId(idEspecialidad);
     }
     
-    @WebMethod(operationName = "modificarEspecialidad")
+    @WebMethod(operationName = "modificarEspecialidads")
     public Integer modificarEspecialidad(
             @WebParam(name="especialidad") EspecialidadDTO especialidad){
         return this.adminBO.modificarEspecialidad(especialidad);
@@ -93,9 +93,30 @@ public class AdminWS {
         return this.adminBO.obtenerUsuarioPorId(idUsuario);
     }
     
-    @WebMethod(operationName = "modificarUsuario")
+    @WebMethod(operationName = "modificarUsuarios")
     public Integer modificarUsuario(
             @WebParam(name="usuario")UsuarioDTO usuario){
         return this.adminBO.modificarUsuario(usuario);
+    }
+    
+    @WebMethod(operationName = "agregarEspecialidadAMedico")
+    public Integer agregarEspecialidadAMedico(
+            @WebParam(name="usuarioPorEspecialidad")UsuarioPorEspecialidadDTO usuarioPorEspecialidad){
+        return this.adminBO.agregarEspecialidadAMedico(usuarioPorEspecialidad);
+    }
+    
+    @WebMethod(operationName = "eliminarEspecialidadMedico")
+    public Integer eliminarEspecialidadMedico(UsuarioPorEspecialidadDTO usuarioPorEspecialidad){////////////
+        return this.adminBO.eliminarEspecialidadMedico(usuarioPorEspecialidad);
+    }
+    
+    @WebMethod(operationName = "insertarNuevoAdministrador")
+    public Integer insertarNuevoAdministrador(UsuarioDTO administrador){
+        return this.adminBO.insertarNuevoAdministrador(administrador);
+    }
+            
+    @WebMethod(operationName = "insertarNuevoPaciente")         
+    public Integer insertarNuevoPaciente(UsuarioDTO paciente){
+        return this.adminBO.insertarNuevoPaciente(paciente);
     }
 }

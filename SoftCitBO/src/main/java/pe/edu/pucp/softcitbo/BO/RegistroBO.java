@@ -22,6 +22,7 @@ import pe.edu.pucp.softcit.model.RolDTO;
 import pe.edu.pucp.softcit.model.UsuarioDTO;
 import pe.edu.pucp.softcit.model.UsuarioPorRolDTO;
 import pe.edu.pucp.softcit.dao.RolesPorUsuarioDAO;
+import pe.edu.pucp.softcitbo.BO.util.Cifrado;
 import pe.edu.pucp.softcitbo.BO.util.ServicioCorreo;
 
 /**
@@ -33,23 +34,25 @@ public class RegistroBO {
     private final UsuarioDAO usuarioDao;
     private final RolesPorUsuarioDAO rolesPorUsuarioDao;
     private final HistoriaDAO historiaDAO;
-    private ServicioCorreo servicioCorreo;
+    private final ServicioCorreo servicioCorreo;
+    private final Cifrado cifrado;
     
     public RegistroBO(){
         this.usuarioDao = new UsuarioDAOImpl();
         this.rolesPorUsuarioDao = new RolesPorUsuarioDAOImpl();
         this.historiaDAO = new HistoriaDAOImpl();
         this.servicioCorreo = new ServicioCorreo();
+        this.cifrado = new Cifrado();
     } 
     
-    public boolean registrarse(UsuarioDTO usuario){
+    public Integer registrarse(UsuarioDTO usuario){
         if(usuarioDao.buscarPorCorreo(usuario.getCorreoElectronico())!=null){
             System.err.println("Error de registro: El correo ya existe");
-            return false;
+            return -1;
         }
         if (usuarioDao.buscarCuenta(usuario.getNumDocumento(), usuario.getTipoDocumento().toString(), null) != null) {
             System.err.println("Error de registro: El documento ya existe.");
-            return false;
+            return -2;
         }
         String codigoVerificacion = generarCodigoAleatorio(6);
         String fechaExpiracionStr = LocalDateTime.now().plusMinutes(10).toString();
@@ -64,6 +67,9 @@ public class RegistroBO {
         usuario.setCodigoVerificacion(codigoVerificacion);
         usuario.setFechaExpiracionCodigo(fechaExpiracionStr);
         usuario.setEstadoLogico(EstadoLogico.DISPONIBLE);
+        String constrasenha = usuario.getContrasenha();
+        String contraCifrada = cifrado.cifrarMD5(constrasenha);
+        usuario.setContrasenha(contraCifrada);
         Integer idUsuario = this.usuarioDao.insertar(usuario);
         
         if(idUsuario!=0){
@@ -74,10 +80,9 @@ public class RegistroBO {
                 usuario.setFechaModificacion(usuario.getFechaCreacion());
                 this.usuarioDao.actualizarUsuarioPostRegistro(usuario);
             }
-            boolean correoEnviado = servicioCorreo.enviarCorreoVerificacion(usuario.getCorreoElectronico(), codigoVerificacion);
-            return true;
+            boolean correoEnviado = this.servicioCorreo.enviarCorreoVerificacion(usuario.getCorreoElectronico(), codigoVerificacion);
         }
-        return false;
+        return idUsuario;
     }
 
     public UsuarioDTO verificarCodigo(String correo, String codigoIngresado){

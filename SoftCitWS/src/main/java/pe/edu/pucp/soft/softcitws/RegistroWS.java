@@ -7,10 +7,7 @@ package pe.edu.pucp.soft.softcitws;
 import jakarta.jws.WebService;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
-import java.util.ArrayList;
-import pe.edu.pucp.softcit.model.RolDTO;
 import pe.edu.pucp.softcit.model.UsuarioDTO;
-import pe.edu.pucp.softcit.model.UsuarioPorRolDTO;
 import pe.edu.pucp.softcitbo.BO.RegistroBO;
 
 /**
@@ -27,7 +24,7 @@ public class RegistroWS {
     }
     
     @WebMethod(operationName = "registrarse")
-    public boolean registrarse(@WebParam(name = "usuario")UsuarioDTO usuario){
+    public Integer registrarse(@WebParam(name = "usuario")UsuarioDTO usuario){
         return this.registroBO.registrarse(usuario);
     }
     
