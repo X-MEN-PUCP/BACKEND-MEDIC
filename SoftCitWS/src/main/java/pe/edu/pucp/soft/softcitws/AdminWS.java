@@ -10,6 +10,7 @@ import jakarta.jws.WebParam;
 import java.util.ArrayList;
 import pe.edu.pucp.softcit.model.EspecialidadDTO;
 import pe.edu.pucp.softcit.model.UsuarioDTO;
+import pe.edu.pucp.softcit.model.UsuarioPorEspecialidadDTO;
 import pe.edu.pucp.softcit.model.UsuarioPorRolDTO;
 import pe.edu.pucp.softcitbo.BO.AdminBO;
 /**
@@ -41,7 +42,8 @@ public class AdminWS {
         return this.adminBO.insertarNuevaEspecialidad(especialidad);
     }
     
-    @WebMethod(operationName = "insertarNuevoMedico")////////////////
+    //////////////////////////////////////////////////
+    @WebMethod(operationName = "insertarNuevoMedico")
     public Boolean insertarNuevoMedico(@WebParam(name="medico") UsuarioDTO medico, @WebParam(name="especialidades") ArrayList<EspecialidadDTO> especialidades){
         return this.adminBO.insertarNuevoMedico(medico, especialidades);
     }
@@ -54,5 +56,46 @@ public class AdminWS {
     @WebMethod(operationName = "listarTodosUsuarios")
     public ArrayList<UsuarioDTO> listarTodosUsuarios(){
         return this.adminBO.listarTodosUsuarios();
+    }
+    
+    @WebMethod(operationName = "listarEspecialidades")
+    public ArrayList<EspecialidadDTO> listarEspecialidades(){
+        return this.adminBO.listarEspecialidades();
+    }
+    
+    @WebMethod(operationName = "obtenerEspecialidadPorId")
+    public EspecialidadDTO obtenerEspecialidadPorId(
+            @WebParam(name="idEspecialidad")Integer idEspecialidad){
+        return this.adminBO.obtenerEspecialidadPorId(idEspecialidad);
+    }
+    
+    @WebMethod(operationName = "modificarEspecialidad")
+    public Integer modificarEspecialidad(
+            @WebParam(name="especialidad") EspecialidadDTO especialidad){
+        return this.adminBO.modificarEspecialidad(especialidad);
+    }
+    
+    @WebMethod(operationName = "listarUsuariosPorEspecialidad")
+    public ArrayList<UsuarioPorEspecialidadDTO> listarUsuariosPorEspecialidad(
+            @WebParam(name = "idEspecialidad")Integer idEspecialidad){
+        return this.adminBO.listarUsuariosPorEspecialidad(idEspecialidad);
+    }
+    
+    @WebMethod(operationName = "listarRolesDeUsuario")
+    public ArrayList<UsuarioPorRolDTO> listarRolesDeUsuario(
+            @WebParam(name = "idUsuario")Integer idUsuario){
+        return this.adminBO.listarRolesDeUsuario(idUsuario);
+    }
+    
+    @WebMethod(operationName = "obtenerUsuarioPorId")
+    public UsuarioDTO obtenerUsuarioPorId(
+            @WebParam(name="idUsuario")Integer idUsuario){
+        return this.adminBO.obtenerUsuarioPorId(idUsuario);
+    }
+    
+    @WebMethod(operationName = "modificarUsuario")
+    public Integer modificarUsuario(
+            @WebParam(name="usuario")UsuarioDTO usuario){
+        return this.adminBO.modificarUsuario(usuario);
     }
 }

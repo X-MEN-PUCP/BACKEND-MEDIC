@@ -87,4 +87,33 @@ public class AdminBO {
         return this.usuarioDao.listarTodos();
     }
     
+    public ArrayList<EspecialidadDTO> listarEspecialidades(){
+        return this.especialidadDao.listar();
+    }
+    
+    public EspecialidadDTO obtenerEspecialidadPorId(Integer idEspecialidad){
+        return this.especialidadDao.obtenerPorId(idEspecialidad);
+    }
+    
+    public Integer modificarEspecialidad(EspecialidadDTO especialidad){
+        especialidad.setFechaModificacion(LocalDate.now().toString());
+        return this.especialidadDao.modificar(especialidad);
+    }
+    
+    public ArrayList<UsuarioPorEspecialidadDTO> listarUsuariosPorEspecialidad(Integer idEspecialidad){
+        return this.usuarioPorEspecialidadDao.listarPorEspecialidad(idEspecialidad);
+    }
+    
+    public ArrayList<UsuarioPorRolDTO> listarRolesDeUsuario(Integer idUsuario){
+        return this.rolesPorUsuarioDao.listarPorUsuario(idUsuario);
+    }
+    
+    public UsuarioDTO obtenerUsuarioPorId(Integer idUsuario){
+        return this.usuarioDao.obtenerPorId(idUsuario);
+    }
+    
+    public Integer modificarUsuario(UsuarioDTO usuario){
+        usuario.setFechaModificacion(LocalDate.now().toString());
+        return this.usuarioDao.modificar(usuario);
+    }
 }
