@@ -204,8 +204,8 @@ public class UsuarioDAOImpl extends DAOImplBase implements UsuarioDAO {
         if(this.resultSet.getDate("fecha_modificacion") != null) 
             this.usuario.setFechaModificacion(this.resultSet.getDate("fecha_modificacion").toString());
         this.usuario.setCodigoVerificacion(this.resultSet.getString("codigo_verificacion")); //11
-        if(this.resultSet.getDate("fecha_expiracion_codigo") != null) 
-            this.usuario.setFechaModificacion(this.resultSet.getDate("fecha_expiracion_codigo").toString());
+        if(this.resultSet.getTimestamp("fecha_expiracion_codigo") != null) 
+            this.usuario.setFechaExpiracionCodigo(this.resultSet.getTimestamp("fecha_expiracion_codigo").toLocalDateTime().toString());
 
 
     }

@@ -4,13 +4,13 @@
  */
 package pe.edu.pucp.softcitbo.BO.util;
 import java.util.Properties;
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import jakarta.mail.Authenticator;
+import jakarta.mail.Message;
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 import pe.edu.pucp.softcitbo.BO.util.cargaConfig;
 
 /**
@@ -26,6 +26,8 @@ public class ServicioCorreo {
             System.err.println("Error: Las credenciales de correo no estan correctamente configuradas");
             return false;
         }
+        System.out.println(">>> INICIANDO ENVÍO DE CORREO DE VERIFICACIÓN <<<");
+        System.out.println(">>> Destinatario: " + destinatario);
         Properties prop = new Properties();
         prop.put("mail.smtp.host", "smtp.gmail.com");
         prop.put("mail.smtp.port", "587");
@@ -33,6 +35,7 @@ public class ServicioCorreo {
         prop.put("mail.smtp.starttls.enable", "true");
         prop.put("mail.smtp.ssl.trust", "smtp.gmail.com");
         prop.put("mail.smtp.ssl.protocols", "TLSv1.2");
+        prop.put("mail.debug", "true");
         Session sesion = Session.getInstance(prop, new Authenticator(){
             @Override
             protected PasswordAuthentication getPasswordAuthentication(){
@@ -53,8 +56,11 @@ public class ServicioCorreo {
             System.out.println("Correo de verificación enviado exitosamente a " + destinatario);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("Error al enviar el correo de verificación: " + e.getMessage());
+            System.err.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.err.println("!!!      ERROR CRÍTICO AL ENVIAR CORREO           !!!");
+            System.err.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            e.printStackTrace(); // Esto te dirá si fue un error de autenticación, conexión, etc.
+            System.err.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             return false;
         }
     }

@@ -81,37 +81,53 @@ public class RegistroBO {
     }
 
     public UsuarioDTO verificarCodigo(String correo, String codigoIngresado){
-        UsuarioDTO usuario = usuarioDao.buscarPorCorreo(correo);
-        if(usuario == null || usuario.getEstadoGeneral() != EstadoGeneral.PENDIENTE_VERIFICACION){
+        try{
+            UsuarioDTO usuario = usuarioDao.buscarPorCorreo(correo);
+            if(usuario == null || usuario.getEstadoGeneral() != EstadoGeneral.PENDIENTE_VERIFICACION){
+                System.err.println("VERIFICACION FALLIDA: Usuario no encontrado o no está pendiente.");
+                return null;
+            }
+            LocalDateTime fechaExp = LocalDateTime.parse(usuario.getFechaExpiracionCodigo());
+            if(fechaExp.isBefore(LocalDateTime.now())){
+                System.err.println("VERIFICACION FALLIDA: El código ha expirado.");
+                return null;//expiro el codigo
+            }
+            if(usuario.getCodigoVerificacion().equals(codigoIngresado)){
+                System.out.println("VERIFICACION OK: Código correcto. Procediendo a activar usuario...");
+                int resultadoModificacion = usuarioDao.actualizarEstado(usuario.getIdUsuario(), EstadoGeneral.ACTIVO);
+                if(resultadoModificacion == 0){
+                    System.err.println("VERIFICACION FALLIDA: No se pudo actualizar el estado del usuario en la BD.");
+                    return null;
+                } 
+                System.out.println(" > Estado de usuario actualizado a ACTIVO.");
+                Integer idUserCreacion = usuario.getUsuarioCreacion();
+                UsuarioPorRolDTO usarioPorRol = new UsuarioPorRolDTO();
+                usarioPorRol.setUsuarioDTO(usuario);
+                RolDTO rol = new RolDTO();
+                rol.setIdRol(3);//obtener rol paciente
+                usarioPorRol.setRol(rol);
+                usarioPorRol.setUsuarioCreacion(idUserCreacion);
+                usarioPorRol.setFechaCreacion(usuario.getFechaCreacion());
+                this.rolesPorUsuarioDao.insertar(usarioPorRol);
+                System.out.println(" > Rol de paciente asignado.");
+                HistoriaClinicaDTO historia = new HistoriaClinicaDTO();
+                historia.setPaciente(usuario);
+                historia.setEstadoGeneral(EstadoGeneral.ACTIVO);
+                historia.setUsuarioCreacion(idUserCreacion);
+                historia.setFechaCreacion(usuario.getFechaCreacion());
+                this.historiaDAO.insertar(historia);
+                System.out.println(" > Historia clínica creada.");
+                return usuarioDao.obtenerPorId(usuario.getIdUsuario());
+            }
+            System.err.println("VERIFICACION FALLIDA: El código ingresado es incorrecto.");
             return null;
+        }catch (Exception e) {
+        System.err.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        System.err.println("!!!      EXCEPCIÓN INESPERADA EN verificarCodigo    !!!");
+        System.err.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        e.printStackTrace();
+        throw new RuntimeException("Error interno del servidor durante la verificación: " + e.getMessage(), e);
         }
-        LocalDateTime fechaExp = LocalDateTime.parse(usuario.getFechaExpiracionCodigo());
-        if(fechaExp.isBefore(LocalDateTime.now())){
-            return null;//expiro el codigo
-        }
-        if(usuario.getCodigoVerificacion().equals(codigoIngresado)){
-            int resultadoModificacion = usuarioDao.actualizarEstado(usuario.getIdUsuario(), EstadoGeneral.ACTIVO);
-            if(resultadoModificacion == 0) return null;
-            
-            Integer idUserCreacion = usuario.getUsuarioCreacion();
-            UsuarioPorRolDTO usarioPorRol = new UsuarioPorRolDTO();
-            usarioPorRol.setUsuarioDTO(usuario);
-            RolDTO rol = new RolDTO();
-            rol.setIdRol(3);//obtener rol paciente
-            usarioPorRol.setRol(rol);
-            usarioPorRol.setUsuarioCreacion(idUserCreacion);
-            usarioPorRol.setFechaCreacion(usuario.getFechaCreacion());
-            this.rolesPorUsuarioDao.insertar(usarioPorRol);
-
-            HistoriaClinicaDTO historia = new HistoriaClinicaDTO();
-            historia.setPaciente(usuario);
-            historia.setEstadoGeneral(EstadoGeneral.ACTIVO);
-            historia.setUsuarioCreacion(idUserCreacion);
-            historia.setFechaCreacion(usuario.getFechaCreacion());
-            this.historiaDAO.insertar(historia);
-            return usuarioDao.obtenerPorId(usuario.getIdUsuario());
-        }
-        return null;
     }
     
     public boolean reenviarCodigo(String correo){
