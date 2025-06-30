@@ -32,7 +32,7 @@ public class RegistroWS {
     }
     
     @WebMethod(operationName = "verificarCodigo")
-    public boolean verificarCodigo(@WebParam(name="correo")String correo, @WebParam(name="codigo")String codigo){
+    public UsuarioDTO verificarCodigo(@WebParam(name="correo")String correo, @WebParam(name="codigo")String codigo){
         return this.registroBO.verificarCodigo(correo, codigo);
     }
     

@@ -80,18 +80,18 @@ public class RegistroBO {
         return false;
     }
 
-    public boolean verificarCodigo(String correo, String codigoIngresado){
+    public UsuarioDTO verificarCodigo(String correo, String codigoIngresado){
         UsuarioDTO usuario = usuarioDao.buscarPorCorreo(correo);
         if(usuario == null || usuario.getEstadoGeneral() != EstadoGeneral.PENDIENTE_VERIFICACION){
-            return false;
+            return null;
         }
         LocalDateTime fechaExp = LocalDateTime.parse(usuario.getFechaExpiracionCodigo());
         if(fechaExp.isBefore(LocalDateTime.now())){
-            return false;//expiro el codigo
+            return null;//expiro el codigo
         }
         if(usuario.getCodigoVerificacion().equals(codigoIngresado)){
             int resultadoModificacion = usuarioDao.actualizarEstado(usuario.getIdUsuario(), EstadoGeneral.ACTIVO);
-            if(resultadoModificacion == 0) return false;
+            if(resultadoModificacion == 0) return null;
             
             Integer idUserCreacion = usuario.getUsuarioCreacion();
             UsuarioPorRolDTO usarioPorRol = new UsuarioPorRolDTO();
@@ -109,9 +109,9 @@ public class RegistroBO {
             historia.setUsuarioCreacion(idUserCreacion);
             historia.setFechaCreacion(usuario.getFechaCreacion());
             this.historiaDAO.insertar(historia);
-            return true;
+            return usuarioDao.obtenerPorId(usuario.getIdUsuario());
         }
-        return false;
+        return null;
     }
     
     public boolean reenviarCodigo(String correo){
