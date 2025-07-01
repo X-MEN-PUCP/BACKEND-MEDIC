@@ -19,8 +19,8 @@ public class ReporteBOTest {
     
     @Test
     public void testListarCitas() {
-        System.out.println("ReportelistarCitas ======================");
-        ReporteCitaBO instance = new ReporteCitaBO();
+        System.out.println("====================== ReportelistarCitas del administrador ======================");
+        AdminBO instance = new AdminBO();
         Integer id_espcialidad = 0;
         Integer id_medico = 0;
         String Fecha_Inico = null;

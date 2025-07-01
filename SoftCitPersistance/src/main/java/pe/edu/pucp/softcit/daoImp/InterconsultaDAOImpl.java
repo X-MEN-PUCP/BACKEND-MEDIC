@@ -119,6 +119,7 @@ public class InterconsultaDAOImpl extends DAOImplBase implements InterconsultaDA
         return this.listarInterconsultasPorFiltros(idEspecialidadInterconsulta, idCita);
     }
 
+    @Override
     public ArrayList<InterconsultaDTO> buscarInterconsultasPorCita(Integer idCita) {
         Integer idEspecialidadInterconsulta = null;
         return this.listarInterconsultasPorFiltros(idEspecialidadInterconsulta, idCita);

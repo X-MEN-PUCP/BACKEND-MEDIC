@@ -26,4 +26,5 @@ public interface UsuarioDAO {
     public UsuarioDTO buscarPorCorreo(String correo);
     public int actualizarEstado(int idUsuario, EstadoGeneral nuevoEstado);
     public int actualizarCodigoVerificacion(int idUsuario, String nuevoCodigo, String nuevaFechaExpiracion);
+    public void actualizarUsuarioPostRegistro(UsuarioDTO usuario);
 }

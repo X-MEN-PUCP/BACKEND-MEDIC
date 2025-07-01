@@ -22,6 +22,7 @@ import pe.edu.pucp.softcit.model.RolDTO;
 import pe.edu.pucp.softcit.model.UsuarioDTO;
 import pe.edu.pucp.softcit.model.UsuarioPorRolDTO;
 import pe.edu.pucp.softcit.dao.RolesPorUsuarioDAO;
+import pe.edu.pucp.softcitbo.BO.util.Cifrado;
 import pe.edu.pucp.softcitbo.BO.util.ServicioCorreo;
 
 /**
@@ -33,23 +34,25 @@ public class RegistroBO {
     private final UsuarioDAO usuarioDao;
     private final RolesPorUsuarioDAO rolesPorUsuarioDao;
     private final HistoriaDAO historiaDAO;
-    private ServicioCorreo servicioCorreo;
+    private final ServicioCorreo servicioCorreo;
+    private final Cifrado cifrado;
     
     public RegistroBO(){
         this.usuarioDao = new UsuarioDAOImpl();
         this.rolesPorUsuarioDao = new RolesPorUsuarioDAOImpl();
         this.historiaDAO = new HistoriaDAOImpl();
         this.servicioCorreo = new ServicioCorreo();
+        this.cifrado = new Cifrado();
     } 
     
-    public boolean registrarse(UsuarioDTO usuario){
+    public Integer registrarse(UsuarioDTO usuario){
         if(usuarioDao.buscarPorCorreo(usuario.getCorreoElectronico())!=null){
             System.err.println("Error de registro: El correo ya existe");
-            return false;
+            return -1;
         }
         if (usuarioDao.buscarCuenta(usuario.getNumDocumento(), usuario.getTipoDocumento().toString(), null) != null) {
             System.err.println("Error de registro: El documento ya existe.");
-            return false;
+            return -2;
         }
         String codigoVerificacion = generarCodigoAleatorio(6);
         String fechaExpiracionStr = LocalDateTime.now().plusMinutes(10).toString();
@@ -64,59 +67,82 @@ public class RegistroBO {
         usuario.setCodigoVerificacion(codigoVerificacion);
         usuario.setFechaExpiracionCodigo(fechaExpiracionStr);
         usuario.setEstadoLogico(EstadoLogico.DISPONIBLE);
+        String constrasenha = usuario.getContrasenha();
+        //String contraCifrada = cifrado.cifrarMD5(constrasenha);
+        usuario.setContrasenha(constrasenha);
         Integer idUsuario = this.usuarioDao.insertar(usuario);
         
         if(idUsuario!=0){
-            usuario.setIdUsuario(idUsuario);
             if(!creacionAdmin){
+                usuario.setIdUsuario(idUsuario);
                 usuario.setUsuarioCreacion(idUsuario);
                 usuario.setUsuarioModificacion(idUsuario);
                 usuario.setFechaModificacion(usuario.getFechaCreacion());
-                this.usuarioDao.modificar(usuario);
+                this.usuarioDao.actualizarUsuarioPostRegistro(usuario);
             }
-            boolean correoEnviado = servicioCorreo.enviarCorreoVerificacion(usuario.getCorreoElectronico(), codigoVerificacion);
-            return true;
+            boolean correoEnviado = this.servicioCorreo.enviarCorreoVerificacion(usuario.getCorreoElectronico(), codigoVerificacion);
         }
-        return false;
+        return idUsuario;
     }
 
     public UsuarioDTO verificarCodigo(String correo, String codigoIngresado){
-        UsuarioDTO usuario = usuarioDao.buscarPorCorreo(correo);
-        if(usuario == null || usuario.getEstadoGeneral() != EstadoGeneral.PENDIENTE_VERIFICACION){
+        try{
+            UsuarioDTO usuario = usuarioDao.buscarPorCorreo(correo);
+            if(usuario == null || usuario.getEstadoGeneral() != EstadoGeneral.PENDIENTE_VERIFICACION){
+                System.err.println("VERIFICACION FALLIDA: Usuario no encontrado o no está pendiente.");
+                return null;
+            }
+            LocalDateTime fechaExp = LocalDateTime.parse(usuario.getFechaExpiracionCodigo());
+            if(fechaExp.isBefore(LocalDateTime.now())){
+                System.err.println("VERIFICACION FALLIDA: El código ha expirado.");
+                return null;//expiro el codigo
+            }
+            if(usuario.getCodigoVerificacion().equals(codigoIngresado)){
+                System.out.println("VERIFICACION OK: Código correcto. Procediendo a activar usuario...");
+                int resultadoModificacion = usuarioDao.actualizarEstado(usuario.getIdUsuario(), EstadoGeneral.ACTIVO);
+                if(resultadoModificacion == 0){
+                    System.err.println("VERIFICACION FALLIDA: No se pudo actualizar el estado del usuario en la BD.");
+                    return null;
+                } 
+                System.out.println(" > Estado de usuario actualizado a ACTIVO.");
+                Integer idUserCreacion = usuario.getUsuarioCreacion();
+                UsuarioPorRolDTO usarioPorRol = new UsuarioPorRolDTO();
+                usarioPorRol.setUsuarioDTO(usuario);
+                RolDTO rol = new RolDTO();
+                rol.setIdRol(3);//obtener rol paciente
+                usarioPorRol.setRol(rol);
+                usarioPorRol.setUsuarioCreacion(idUserCreacion);
+                usarioPorRol.setFechaCreacion(usuario.getFechaCreacion());
+                this.rolesPorUsuarioDao.insertar(usarioPorRol);
+                System.out.println(" > Rol de paciente asignado.");
+                HistoriaClinicaDTO historia = new HistoriaClinicaDTO();
+                historia.setPaciente(usuario);
+                historia.setEstadoGeneral(EstadoGeneral.ACTIVO);
+                historia.setUsuarioCreacion(idUserCreacion);
+                historia.setFechaCreacion(usuario.getFechaCreacion());
+                this.historiaDAO.insertar(historia);
+                System.out.println(" > Historia clínica creada.");
+                return usuarioDao.obtenerPorId(usuario.getIdUsuario());
+            }
+            System.err.println("VERIFICACION FALLIDA: El código ingresado es incorrecto.");
             return null;
+        }catch (Exception e) {
+        System.err.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        System.err.println("!!!      EXCEPCIÓN INESPERADA EN verificarCodigo    !!!");
+        System.err.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        e.printStackTrace();
+        throw new RuntimeException("Error interno del servidor durante la verificación: " + e.getMessage(), e);
         }
-        LocalDateTime fechaExp = LocalDateTime.parse(usuario.getFechaExpiracionCodigo());
-        if(fechaExp.isBefore(LocalDateTime.now())){
-            return null;//expiro el codigo
-        }
-        if(usuario.getCodigoVerificacion().equals(codigoIngresado)){
-            int resultadoModificacion = usuarioDao.actualizarEstado(usuario.getIdUsuario(), EstadoGeneral.ACTIVO);
-            if(resultadoModificacion == 0) return null;
-            
-            Integer idUserCreacion = usuario.getUsuarioCreacion();
-            UsuarioPorRolDTO usarioPorRol = new UsuarioPorRolDTO();
-            usarioPorRol.setUsuarioDTO(usuario);
-            RolDTO rol = new RolDTO();
-            rol.setIdRol(3);//obtener rol paciente
-            usarioPorRol.setRol(rol);
-            usarioPorRol.setUsuarioCreacion(idUserCreacion);
-            usarioPorRol.setFechaCreacion(usuario.getFechaCreacion());
-            this.rolesPorUsuarioDao.insertar(usarioPorRol);
-
-            HistoriaClinicaDTO historia = new HistoriaClinicaDTO();
-            historia.setPaciente(usuario);
-            historia.setEstadoGeneral(EstadoGeneral.ACTIVO);
-            historia.setUsuarioCreacion(idUserCreacion);
-            historia.setFechaCreacion(usuario.getFechaCreacion());
-            this.historiaDAO.insertar(historia);
-            return usuarioDao.obtenerPorId(usuario.getIdUsuario());
-        }
-        return null;
     }
     
     public boolean reenviarCodigo(String correo){
         UsuarioDTO usuario = usuarioDao.buscarPorCorreo(correo);
         if(usuario == null || usuario.getEstadoGeneral() != EstadoGeneral.PENDIENTE_VERIFICACION){
+            if (usuario != null) {
+                System.err.println("Intento de reenviar código para usuario con estado: " + usuario.getEstadoGeneral());
+            } else {
+                System.err.println("Intento de reenviar código para un correo que no existe.");
+            }
             return false;
         }
         String nuevoCodigo = generarCodigoAleatorio(6);
