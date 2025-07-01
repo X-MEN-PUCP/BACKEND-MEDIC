@@ -16,9 +16,12 @@ import pe.edu.pucp.softcit.dao.RolesPorUsuarioDAO;
 import pe.edu.pucp.softcit.dao.EspecialidadDAO;
 import pe.edu.pucp.softcit.dao.UsuarioDAO;
 import pe.edu.pucp.softcit.dao.EspecialidadPorUsuarioDAO;
+import pe.edu.pucp.softcit.dao.ReporteCitasDAO;
 import pe.edu.pucp.softcit.daoImp.EspecialidadDAOImpl;
 import pe.edu.pucp.softcit.daoImp.EspecialidadPorUsuarioDAOImpl;
+import pe.edu.pucp.softcit.daoImp.ReporteCitasDAOImpl;
 import pe.edu.pucp.softcit.daoImp.UsuarioDAOImpl;
+import pe.edu.pucp.softcit.model.ReporteCitaDTO;
 import pe.edu.pucp.softcitbo.BO.util.Cifrado;
 
 /**
@@ -33,6 +36,7 @@ public class AdminBO {
     private final EspecialidadPorUsuarioDAO usuarioPorEspecialidadDao;
     private final RegistroBO resgitoBo;
     private final Cifrado cifrado;
+    private final ReporteCitasDAO reporteDAO;
     
     public AdminBO(){
         this.rolesPorUsuarioDao = new RolesPorUsuarioDAOImpl();
@@ -41,6 +45,7 @@ public class AdminBO {
         this.usuarioPorEspecialidadDao = new EspecialidadPorUsuarioDAOImpl();
         this.resgitoBo = new RegistroBO();
         this.cifrado = new Cifrado();
+        this.reporteDAO = new ReporteCitasDAOImpl();
     }
     
     public Integer asignarNuevoRol(UsuarioPorRolDTO usuarioPorRol){   
@@ -184,4 +189,19 @@ public class AdminBO {
         usuario.setFechaModificacion(LocalDate.now().toString());
         return this.usuarioDao.modificar(usuario);
     }
+    
+    public ArrayList<ReporteCitaDTO> obtenerReporteCitas(
+            String fechaDesde,
+            String fechaHasta,
+            Integer idEspecialidad,
+            Integer idDoctor){
+        
+        if(idEspecialidad==0)idEspecialidad=null;
+        if(idDoctor==0)idDoctor=null;
+
+
+        return reporteDAO.obtenerReporteCitas(fechaDesde, fechaHasta, idEspecialidad, idDoctor);
+    }
+    
+    
 }
