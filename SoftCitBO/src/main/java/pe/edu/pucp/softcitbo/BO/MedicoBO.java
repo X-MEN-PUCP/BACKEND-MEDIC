@@ -63,10 +63,22 @@ public class MedicoBO {
         this.diagnosticoDAO=new DiagnosticoDAOImpl();
         this.diagnosticoPorCitaDAO=new DiagnosticoPorCitaDAOImpl();
     }
+    
+    //Cita
 
     public ArrayList<CitaDTO> listarCitasMedico(Integer idMedico, EstadoCita estado) {
         return this.citaDao.listarCitasMedico(idMedico, estado);
     }
+    
+    public Integer modificarCita(CitaDTO cita){
+        return this.citaDao.modificar(cita);
+    }
+    
+    public CitaDTO obtenerCitaPorId(Integer id){
+        return this.citaDao.obtenerPorId(id);
+    }
+    
+    //Historia Clinica Por Cita
     
     public Integer llenarEpicrisis(HistoriaClinicaPorCitaDTO epiciris){
         String fechaHoy = LocalDate.now().toString();
@@ -78,9 +90,13 @@ public class MedicoBO {
         return this.historiaClinicaPorCitaDao.ObtenerPorIdCita(idCita);
     }
     
+    //Especialidades
+    
     public ArrayList<EspecialidadDTO> listarEspecialidadesParaInterconsulta(){
         return this.especialidadDAO.listar();
     }
+    
+    //Intercosnulta
     
     public Integer insertarInterconsultasDeCita(InterconsultaDTO interconsulta){
         //falta el usuario de creacion y fecha
@@ -95,18 +111,43 @@ public class MedicoBO {
         return this.interconsultaDAO.eliminar(interconsulta);
     }
     
+    public ArrayList<InterconsultaDTO> ListarInterconsultasPorIdCita(Integer idCita){
+        return this.interconsultaDAO.buscarInterconsultasPorCita(idCita);
+    }
+    
+    public ArrayList<InterconsultaDTO> listarTodasLasInterconsultas(){
+        return this.interconsultaDAO.listarTodos();
+    }
+    
+    //Tipos de examenes
+    
     public ArrayList<TipoExamenDTO> listarTiposDeExamen(){
         return this.tipoExamenDAO.listarTodos();
     }
+    
+    //Examen
     
     public ArrayList<ExamenDTO> listarExamenesPorTipo(Integer idTipoExamen){
         return this.examenDAO.listarPorIdTipoExamen(idTipoExamen);
     }
     
+    public ArrayList<ExamenDTO> listarTodosLosExamanes(){
+        return this.examenDAO.listarTodos();
+    }
+    
+    public ExamenDTO obtenerExamenPorId(Integer examenId){
+        return this.examenDAO.obtenerPorId(examenId);
+    }
+    
+    // Examen por cita
     public Integer agregarExamenPorCita(ExamenPorCitaDTO examenPorCita){
         examenPorCita.setEstadoGeneral(EstadoGeneral.ACTIVO);
         examenPorCita.setFechaCreacion(LocalDate.now().toString());
         return this.examenPorCitaDAO.insertar(examenPorCita);
+    }
+    
+    public ArrayList<ExamenPorCitaDTO> listarExamenesPorIdCita(Integer idCita){
+        return this.examenPorCitaDAO.listarPorIdCita(idCita);
     }
     
     public Integer modificarExamenPorCita(ExamenPorCitaDTO examenPorCita){
@@ -117,10 +158,17 @@ public class MedicoBO {
         return this.examenPorCitaDAO.eliminar(examenPorCita);
     }
     
+    //Diagnostico
+    
     public ArrayList<DiagnosticoDTO> listarDiagnosticos(){
         return this.diagnosticoDAO.listarTodos();
     }
     
+    public DiagnosticoDTO obtenerDiagnoticoPorId(Integer diagnosticoId){
+       return this.diagnosticoDAO.obtenerPorId(diagnosticoId);
+    }
+    
+    //Diagnostico por cita
     public Integer agregarDiagnosticoPorCita(DiagnosticoPorCita diagnosticoPorCita){
         return this.diagnosticoPorCitaDAO.insertar(diagnosticoPorCita);
     }

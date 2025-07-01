@@ -16,5 +16,6 @@ public interface InterconsultaDAO {
     public Integer modificar(InterconsultaDTO interconsulta);
     public Integer eliminar(InterconsultaDTO interconsulta);
     public InterconsultaDTO obtenerPorId(Integer idEspecialidad, Integer idCita);
+    public ArrayList<InterconsultaDTO>  buscarInterconsultasPorCita(Integer idCita);
     public ArrayList<InterconsultaDTO> listarTodos();
 }
