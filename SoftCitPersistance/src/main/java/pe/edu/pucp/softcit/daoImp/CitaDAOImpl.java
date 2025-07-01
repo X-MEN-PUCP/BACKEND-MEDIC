@@ -8,6 +8,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Types;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -197,5 +198,29 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
             Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
+    @Override
+    public void actualizarEstadoCita(Integer Idcita,Integer Estado,Integer idModificacion) {
+        String sql = "UPDATE cita SET estado_cita = ?,usuario_modificación = ?, fecha_modificacion = ?  WHERE id_cita = ?";
+        try {
+            this.abrirConexion();
+            this.colocarSQLenStatement(sql);
+            this.statement.setInt(1, Estado);
+            this.statement.setInt(2, idModificacion);
+            this.statement.setDate(3, java.sql.Date.valueOf(LocalDate.now()));
+            this.statement.setInt(4, Idcita);
+            this.statement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                this.cerrarConexion();
+            } catch (SQLException ex) {
+                Logger.getLogger(UsuarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
 
 }

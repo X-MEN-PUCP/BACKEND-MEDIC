@@ -82,10 +82,10 @@ public class PacienteBO {
     public int cancelarCita(HistoriaClinicaPorCitaDTO historia_por_cita) {
         //actualizar cita (Estado: disponible)
         CitaDTO cita = historia_por_cita.getCita();
-        cita.setEstado(EstadoCita.DISPONIBLE);
+        //cita.setEstado(EstadoCita.DISPONIBLE);
         cita.setUsuarioModificacion(historia_por_cita.getHistoriaClinica().getPaciente().getIdUsuario());
-        cita.setFechaModificacion(LocalDate.now().toString());
-        this.citaDAO.modificar(cita);
+        //cita.setFechaModificacion(LocalDate.now().toString());
+        this.citaDAO.actualizarEstadoCita(cita.getIdCita(), EstadoCita.DISPONIBLE.getCodigo(), cita.getUsuarioModificacion());
         return this.historiaClinicaPorCitaDAO.eliminar(historia_por_cita);
     }
      
@@ -119,6 +119,10 @@ public class PacienteBO {
     public HistoriaClinicaDTO obtenerHistoriaDelPaciente(UsuarioDTO paciente){
         Integer idPaciente = paciente.getIdUsuario();
         return this.historiaDAO.obtenerPorIdPaciente(idPaciente);
+    }
+    
+    public void cambiarEstadoCita(Integer idCita,Integer Estado,Integer idModi){
+        citaDAO.actualizarEstadoCita(idCita, Estado,idModi);
     }
     
 }

@@ -63,5 +63,12 @@ public class PacienteWS {
         return this.pacienteBO.listarCitasPorPersona(persona);
     }
     
+    @WebMethod(operationName = "ActualizarEStadoDeCita")
+    public void ActualizarEStadoDeCita(
+            @WebParam(name = "idCita")Integer idCita,
+            @WebParam(name = "Estado")Integer Estado,@WebParam(name = "IdModificacion")Integer idModi){
+        this.pacienteBO.cambiarEstadoCita(idCita, Estado,idModi);
+    }
+    
     
 }
