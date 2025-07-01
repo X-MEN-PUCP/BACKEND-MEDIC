@@ -68,8 +68,8 @@ public class RegistroBO {
         usuario.setFechaExpiracionCodigo(fechaExpiracionStr);
         usuario.setEstadoLogico(EstadoLogico.DISPONIBLE);
         String constrasenha = usuario.getContrasenha();
-        String contraCifrada = cifrado.cifrarMD5(constrasenha);
-        usuario.setContrasenha(contraCifrada);
+        //String contraCifrada = cifrado.cifrarMD5(constrasenha);
+        usuario.setContrasenha(constrasenha);
         Integer idUsuario = this.usuarioDao.insertar(usuario);
         
         if(idUsuario!=0){
