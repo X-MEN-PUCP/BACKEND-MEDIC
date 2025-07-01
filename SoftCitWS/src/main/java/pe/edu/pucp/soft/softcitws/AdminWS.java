@@ -9,6 +9,7 @@ import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
 import java.util.ArrayList;
 import pe.edu.pucp.softcit.model.EspecialidadDTO;
+import pe.edu.pucp.softcit.model.ReporteCitaDTO;
 import pe.edu.pucp.softcit.model.UsuarioDTO;
 import pe.edu.pucp.softcit.model.UsuarioPorEspecialidadDTO;
 import pe.edu.pucp.softcit.model.UsuarioPorRolDTO;
@@ -118,5 +119,16 @@ public class AdminWS {
     @WebMethod(operationName = "insertarNuevoPaciente")         
     public Integer insertarNuevoPaciente(UsuarioDTO paciente){
         return this.adminBO.insertarNuevoPaciente(paciente);
+    }
+    
+    @WebMethod(operationName = "ReporteDeCitasGeneralAdministrador")
+    public ArrayList<ReporteCitaDTO> ReporteDeCitasGeneralAdministrador(
+            @WebParam(name = "idEspecialidad")Integer idEspecialidad,
+            @WebParam(name = "codMedico")Integer codMedico,
+            @WebParam(name = "fecha_inicio")String fecha_inicio, 
+            @WebParam(name= "fecha_fini") String fecha_fin){
+        
+
+        return this.adminBO.obtenerReporteCitas(fecha_inicio, fecha_fin, idEspecialidad, codMedico);
     }
 }

@@ -7,17 +7,26 @@ package pe.edu.pucp.softcitbo.BO;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import pe.edu.pucp.softcit.dao.CitaDAO;
+import pe.edu.pucp.softcit.dao.EspecialidadDAO;
+import pe.edu.pucp.softcit.dao.EspecialidadPorUsuarioDAO;
 import pe.edu.pucp.softcit.dao.HistoriaClinicaPorCitaDAO;
 import pe.edu.pucp.softcit.dao.HistoriaDAO;
+import pe.edu.pucp.softcit.dao.RolesPorUsuarioDAO;
 import pe.edu.pucp.softcit.daoImp.CitaDAOImpl;
+import pe.edu.pucp.softcit.daoImp.EspecialidadDAOImpl;
+import pe.edu.pucp.softcit.daoImp.EspecialidadPorUsuarioDAOImpl;
 import pe.edu.pucp.softcit.daoImp.HistoriaClinicaPorCitaDAOImpl;
 import pe.edu.pucp.softcit.daoImp.HistoriaDAOImpl;
+import pe.edu.pucp.softcit.daoImp.RolesPorUsuarioDAOImpl;
 import pe.edu.pucp.softcit.model.CitaDTO;
+import pe.edu.pucp.softcit.model.EspecialidadDTO;
 import pe.edu.pucp.softcit.model.EstadoCita;
 import pe.edu.pucp.softcit.model.EstadoGeneral;
 import pe.edu.pucp.softcit.model.HistoriaClinicaDTO;
 import pe.edu.pucp.softcit.model.HistoriaClinicaPorCitaDTO;
 import pe.edu.pucp.softcit.model.UsuarioDTO;
+import pe.edu.pucp.softcit.model.UsuarioPorEspecialidadDTO;
+import pe.edu.pucp.softcit.model.UsuarioPorRolDTO;
 
 /**
  *
@@ -28,11 +37,21 @@ public class PacienteBO {
     private final CitaDAO citaDAO;
     private final HistoriaClinicaPorCitaDAO historiaClinicaPorCitaDAO;
     private final HistoriaDAO historiaDAO;
+    private final EspecialidadDAO especialidadDAO;
+    private final EspecialidadPorUsuarioDAO usuarioPorEspecialidadDao;
+    private final CitaDAO citaDao;
+    private final RolesPorUsuarioDAO rolesPorUsuarioDao;
+    
     
     public PacienteBO(){
         this.citaDAO = new CitaDAOImpl();
         this.historiaClinicaPorCitaDAO = new HistoriaClinicaPorCitaDAOImpl();
         this.historiaDAO = new HistoriaDAOImpl();
+        this.especialidadDAO = new EspecialidadDAOImpl();
+        this.usuarioPorEspecialidadDao = new EspecialidadPorUsuarioDAOImpl();
+        this.citaDao = new CitaDAOImpl();
+        this.rolesPorUsuarioDao = new RolesPorUsuarioDAOImpl();
+        
     }
     
     
@@ -123,6 +142,31 @@ public class PacienteBO {
     
     public void cambiarEstadoCita(Integer idCita,Integer Estado,Integer idModi){
         citaDAO.actualizarEstadoCita(idCita, Estado,idModi);
+    }
+    
+    public ArrayList<EspecialidadDTO> listarEspecialidades(){
+        return this.especialidadDAO.listar();
+    }
+    
+    public ArrayList<UsuarioPorEspecialidadDTO> listarPorEspecialidad(Integer idEspecialidad){
+        return this.usuarioPorEspecialidadDao.listarPorEspecialidad(idEspecialidad);
+    }
+    
+    public ArrayList<CitaDTO> buscarCitas(Integer idEspecialidad, Integer idMedico, String fecha, String hora_inicio, EstadoCita estado){
+        if(idMedico == 0)idMedico = null;
+        return this.citaDao.buscarCitas(idEspecialidad, idMedico, fecha, hora_inicio, estado);
+    }
+    
+    public CitaDTO obtenerCitaPorId(Integer id){
+        return this.citaDao.obtenerPorId(id);
+    }
+    
+    public Integer modificarCita(CitaDTO cita){
+        return this.citaDao.modificar(cita);
+    }
+    
+    public ArrayList<UsuarioPorRolDTO> listarRolesDelUsuario(Integer id){
+        return this.rolesPorUsuarioDao.listarPorUsuario(id);
     }
     
 }

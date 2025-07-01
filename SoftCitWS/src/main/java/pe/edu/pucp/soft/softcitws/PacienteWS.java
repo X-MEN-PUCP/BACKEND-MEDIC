@@ -9,9 +9,12 @@ import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
 import java.util.ArrayList;
 import pe.edu.pucp.softcit.model.CitaDTO;
+import pe.edu.pucp.softcit.model.EspecialidadDTO;
 import pe.edu.pucp.softcit.model.EstadoCita;
 import pe.edu.pucp.softcit.model.HistoriaClinicaPorCitaDTO;
 import pe.edu.pucp.softcit.model.UsuarioDTO;
+import pe.edu.pucp.softcit.model.UsuarioPorEspecialidadDTO;
+import pe.edu.pucp.softcit.model.UsuarioPorRolDTO;
 import pe.edu.pucp.softcitbo.BO.PacienteBO;
 
 /**
@@ -70,5 +73,48 @@ public class PacienteWS {
         this.pacienteBO.cambiarEstadoCita(idCita, Estado,idModi);
     }
     
+    @WebMethod(operationName = "listarMedicosPorEspecialidadPaciente")
+    public ArrayList<UsuarioPorEspecialidadDTO> listarMedicosPorEspecialidadPaciente(
+            @WebParam(name = "idEspecialidad")Integer idEspecialidad){
+        return this.pacienteBO.listarPorEspecialidad(idEspecialidad);
+    }
+    
+    
+    
+    @WebMethod(operationName = "listarTodosPerfilesMedicosParaPaciente")
+    public ArrayList<UsuarioPorEspecialidadDTO> listarTodosPerfilesMedicosParaPaciente(){
+        return this.pacienteBO.listarPorEspecialidad(null);
+    }
+    
+     @WebMethod(operationName = "listarTodasLasEspecialidadesParaElPaceinte")
+    public ArrayList<EspecialidadDTO> listarTodasLasEspecialidadesParaElPaceinte(){
+        return this.pacienteBO.listarEspecialidades();
+    }
+    
+    @WebMethod(operationName = "buscarCitasParaPaciente")
+    public ArrayList<CitaDTO> buscarCitasParaPaciente(
+            @WebParam(name = "idEspecialidad")Integer idEspecialidad,
+            @WebParam(name = "codMedico")Integer codMedico,
+            @WebParam(name = "fecha")String fecha, 
+            @WebParam(name= "hora_inicio") String hora_inicio, 
+            @WebParam(name= "estadoCita") EstadoCita estado){
+        return this.pacienteBO.buscarCitas(idEspecialidad, codMedico, fecha, hora_inicio, estado);
+    }
+    
+    @WebMethod(operationName = "obtenerPorIdCitaParaPaciente")
+    public CitaDTO obtenerPorIdCitaParaPaciente(@WebParam(name = "id")Integer id){
+        return this.pacienteBO.obtenerCitaPorId(id);
+    }
+    
+    @WebMethod(operationName = "modificarCitaParaPaciente")
+    public Integer modificarCitaParaPaciente(@WebParam(name = "idCita")CitaDTO cita) {
+        return pacienteBO.modificarCita(cita);
+    }
+    
+    @WebMethod(operationName = "listarRolesPorUsuarioVistaPaciente")
+    public ArrayList<UsuarioPorRolDTO> listarRolesPorUsuarioVistaPaciente(
+            @WebParam(name = "id")Integer id){
+        return this.pacienteBO.listarRolesDelUsuario(id);
+    }
     
 }
