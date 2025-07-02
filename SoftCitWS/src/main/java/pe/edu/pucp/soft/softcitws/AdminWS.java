@@ -131,4 +131,10 @@ public class AdminWS {
 
         return this.adminBO.obtenerReporteCitas(fecha_inicio, fecha_fin, idEspecialidad, codMedico);
     }
+    
+    @WebMethod(operationName = "modificarUsuarioPoneContraDefault")
+    public Integer modificarUsuarioPoneContraDefault(
+            @WebParam(name="usuario")UsuarioDTO usuario){
+        return this.adminBO.modificarUsuarioContraseñaDefault(usuario);
+    }
 }

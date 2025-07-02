@@ -203,5 +203,10 @@ public class AdminBO {
         return reporteDAO.obtenerReporteCitas(fechaDesde, fechaHasta, idEspecialidad, idDoctor);
     }
     
+    public Integer modificarUsuarioContraseñaDefault(UsuarioDTO usuario){
+        usuario.setFechaModificacion(LocalDate.now().toString());
+        usuario.setContrasenha(cifrado.cifrarMD5("password"));
+        return this.usuarioDao.modificar(usuario);
+    }
     
 }
