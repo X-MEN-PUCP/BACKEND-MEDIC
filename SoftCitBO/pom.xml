@@ -34,6 +34,12 @@
             <version>5.10.2</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.18.0</version>
+            <type>jar</type>
+        </dependency>
         <!-- API (interfaces) -->
         <dependency>
             <groupId>jakarta.mail</groupId>

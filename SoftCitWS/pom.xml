@@ -31,16 +31,6 @@
         </dependency>
         <dependency>
             <groupId>pe.edu.pucp</groupId>
-            <artifactId>SoftCitPersistance</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>SoftDBManager</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>pe.edu.pucp</groupId>
             <artifactId>SoftModel</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
@@ -49,7 +39,11 @@
             <artifactId>SoftCitBO</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>SoftDBManager</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
     
     <build>
