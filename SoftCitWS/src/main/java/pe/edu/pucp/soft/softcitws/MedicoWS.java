@@ -134,4 +134,9 @@ public class MedicoWS {
         return medicoBo.obtenerDiagnoticoPorId(diagnosticoId);
     }
     
+    @WebMethod(operationName = "listarTodosLosDiaganosticosParaMedico")
+    public ArrayList<DiagnosticoDTO> listarTodosLosDiaganosticosParaMedico() {
+        return medicoBo.listarDiagnosticos();
+    }
+    
 }
