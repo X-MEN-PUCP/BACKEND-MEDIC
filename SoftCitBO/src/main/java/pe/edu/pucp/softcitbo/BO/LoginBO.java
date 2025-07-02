@@ -27,7 +27,7 @@ public class LoginBO {
         cuenta= this.usuarioDao.buscarCuenta(numeroDoc, tipoDoc, Cifrado.cifrarMD5(contrasenha));
         System.out.println(">"+ Cifrado.cifrarMD5(contrasenha)+"<");
         if(cuenta!=null){
-            cuenta = this.usuarioDao.completarRoles(cuenta);
+            //cuenta = this.usuarioDao.completarRoles(cuenta);
             return cuenta;
         }
         System.out.println("No existe el usuario");

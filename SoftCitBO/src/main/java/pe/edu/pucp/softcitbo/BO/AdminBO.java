@@ -29,7 +29,7 @@ import pe.edu.pucp.softcitbo.BO.util.Cifrado;
  * @author salva
  */
 public class AdminBO {
-    
+
     private final RolesPorUsuarioDAO rolesPorUsuarioDao;
     private final EspecialidadDAO especialidadDao;
     private final UsuarioDAO usuarioDao;
@@ -37,8 +37,8 @@ public class AdminBO {
     private final RegistroBO resgitoBo;
     private final Cifrado cifrado;
     private final ReporteCitasDAO reporteDAO;
-    
-    public AdminBO(){
+
+    public AdminBO() {
         this.rolesPorUsuarioDao = new RolesPorUsuarioDAOImpl();
         this.especialidadDao = new EspecialidadDAOImpl();
         this.usuarioDao = new UsuarioDAOImpl();
@@ -47,33 +47,35 @@ public class AdminBO {
         this.cifrado = new Cifrado();
         this.reporteDAO = new ReporteCitasDAOImpl();
     }
-    
-    public Integer asignarNuevoRol(UsuarioPorRolDTO usuarioPorRol){   
+
+    public Integer asignarNuevoRol(UsuarioPorRolDTO usuarioPorRol) {
         return this.rolesPorUsuarioDao.insertar(usuarioPorRol);
     }
-    
-    public Integer agregarEspecialidadAMedico(UsuarioPorEspecialidadDTO usuarioPorEspecialidad){//////////////
+
+    public Integer agregarEspecialidadAMedico(UsuarioPorEspecialidadDTO usuarioPorEspecialidad) {
+        //////////////
         usuarioPorEspecialidad.setFechaCreacion(LocalDate.now().toString());
         return this.usuarioPorEspecialidadDao.insertar(usuarioPorEspecialidad);
     }
-    
-    public Integer eliminarEspecialidadMedico(UsuarioPorEspecialidadDTO usuarioPorEspecialidad){////////////
+
+    public Integer eliminarEspecialidadMedico(UsuarioPorEspecialidadDTO usuarioPorEspecialidad) {
+        ////////////
         return this.usuarioPorEspecialidadDao.eliminar(usuarioPorEspecialidad);
     }
-    
-    public Integer eliminarRol(UsuarioPorRolDTO usuarioPorRol){
+
+    public Integer eliminarRol(UsuarioPorRolDTO usuarioPorRol) {
         return this.rolesPorUsuarioDao.eliminar(usuarioPorRol);
     }
-    
-    public Integer insertarNuevaEspecialidad(EspecialidadDTO especialidad){
+
+    public Integer insertarNuevaEspecialidad(EspecialidadDTO especialidad) {
         return this.especialidadDao.insertar(especialidad);
     }
-    
-    public Integer insertarNuevoMedico(UsuarioDTO medico, ArrayList<EspecialidadDTO> especialidades){
+
+    public Integer insertarNuevoMedico(UsuarioDTO medico, ArrayList<EspecialidadDTO> especialidades) {
         String contrasehnaAutomatica = this.generarContrasenha(medico);
         medico.setContrasenha(contrasehnaAutomatica);
         Integer id = this.resgitoBo.registrarse(medico);
-        if(id!=0){ 
+        if (id != 0) {
             Integer idUsuarioCreacion = medico.getUsuarioCreacion();
             String fechaCreacion = LocalDate.now().toString();
             RolDTO rol = new RolDTO();
@@ -83,7 +85,7 @@ public class AdminBO {
             usuarioPorEspecialidad.setUsuario(medico);
             usuarioPorEspecialidad.setUsuarioCreacion(idUsuarioCreacion);
             usuarioPorEspecialidad.setFechaCreacion(fechaCreacion);
-            for(EspecialidadDTO especialidad : especialidades){
+            for (EspecialidadDTO especialidad : especialidades) {
                 usuarioPorEspecialidad.setEspecialidad(especialidad);
                 this.usuarioPorEspecialidadDao.insertar(usuarioPorEspecialidad);
             }
@@ -97,12 +99,13 @@ public class AdminBO {
         }
         return id;
     }
-    
-    public Integer insertarNuevoAdministrador(UsuarioDTO administrador){////////////////
+
+    public Integer insertarNuevoAdministrador(UsuarioDTO administrador) {
+        ////////////////
         String contrasehnaAutomatica = this.generarContrasenha(administrador);
         administrador.setContrasenha(contrasehnaAutomatica);
         Integer id = this.resgitoBo.registrarse(administrador);
-        if(id!=0){
+        if (id != 0) {
             Integer idUsuarioCreacion = administrador.getUsuarioCreacion();
             String fechaCreacion = LocalDate.now().toString();
             RolDTO rol = new RolDTO();
@@ -117,13 +120,14 @@ public class AdminBO {
         }
         return id;
     }
-    
-    public Integer insertarNuevoPaciente(UsuarioDTO paciente){/////////////////////
+
+    public Integer insertarNuevoPaciente(UsuarioDTO paciente) {
+        /////////////////////
         //75843948CV
         String contrasehnaAutomatica = this.generarContrasenha(paciente);
         paciente.setContrasenha(contrasehnaAutomatica);
         Integer id = this.resgitoBo.registrarse(paciente);
-        if(id!=0){
+        if (id != 0) {
             Integer idUsuarioCreacion = paciente.getUsuarioCreacion();
             String fechaCreacion = LocalDate.now().toString();
             RolDTO rol = new RolDTO();
@@ -138,8 +142,8 @@ public class AdminBO {
         }
         return this.resgitoBo.registrarse(paciente);
     }
-    
-    private String generarContrasenha(UsuarioDTO usuario){
+
+    private String generarContrasenha(UsuarioDTO usuario) {
         String contrasehnaAutomatica = usuario.getNumDocumento();
         String primerLetraApellidoPaterno = String.valueOf(usuario.getApellidoPaterno().charAt(0));
         String primerLetraApellidoMaterno = String.valueOf(usuario.getApellidoPaterno().charAt(0));
@@ -147,61 +151,69 @@ public class AdminBO {
         contrasehnaAutomatica = contrasehnaAutomatica.concat(primerLetraApellidoMaterno.toUpperCase());
         return contrasehnaAutomatica;
     }
-    
-    public ArrayList<UsuarioDTO> listarMedicos(){
+
+    public ArrayList<UsuarioDTO> listarMedicos() {
         return this.usuarioDao.listarMedicos();
     }
-    
-    public ArrayList<UsuarioDTO> listarTodosUsuarios(){
+
+    public ArrayList<UsuarioDTO> listarTodosUsuarios() {
         return this.usuarioDao.listarTodos();
     }
-    
-    public ArrayList<EspecialidadDTO> listarEspecialidades(){
+
+    public ArrayList<EspecialidadDTO> listarEspecialidades() {
         return this.especialidadDao.listar();
     }
-    
-    public EspecialidadDTO obtenerEspecialidadPorId(Integer idEspecialidad){
+
+    public EspecialidadDTO obtenerEspecialidadPorId(Integer idEspecialidad) {
         return this.especialidadDao.obtenerPorId(idEspecialidad);
     }
-    
-    public Integer modificarEspecialidad(EspecialidadDTO especialidad){
+
+    public Integer modificarEspecialidad(EspecialidadDTO especialidad) {
         especialidad.setFechaModificacion(LocalDate.now().toString());
         return this.especialidadDao.modificar(especialidad);
     }
-    
-    public ArrayList<UsuarioPorEspecialidadDTO> listarUsuariosPorEspecialidad(Integer idEspecialidad){
+
+    public ArrayList<UsuarioPorEspecialidadDTO> listarUsuariosPorEspecialidad(Integer idEspecialidad) {
         return this.usuarioPorEspecialidadDao.listarPorEspecialidad(idEspecialidad);
     }
-    
-    public ArrayList<UsuarioPorRolDTO> listarRolesDeUsuario(Integer idUsuario){
+
+    public ArrayList<UsuarioPorRolDTO> listarRolesDeUsuario(Integer idUsuario) {
         return this.rolesPorUsuarioDao.listarPorUsuario(idUsuario);
     }
-    
-    public UsuarioDTO obtenerUsuarioPorId(Integer idUsuario){
+
+    public UsuarioDTO obtenerUsuarioPorId(Integer idUsuario) {
         UsuarioDTO usuario = this.usuarioDao.obtenerPorId(idUsuario);
         String contra = usuario.getContrasenha();
         contra = this.cifrado.descifrarMD5(contra);
         usuario.setContrasenha(contra);
         return usuario;
     }
-    
-    public Integer modificarUsuario(UsuarioDTO usuario){
+
+    public Integer modificarUsuario(UsuarioDTO usuario) {
         usuario.setFechaModificacion(LocalDate.now().toString());
         return this.usuarioDao.modificar(usuario);
     }
-    
+
     public ArrayList<ReporteCitaDTO> obtenerReporteCitas(
             String fechaDesde,
             String fechaHasta,
             Integer idEspecialidad,
-            Integer idDoctor){
-        
-        if(idEspecialidad==0)idEspecialidad=null;
-        if(idDoctor==0)idDoctor=null;
+            Integer idDoctor) {
 
+        if (idEspecialidad == 0) {
+            idEspecialidad = null;
+        }
+        if (idDoctor == 0) {
+            idDoctor = null;
+        }
 
         return reporteDAO.obtenerReporteCitas(fechaDesde, fechaHasta, idEspecialidad, idDoctor);
     }
-    
-    
+
+    public Integer modificarUsuarioContraseñaDefault(UsuarioDTO usuario) {
+        usuario.setFechaModificacion(LocalDate.now().toString());
+        usuario.setContrasenha(cifrado.cifrarMD5("password"));
+        return this.usuarioDao.modificar(usuario);
+    }
+
 }

@@ -96,6 +96,10 @@ public class MedicoBO {
         return this.especialidadDAO.listar();
     }
     
+    public EspecialidadDTO obtenerEspecialidadPorId(Integer id){
+        return this.especialidadDAO.obtenerPorId(id);
+    }
+    
     //Intercosnulta
     
     public Integer insertarInterconsultasDeCita(InterconsultaDTO interconsulta){
@@ -179,5 +183,9 @@ public class MedicoBO {
     
     public Integer eliminarDiagnosticoPorCita(DiagnosticoPorCita diagnosticoPorCita){
         return this.diagnosticoPorCitaDAO.eliminar(diagnosticoPorCita);
+    }
+    
+    public ArrayList<DiagnosticoPorCita> listarDiagnosticoPorIdCita(Integer idCita){
+        return this.diagnosticoPorCitaDAO.listarPorIdCita(idCita);
     }
 }
