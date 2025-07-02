@@ -140,7 +140,7 @@ public class AdminBO {
             usuarioPorRol.setFechaCreacion(fechaCreacion);
             this.rolesPorUsuarioDao.insertar(usuarioPorRol);
         }
-        return this.resgitoBo.registrarse(paciente);
+        return 0;
     }
 
     private String generarContrasenha(UsuarioDTO usuario) {
