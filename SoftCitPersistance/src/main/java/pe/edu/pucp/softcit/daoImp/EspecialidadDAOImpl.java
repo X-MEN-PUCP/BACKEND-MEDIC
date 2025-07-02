@@ -30,7 +30,7 @@ public class EspecialidadDAOImpl extends DAOImplBase implements EspecialidadDAO 
 
     @Override
     protected void configurarListaDeColumnas() {
-        this.listaColumnas.add(new Columna("id_especialidad", true, false));
+        this.listaColumnas.add(new Columna("id_especialidad", true, true));
         this.listaColumnas.add(new Columna("nombre_especialidad", false, false));
         this.listaColumnas.add(new Columna("precio_consulta", false, false));
         this.listaColumnas.add(new Columna("estado", false, false));
