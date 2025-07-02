@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import pe.edu.pucp.softcit.model.CitaDTO;
 import pe.edu.pucp.softcit.model.DiagnosticoDTO;
+import pe.edu.pucp.softcit.model.DiagnosticoPorCita;
 import pe.edu.pucp.softcit.model.EspecialidadDTO;
 import pe.edu.pucp.softcit.model.EstadoCita;
 import pe.edu.pucp.softcit.model.EstadoGeneral;
@@ -139,4 +140,19 @@ public class MedicoWS {
         return medicoBo.listarDiagnosticos();
     }
     
+    @WebMethod(operationName = "obtenerEspecialidadPorIdParaMedico")
+    public EspecialidadDTO obtenerEspecialidadPorIdParaMedico(@WebParam(name = "id")Integer id){
+        return this.medicoBo.obtenerEspecialidadPorId(id);
+    }
+    
+    @WebMethod(operationName = "ListarDiagnosticoPorIdCitaParaMedico")
+    public ArrayList<DiagnosticoPorCita> ListarDiagnosticoPorIdCitaParaMedico(@WebParam(name = "idCita") Integer idCita) {
+        return this.medicoBo.listarDiagnosticoPorIdCita(idCita);
+    }
+    
+    @WebMethod(operationName = "InsertarDiagnosticoPorCitaParaMedico")
+    public Integer InsertarDiagnosticoPorCitaParaMedico(@WebParam(name = "diagnostico") DiagnosticoPorCita diagnostico) {
+        return this.medicoBo.agregarDiagnosticoPorCita(diagnostico);
+    }
+
 }
