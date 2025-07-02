@@ -4,9 +4,13 @@
  */
 package pe.edu.pucp.softcitbo.BO;
 
+import java.util.ArrayList;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.ls.LSInput;
 import pe.edu.pucp.softcit.model.EstadoCita;
+import pe.edu.pucp.softcit.model.HistoriaClinicaPorCitaDTO;
+import pe.edu.pucp.softcit.model.UsuarioDTO;
 
 /**
  *
@@ -22,6 +26,20 @@ public class PaceinteTest {
         Integer Estado = EstadoCita.ATENDIDO.getCodigo();
         Integer idModi = 1;
         bo.cambiarEstadoCita(idcita, Estado,idModi);
+    }
+    
+    @Test
+    @Disabled
+    public void ListarCitasPacienteTest(){
+        PacienteBO bo = new PacienteBO();
+        UsuarioDTO pac= new UsuarioDTO();
+        ArrayList<HistoriaClinicaPorCitaDTO> lista = new ArrayList<>();
+        pac.setIdUsuario(9);
+        lista = bo.listarCitasPorPersona(pac);
+        System.out.println("LAs lista tiene: " + lista.size());
+        for(int i =0 ; i<lista.size();i++){
+            System.out.println("Id cita: " + lista.get(i).getCita().getIdCita());
+        }
     }
     
 }
