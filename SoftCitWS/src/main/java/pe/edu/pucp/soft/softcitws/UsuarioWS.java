@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import pe.edu.pucp.softcit.model.EstadoGeneral;
 import pe.edu.pucp.softcit.model.EstadoLogico;
 import pe.edu.pucp.softcit.model.UsuarioDTO;
+import pe.edu.pucp.softcit.model.UsuarioPorEspecialidadDTO;
 import pe.edu.pucp.softcitbo.BO.UsuarioBO;
 
 /**
@@ -69,6 +70,12 @@ public class UsuarioWS {
     public Integer CambiarContrasenhaUsuario(@WebParam(name = "usuario")UsuarioDTO usuario,
             @WebParam(name = "contrasenhaNueva")String contrasenhaNueva){
         return this.usuarioBO.CambiarContrasenha(usuario,contrasenhaNueva);
+    }
+    
+    @WebMethod(operationName = "listarEspecialidadesPorUsuarioParaUsaurio")
+    public ArrayList<UsuarioPorEspecialidadDTO> listarEspecialidadesPorUsuarioParaUsaurio(
+            @WebParam(name = "id")Integer id){
+        return this.usuarioBO.listarEspecialidadesPorUsuario(id);
     }
     
 }

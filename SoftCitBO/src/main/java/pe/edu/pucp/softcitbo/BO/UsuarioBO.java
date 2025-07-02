@@ -5,11 +5,14 @@
 package pe.edu.pucp.softcitbo.BO;
 
 import java.util.ArrayList;
+import pe.edu.pucp.softcit.dao.EspecialidadPorUsuarioDAO;
 import pe.edu.pucp.softcit.dao.UsuarioDAO;
+import pe.edu.pucp.softcit.daoImp.EspecialidadPorUsuarioDAOImpl;
 import pe.edu.pucp.softcit.daoImp.UsuarioDAOImpl;
 import pe.edu.pucp.softcit.model.EstadoGeneral;
 import pe.edu.pucp.softcit.model.EstadoLogico;
 import pe.edu.pucp.softcit.model.UsuarioDTO;
+import pe.edu.pucp.softcit.model.UsuarioPorEspecialidadDTO;
 import pe.edu.pucp.softcitbo.BO.util.Cifrado;
 
 /**
@@ -19,10 +22,11 @@ import pe.edu.pucp.softcitbo.BO.util.Cifrado;
 public class UsuarioBO {
     
     private final UsuarioDAO usuarioDao;
-    
+    private final EspecialidadPorUsuarioDAO usuarioPorEspecialidadDao;
     
     public UsuarioBO(){
         usuarioDao = new UsuarioDAOImpl();
+        usuarioPorEspecialidadDao = new EspecialidadPorUsuarioDAOImpl();
     } 
     
     public UsuarioDTO obtenerPorId(Integer id){
@@ -68,6 +72,10 @@ public class UsuarioBO {
         String contra = Cifrado.cifrarMD5(contrasenhaNueva);
         usuario.setContrasenha(contra);
         return this.usuarioDao.modificar(usuario);
+    }
+    
+    public ArrayList<UsuarioPorEspecialidadDTO> listarEspecialidadesPorUsuario(Integer id){
+        return this.usuarioPorEspecialidadDao.listarPorUsuario(id);
     }
     
 }
